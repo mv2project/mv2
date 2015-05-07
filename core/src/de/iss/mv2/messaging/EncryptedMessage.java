@@ -138,7 +138,7 @@ public class EncryptedMessage extends MV2Message {
 			keyCryptoOut.close();
 			String keyContent = Base64.getEncoder().encodeToString(
 					keyOut.toByteArray());
-			MessageField keyField = new MessageField(DEF_MESSAGE_FIELD.KEY,
+			MessageField keyField = new MessageField(DEF_MESSAGE_FIELD.ENCRYPTION_KEY,
 					keyContent);
 			keyField.setEncoding(ENCODING);
 			keyField.serialize(out);
@@ -176,7 +176,7 @@ public class EncryptedMessage extends MV2Message {
 				mf.completeDeserialize(ENCODING);
 				setMessageField(mf, true);
 			}
-			MessageField keyField = getFieldOrThrow(DEF_MESSAGE_FIELD.KEY);
+			MessageField keyField = getFieldOrThrow(DEF_MESSAGE_FIELD.ENCRYPTION_KEY);
 			MessageField symNameField = getFieldOrThrow(DEF_MESSAGE_FIELD.SYMETRIC_ALGORITHM);
 			MessageField asymNameField = getFieldOrThrow(DEF_MESSAGE_FIELD.ASYMETRIC_ALGORITHM);
 			this.symmetricAlgorithm = symNameField.getContent();
