@@ -1,6 +1,7 @@
 package de.iss.mv2.server.data;
 
 import java.security.PublicKey;
+import java.util.NoSuchElementException;
 
 import de.iss.mv2.data.Certificate;
 import de.iss.mv2.security.UnambiguityPovider;
@@ -37,13 +38,10 @@ public interface WebSpaceManager extends UnambiguityPovider<String> {
 	 * Returns the web space with the given identifier.
 	 * @param identifier The identifier of the web space to return.
 	 * @return The web space with the given identifier.
+	 * @throws NoSuchElementException Is thrown if there is no web space with the given identifier.
 	 */
-	public WebSpace getWebSpace(String identifier);
+	public WebSpace getWebSpace(String identifier) throws NoSuchElementException;
 	
-	/**
-	 * Stores the given web space to a persistent store.
-	 * @param webSpace The web space to persist.
-	 */
-	public void store(WebSpace webSpace);
+	
 
 }
