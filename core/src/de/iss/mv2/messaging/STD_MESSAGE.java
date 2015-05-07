@@ -33,7 +33,11 @@ public enum STD_MESSAGE {
 	/**
 	 * The type of a space creation request message.
 	 */
-	SPACE_CREATION_REQUEST(6);
+	SPACE_CREATION_REQUEST(6),
+	/**
+	 * The type of a space creation response message.
+	 */
+	SPACE_CREATION_RESPONSE(7);
 	
 	/**
 	 * Holds the identifier of a message type.
