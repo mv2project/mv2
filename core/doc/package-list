@@ -1,0 +1,13 @@
+de.iss.mv2
+de.iss.mv2.client
+de.iss.mv2.client.data
+de.iss.mv2.client.gui
+de.iss.mv2.data
+de.iss.mv2.gui
+de.iss.mv2.io
+de.iss.mv2.io.sql
+de.iss.mv2.messaging
+de.iss.mv2.processors
+de.iss.mv2.security
+de.iss.mv2.server.data
+de.iss.mv2.test
