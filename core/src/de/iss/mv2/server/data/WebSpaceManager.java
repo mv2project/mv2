@@ -39,5 +39,11 @@ public interface WebSpaceManager extends UnambiguityPovider<String> {
 	 * @return The web space with the given identifier.
 	 */
 	public WebSpace getWebSpace(String identifier);
+	
+	/**
+	 * Stores the given web space to a persistent store.
+	 * @param webSpace The web space to persist.
+	 */
+	public void store(WebSpace webSpace);
 
 }

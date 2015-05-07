@@ -18,9 +18,9 @@ public interface WebSpace {
 	
 	/**
 	 * Sets the certificate for this web space.
-	 * @param cetificate The certificate to set.
+	 * @param certificate The certificate to set.
 	 */
-	public void setCertificate(Certificate cetificate);
+	public void setCertificate(Certificate certificate);
 	
 	/**
 	 * Returns the identifier for this web space. For example: "tina.test", "max.mustermann".
