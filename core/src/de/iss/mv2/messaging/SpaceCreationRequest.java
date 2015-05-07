@@ -20,7 +20,7 @@ public class SpaceCreationRequest extends MV2Message {
 	 * @return The identifier of the message space to create.
 	 */
 	public String getSpaceIdentifier(){
-		return getFieldValue(STD_MESSAGE_FIELD.SPACE_IDENTIFIER, "");
+		return getFieldValue(DEF_MESSAGE_FIELD.SPACE_IDENTIFIER, "");
 	}
 	
 	/**
@@ -30,7 +30,7 @@ public class SpaceCreationRequest extends MV2Message {
 	 */
 	public void setSpaceIdentifier(String spaceIdentifier) throws IllegalArgumentException{
 		if(spaceIdentifier == null || spaceIdentifier.isEmpty()) throw new IllegalArgumentException("The identifier may not be null or empty.");
-		setMessageField(new MessageField(STD_MESSAGE_FIELD.SPACE_IDENTIFIER, spaceIdentifier), true);
+		setMessageField(new MessageField(DEF_MESSAGE_FIELD.SPACE_IDENTIFIER, spaceIdentifier), true);
 	}
 	
 	/**
@@ -38,7 +38,7 @@ public class SpaceCreationRequest extends MV2Message {
 	 * @return The state of the requesting instance.
 	 */
 	public String getState(){
-		return getFieldValue(STD_MESSAGE_FIELD.STATE, "");
+		return getFieldValue(DEF_MESSAGE_FIELD.STATE, "");
 	}
 	
 	/**
@@ -48,7 +48,7 @@ public class SpaceCreationRequest extends MV2Message {
 	 */
 	public void setState(String state) throws IllegalArgumentException{
 		if(state == null) throw new IllegalArgumentException("The state may not be null.");
-		setMessageField(new MessageField(STD_MESSAGE_FIELD.STATE, state), true);
+		setMessageField(new MessageField(DEF_MESSAGE_FIELD.STATE, state), true);
 	}
 	
 	/**
@@ -56,7 +56,7 @@ public class SpaceCreationRequest extends MV2Message {
 	 * @return The location of the requesting instance.
 	 */
 	public String getLocation(){
-		return getFieldValue(STD_MESSAGE_FIELD.LOCATION, "");
+		return getFieldValue(DEF_MESSAGE_FIELD.LOCATION, "");
 	}
 	
 	/**
@@ -66,7 +66,7 @@ public class SpaceCreationRequest extends MV2Message {
 	 */
 	public void setLocation(String location) throws IllegalArgumentException{
 		if(location == null) throw new IllegalArgumentException("The location may not be null.");
-		setMessageField(new MessageField(STD_MESSAGE_FIELD.LOCATION, location), true);
+		setMessageField(new MessageField(DEF_MESSAGE_FIELD.LOCATION, location), true);
 	}
 	
 	/**
@@ -74,7 +74,7 @@ public class SpaceCreationRequest extends MV2Message {
 	 * @return The country code of the requesting instance.
 	 */
 	public String getCountry(){
-		return getFieldValue(STD_MESSAGE_FIELD.COUNTRY, "");
+		return getFieldValue(DEF_MESSAGE_FIELD.COUNTRY, "");
 	}
 	
 	/**
@@ -84,7 +84,43 @@ public class SpaceCreationRequest extends MV2Message {
 	 */
 	public void setCountry(String country) throws IllegalArgumentException{
 		if(country == null || (country.length() != 0 && country.length() != 2)) throw new IllegalArgumentException("The country code may not be null and must contain zero or two characters.");
-		setMessageField(new MessageField(STD_MESSAGE_FIELD.COUNTRY, country), true);
+		setMessageField(new MessageField(DEF_MESSAGE_FIELD.COUNTRY, country), true);
+	}
+	
+	/**
+	 * Returns the organization of the requesting instance.
+	 * @return The organization of the requesting instance.
+	 */
+	public String getOrganization() {
+		return getFieldValue(DEF_MESSAGE_FIELD.ORGANIZATION, "");
+	}
+	
+	/**
+	 * Sets the organization of the requesting instance.
+	 * @param organization The organization to set.
+	 * @throws IllegalArgumentException Is thrown if the given organization is {@code null}.
+	 */
+	public void setOrganization(String organization) throws IllegalArgumentException{
+		if(organization == null) throw new IllegalArgumentException("The organization may not be null.");
+		setMessageField(new MessageField(DEF_MESSAGE_FIELD.ORGANIZATION, organization), true);
+	}
+	
+	/**
+	 * Returns the organization unit of the requesting instance.
+	 * @return The organization unit of the requesting instance.
+	 */
+	public String getOrganizationUnit(){
+		return getFieldValue(DEF_MESSAGE_FIELD.ORGANIZATION_UNIT, "");
+	}
+	
+	/**
+	 * Sets the organization unit of the requesting instance.
+	 * @param organizationUnit The organization unit to set.
+	 * @throws IllegalArgumentException Is thrown if the given organization unit is {@code null}.
+	 */
+	public void setOrganizationUnit(String organizationUnit) throws IllegalArgumentException{
+		if(organizationUnit == null) throw new IllegalArgumentException("The organization unit may not be null");
+		setMessageField(new MessageField(DEF_MESSAGE_FIELD.ORGANIZATION_UNIT, organizationUnit), true);
 	}
 	
 	

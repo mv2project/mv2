@@ -25,7 +25,7 @@ public class UnableToProcessMessage extends MV2Message {
 	 */
 	public void setCause(String cause){
 		this.cause = cause;
-		setMessageField(new MessageField(STD_MESSAGE_FIELD.CAUSE, cause), true);
+		setMessageField(new MessageField(DEF_MESSAGE_FIELD.CAUSE, cause), true);
 	}
 	
 	/**
@@ -40,7 +40,7 @@ public class UnableToProcessMessage extends MV2Message {
 	@Override
 	protected void doCleanUp() {
 		super.doCleanUp();
-		setMessageField(new MessageField(STD_MESSAGE_FIELD.CAUSE, cause), true);
+		setMessageField(new MessageField(DEF_MESSAGE_FIELD.CAUSE, cause), true);
 	}
 
 }

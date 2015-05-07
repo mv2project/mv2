@@ -5,7 +5,7 @@ package de.iss.mv2.messaging;
  * @author Marcel Singer
  *
  */
-public enum STD_MESSAGE_FIELD {
+public enum DEF_MESSAGE_FIELD {
 	/**
 	 * An unknown message field.
 	 */
@@ -36,7 +36,7 @@ public enum STD_MESSAGE_FIELD {
 	ASYMETRIC_ALGORITHM(6),
 	/**
 	 * A message field containing the symmetric encryption key and IV.
-	 * @deprecated Duplicate of {@link STD_MESSAGE_FIELD#ENCRYPTION_KEY}.
+	 * @deprecated Duplicate of {@link DEF_MESSAGE_FIELD#ENCRYPTION_KEY}.
 	 */
 	@Deprecated
 	KEY(7),
@@ -75,7 +75,7 @@ public enum STD_MESSAGE_FIELD {
 	 * Creates a new field type.
 	 * @param identifier The identifier of the field type to create.
 	 */
-	private STD_MESSAGE_FIELD(int identifier) {
+	private DEF_MESSAGE_FIELD(int identifier) {
 		this.identifier = identifier;
 	}
 	
@@ -88,10 +88,10 @@ public enum STD_MESSAGE_FIELD {
 	/**
 	 * Searches all well known message fields for the given identifier.
 	 * @param identifier The identifier to search for.
-	 * @return The field type with the given identifier or {@link STD_MESSAGE_FIELD#UNKNOWN} if no type was found.
+	 * @return The field type with the given identifier or {@link DEF_MESSAGE_FIELD#UNKNOWN} if no type was found.
 	 */
-	public static STD_MESSAGE_FIELD find(int identifier){
-		for(STD_MESSAGE_FIELD f : STD_MESSAGE_FIELD.values()){
+	public static DEF_MESSAGE_FIELD find(int identifier){
+		for(DEF_MESSAGE_FIELD f : DEF_MESSAGE_FIELD.values()){
 			if(f.getIdentifier() == identifier) return f;
 		}
 		return UNKNOWN;

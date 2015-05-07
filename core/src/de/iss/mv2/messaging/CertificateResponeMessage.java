@@ -36,7 +36,7 @@ public class CertificateResponeMessage extends MV2Message {
 			throws CertificateEncodingException {
 		this.cert = cert;
 		String encoded = Base64.getEncoder().encodeToString(cert.getEncoded());
-		setMessageField(new MessageField(STD_MESSAGE_FIELD.CONTENT_BASE64, encoded), true);
+		setMessageField(new MessageField(DEF_MESSAGE_FIELD.CONTENT_BASE64, encoded), true);
 	}
 	
 	@Override

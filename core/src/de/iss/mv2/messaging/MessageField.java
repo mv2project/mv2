@@ -34,7 +34,7 @@ public class MessageField extends MV2CommunicationElement {
 	 * @param field The field type.
 	 * @param content The content of this message.
 	 */
-	public MessageField(STD_MESSAGE_FIELD field, String content){
+	public MessageField(DEF_MESSAGE_FIELD field, String content){
 		this(field.getIdentifier(), content);
 	}
 	
@@ -42,7 +42,7 @@ public class MessageField extends MV2CommunicationElement {
 	 * Creates a new instance of {@link MessageField}.
 	 * @param field The field type.
 	 */
-	public MessageField(STD_MESSAGE_FIELD field){
+	public MessageField(DEF_MESSAGE_FIELD field){
 		this(field.getIdentifier());
 	}
 	
@@ -121,7 +121,7 @@ public class MessageField extends MV2CommunicationElement {
 	
 	@Override
 	public String toString() {
-		return getFieldIdentifier() + " (" + STD_MESSAGE_FIELD.find(getFieldIdentifier()) + "): " + getContent();
+		return getFieldIdentifier() + " (" + DEF_MESSAGE_FIELD.find(getFieldIdentifier()) + "): " + getContent();
 	}
 
 }

@@ -18,7 +18,7 @@ public class ContentEncodingField extends MessageField {
 	 * @param encoding The encoding to be set.
 	 */
 	public ContentEncodingField(Charset encoding) {
-		super(STD_MESSAGE_FIELD.CONTENT_ENCODING);
+		super(DEF_MESSAGE_FIELD.CONTENT_ENCODING);
 	}
 
 	

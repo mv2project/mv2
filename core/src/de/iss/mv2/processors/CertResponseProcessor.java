@@ -10,7 +10,7 @@ import de.iss.mv2.io.MV2Client;
 import de.iss.mv2.messaging.MV2Message;
 import de.iss.mv2.messaging.MessageProcessor;
 import de.iss.mv2.messaging.STD_MESSAGE;
-import de.iss.mv2.messaging.STD_MESSAGE_FIELD;
+import de.iss.mv2.messaging.DEF_MESSAGE_FIELD;
 import de.iss.mv2.security.CertificateLoader;
 
 /**
@@ -42,7 +42,7 @@ public class CertResponseProcessor implements MessageProcessor {
 		if (message.getMessageIdentifier() == STD_MESSAGE.CERT_RESPONSE
 				.getIdentifier()) {
 			String content = message.getFieldValue(
-					STD_MESSAGE_FIELD.CONTENT_BASE64, "");
+					DEF_MESSAGE_FIELD.CONTENT_BASE64, "");
 			if (content.isEmpty()) {
 				System.err
 						.println("The content of the certificate-response was empty!");

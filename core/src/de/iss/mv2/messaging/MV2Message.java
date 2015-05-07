@@ -104,7 +104,7 @@ public class MV2Message extends MV2CommunicationElement {
 	 * @return The field with the given identifier.
 	 * @throws IOException Is thrown if no field was found.
 	 */
-	protected MessageField getFieldOrThrow(STD_MESSAGE_FIELD field) throws IOException{
+	protected MessageField getFieldOrThrow(DEF_MESSAGE_FIELD field) throws IOException{
 		return getFieldOrThrow(field.getIdentifier());
 	}
 	
@@ -125,7 +125,7 @@ public class MV2Message extends MV2CommunicationElement {
 	 * @param defaultValue The value that should be returned if no field with the given type war found.
 	 * @return The value of the field with the given type.
 	 */
-	public String getFieldValue(STD_MESSAGE_FIELD field, String defaultValue){
+	public String getFieldValue(DEF_MESSAGE_FIELD field, String defaultValue){
 		return getFieldValue(field.getIdentifier(), defaultValue);
 	}
 	
@@ -158,6 +158,16 @@ public class MV2Message extends MV2CommunicationElement {
 		fields.clear();
 	}
 	
+	/**
+	 * Merges the fields of the given source to the target.
+	 * @param target The target message.
+	 * @param source The source message.
+	 */
+	public static void merge(MV2Message target, MV2Message source){
+		for(MessageField mf : source.fields.values()){
+			target.setMessageField(mf, true);
+		}
+	}
 	
 	
 	@Override
@@ -178,7 +188,7 @@ public class MV2Message extends MV2CommunicationElement {
 			}
 		}catch(EOFException ex){
 		}
-		MessageField encodingField = getField(STD_MESSAGE_FIELD.CONTENT_ENCODING.getIdentifier());
+		MessageField encodingField = getField(DEF_MESSAGE_FIELD.CONTENT_ENCODING.getIdentifier());
 		Charset encoding = StandardCharsets.UTF_8;
 		if(encodingField != null){
 			encodingField.completeDeserialize(StandardCharsets.US_ASCII);
