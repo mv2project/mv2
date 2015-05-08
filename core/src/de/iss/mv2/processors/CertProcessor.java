@@ -40,7 +40,7 @@ public class CertProcessor implements MessageProcessor {
 		if (message.getMessageIdentifier() == STD_MESSAGE.CERT_REQUEST
 				.getIdentifier() && server != null) {
 			CertificateResponeMessage response;
-			String binding = server.getBindingName(client);
+			String binding = client.getHostName();
 			try {
 				response = new CertificateResponeMessage(
 						server.getCertificate(binding));

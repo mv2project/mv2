@@ -2,6 +2,7 @@ package de.iss.mv2.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Window;
 
 import javax.swing.JComponent;
 import javax.swing.JDialog;
@@ -169,6 +170,32 @@ public class DialogHelper {
 		sd.pack();
 		sd.setVisible(true);
 		return sd;
+	}
+	
+	/**
+	 * Returns the parent dialog of the given component.
+	 * @param comp The component thats parent should be returned.
+	 * @return The parent dialog or {@code null} if there is no parent dialog.
+	 */
+	public static JDialog getParentDialog(JComponent comp){
+		if(comp == null) return null;
+		Window w = SwingUtilities.getWindowAncestor(comp);
+		if(w == null) return null;
+		if(JDialog.class.isAssignableFrom(w.getClass())) return (JDialog) w;
+		return null;
+	}
+	
+	/**
+	 * Returns the parent frame of the given component.
+	 * @param comp The component thats parent should be returned.
+	 * @return The parent frame or {@code null} if there is no parent frame.
+	 */
+	public static JFrame getParentFrame(JComponent comp){
+		if(comp == null) return null;
+		Window w = SwingUtilities.getWindowAncestor(comp);
+		if(w == null) return null;
+		if(JFrame.class.isAssignableFrom(w.getClass())) return (JFrame) w;
+		return null;
 	}
 
 }

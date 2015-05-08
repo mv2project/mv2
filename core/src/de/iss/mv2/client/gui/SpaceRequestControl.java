@@ -2,7 +2,6 @@ package de.iss.mv2.client.gui;
 
 import java.awt.Font;
 
-import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -28,11 +27,6 @@ public class SpaceRequestControl extends JComponent {
 	private JTextField identifierName;
 
 	/**
-	 * A control to select the domain.
-	 */
-	private JComboBox domainSelector;
-
-	/**
 	 * Creates a new {@link SpaceRequestControl}.
 	 */
 	public SpaceRequestControl() {
@@ -52,9 +46,6 @@ public class SpaceRequestControl extends JComponent {
 		identifierName = new JTextField();
 		add(identifierName, "cell 1 3,growx");
 		identifierName.setColumns(10);
-
-		domainSelector = new JComboBox();
-		add(domainSelector, "cell 2 3,growx");
 
 	}
 }

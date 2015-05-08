@@ -9,14 +9,16 @@ import java.security.cert.X509Certificate;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import net.miginfocom.swing.MigLayout;
 import de.iss.mv2.gui.DialogHelper;
+import de.iss.mv2.gui.SubmitDialog;
+import de.iss.mv2.gui.SubmitListener;
 import de.iss.mv2.io.MV2Client;
 import de.iss.mv2.messaging.MV2Message;
 import de.iss.mv2.messaging.STD_MESSAGE;
@@ -142,7 +144,7 @@ public class ServerSelectionControl extends JComponent implements
 	private JScrollPane scrollPane;
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(final ActionEvent e) {
 		if (e.getSource() == connectButton) {
 			try {
 				String host = hostField.getText();
@@ -154,12 +156,50 @@ public class ServerSelectionControl extends JComponent implements
 				} else {
 					if (client.getAlternativeNames() != null
 							&& client.getAlternativeNames().length > 0) {
-						if(client.getAlternativeNames().length == 1){
+						if (client.getAlternativeNames().length == 1) {
 							hostField.setText(client.getAlternativeNames()[0]);
 							this.actionPerformed(e);
 							return;
-						}else{
-							throw new NotImplementedException();
+						} else {
+							final DomainSelectorControl dsc = new DomainSelectorControl();
+							dsc.setAvailableDomainNames(client
+									.getAlternativeNames());
+
+							SubmitDialog<DomainSelectorControl> selectionDialog;// =
+																				// new
+																				// SubmitDialog<DomainSelectorControl>(null,
+																				// dsc,
+																				// "Select a domain",
+																				// true);
+							JFrame parentFrame = DialogHelper
+									.getParentFrame(this);
+							if (parentFrame != null) {
+								selectionDialog = new SubmitDialog<DomainSelectorControl>(
+										parentFrame, dsc, "Select a domain",
+										true);
+							} else {
+								selectionDialog = new SubmitDialog<DomainSelectorControl>(
+										DialogHelper.getParentDialog(this),
+										dsc, "Select a domain", true);
+							}
+							selectionDialog
+									.addSubmitListener(new SubmitListener() {
+
+										@Override
+										public void submitted(Object sender) {
+											hostField.setText(dsc
+													.getSelectedDomainName());
+											actionPerformed(e);
+											return;
+										}
+
+										@Override
+										public void canceled(Object sender) {
+										}
+									});
+							selectionDialog.pack();
+							selectionDialog.setVisible(true);
+							return;
 						}
 					} else
 						throw new Exception(

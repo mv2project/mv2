@@ -32,7 +32,7 @@ public class DomainSelectorControl extends JComponent {
 		setLayout(new BorderLayout(0, 0));
 
 		JLabel lblPleaseSelectOn = new JLabel(
-				"Please select on of the following domain names: ");
+				"Please select one of the following domain names: ");
 		add(lblPleaseSelectOn, BorderLayout.NORTH);
 
 		selector = new JComboBox<String>();

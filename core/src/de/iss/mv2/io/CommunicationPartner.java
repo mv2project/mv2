@@ -24,13 +24,23 @@ public interface CommunicationPartner {
 	 * Returns the local address of this instance.
 	 * @return The local address of this instance.
 	 */
+	@Deprecated
 	public InetAddress getLocalAddress();
 	
 	/**
 	 * Returns the remote address of the communication partner.
 	 * @return The remote address of the communication partner.
 	 */
+	@Deprecated
 	public SocketAddress getRemoteAddress();
+	
+	
+	
+	/**
+	 * Returns the name of the host this partner is communicating to.
+	 * @return The name of the host this partner is communicating to.
+	 */
+	public String getHostName();
 	
 	
 }

@@ -48,14 +48,21 @@ public class ClientThread extends Thread implements CommunicationPartner{
 	private final List<MessagePreProcessor> preProcessors = new ArrayList<MessagePreProcessor>();
 	
 	/**
+	 * Holds the name of the host this client is connecting to.
+	 */
+	private final String hostName;
+	
+	/**
 	 * Creates a new instance of {@link ClientThread}.
 	 * @param connection The connection to the client.
+	 * @param hostName The host name of the host this client is connected to.
 	 * @param settings The encryption settings to be used.
 	 * @param key The private key of this instance.
 	 * @throws IOException if an I/O error occurs.
 	 */
-	public ClientThread(Socket connection, MessageCryptorSettings settings,  KeyPair key) throws IOException {
+	public ClientThread(Socket connection, String hostName, MessageCryptorSettings settings,  KeyPair key) throws IOException {
 		this.connection = connection;
+		this.hostName = hostName;
 		this.connection.setSoTimeout(1000);
 		this.parser = new MessageParser(connection.getInputStream());
 		parser.setEncryptionSetting(settings);
@@ -171,6 +178,13 @@ public class ClientThread extends Thread implements CommunicationPartner{
 	@Override
 	public SocketAddress getRemoteAddress() {
 		return connection.getRemoteSocketAddress();
+	}
+
+	
+
+	@Override
+	public String getHostName() {
+		return hostName;
 	}
 	
 

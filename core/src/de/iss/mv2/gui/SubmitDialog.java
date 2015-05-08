@@ -57,7 +57,7 @@ public class SubmitDialog<T extends JComponent> extends JDialog implements
 		this.contentControl = contentControl;
 		setLocationRelativeTo(parent);
 	}
-	
+
 	/**
 	 * Creates a new instance of {@link SubmitDialog}.
 	 * 
@@ -71,9 +71,53 @@ public class SubmitDialog<T extends JComponent> extends JDialog implements
 	 *            {@code true} if the calling thread should wait for this dialog
 	 *            to close.
 	 */
-	public SubmitDialog(JFrame parent, T contentControl, String title, boolean blocking){
+	public SubmitDialog(JDialog parent, SubmitControl<T> contentControl,
+			String title, boolean blocking) {
+		super(parent, title, blocking);
+		setLayout(new BorderLayout());
+		getContentPane().add(contentControl, BorderLayout.CENTER);
+		contentControl.addSubmitListener(this);
+		this.contentControl = contentControl;
+		setLocationRelativeTo(parent);
+	}
+
+	/**
+	 * Creates a new instance of {@link SubmitDialog}.
+	 * 
+	 * @param parent
+	 *            The parent frame of this dialog.
+	 * @param contentControl
+	 *            The control to be displayed inside this dialog.
+	 * @param title
+	 *            The title of this dialog.
+	 * @param blocking
+	 *            {@code true} if the calling thread should wait for this dialog
+	 *            to close.
+	 */
+	public SubmitDialog(JFrame parent, T contentControl, String title,
+			boolean blocking) {
 		this(parent, new SubmitControl<T>(contentControl), title, blocking);
 	}
+
+	/**
+	 * Creates a new instance of {@link SubmitDialog}.
+	 * 
+	 * @param parent
+	 *            The parent frame of this dialog.
+	 * @param contentControl
+	 *            The control to be displayed inside this dialog.
+	 * @param title
+	 *            The title of this dialog.
+	 * @param blocking
+	 *            {@code true} if the calling thread should wait for this dialog
+	 *            to close.
+	 */
+	public SubmitDialog(JDialog parent, T contentControl, String title,
+			boolean blocking) {
+		this(parent, new SubmitControl<T>(contentControl), title, blocking);
+	}
+	
+	
 
 	/**
 	 * Adds a listener to be notified when this dialog gets submitted or

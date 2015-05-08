@@ -16,6 +16,7 @@ import java.util.Set;
 
 import de.iss.mv2.client.processors.DomainNamesResponseProcessor;
 import de.iss.mv2.messaging.EncryptedMessage;
+import de.iss.mv2.messaging.HelloMessage;
 import de.iss.mv2.messaging.MV2Message;
 import de.iss.mv2.messaging.MessageParser;
 import de.iss.mv2.messaging.MessagePreProcessor;
@@ -227,6 +228,9 @@ public class MV2Client implements CommunicationPartner {
 		this.in = connection.getInputStream();
 		this.parser = new MessageParser(in);
 		this.parser.setEncryptionSetting(cryptoSettings);
+		HelloMessage helloMessage = new HelloMessage();
+		helloMessage.setHostName(host);
+		send(helloMessage);
 	}
 
 	@Override
@@ -313,6 +317,11 @@ public class MV2Client implements CommunicationPartner {
 	@Override
 	public SocketAddress getRemoteAddress() {
 		return connection.getRemoteSocketAddress();
+	}
+
+	@Override
+	public String getHostName() {
+		return "localhost";
 	}
 
 }

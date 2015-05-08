@@ -12,12 +12,14 @@ import java.util.List;
 
 import de.iss.mv2.messaging.DomainNamesResponse;
 import de.iss.mv2.messaging.MV2Message;
+import de.iss.mv2.messaging.MessageParser;
 import de.iss.mv2.messaging.MessagePreProcessor;
 import de.iss.mv2.messaging.MessageProcessor;
 import de.iss.mv2.messaging.UnableToProcessMessage;
 import de.iss.mv2.processors.CertProcessor;
 import de.iss.mv2.security.MessageCryptorSettings;
 import de.iss.mv2.server.ServerBindings;
+import de.iss.mv2.server.processors.HelloMessageProcessor;
 
 /**
  * A MV2 server to serve client requests.
@@ -195,27 +197,9 @@ public class MV2Server {
 				getPrivateKey(serverAddress));
 	}
 
-	/**
-	 * Returns the binding of the given partner.
-	 * 
-	 * @param communicationPartner
-	 *            The partner.
-	 * @return The binding of the given partner.
-	 */
-	public String getBindingName(CommunicationPartner communicationPartner) {
-		return communicationPartner.getLocalAddress().getHostName();
-	}
+	
 
-	/**
-	 * Tests if this server has a binding for the given partner.
-	 * 
-	 * @param communicationPartner
-	 *            The partner.
-	 * @return {@code true} if there is a binding for the communication partner.
-	 */
-	public boolean hasBinding(CommunicationPartner communicationPartner) {
-		return bindings.hasBidnding(getBindingName(communicationPartner));
-	}
+	
 
 	/**
 	 * Represents the communication thread of a server.
@@ -231,10 +215,20 @@ public class MV2Server {
 			Socket client;
 			String binding;
 			ClientThread clientThread;
+			MV2Message helloMessage;
+			HelloMessageProcessor helloProcessor = new HelloMessageProcessor();
 			while (!isCanceled) {
 				try {
 					client = socket.accept();
-					binding = client.getLocalAddress().getHostName();
+					MessageParser mp = new MessageParser(
+							client.getInputStream());
+					helloMessage = mp.readNext();
+					binding = helloProcessor.getHostName(helloProcessor
+							.prepare(helloMessage));
+					if (binding == null) {
+						client.close();
+						continue;
+					}
 					if (!bindings.hasBidnding(binding)) {
 						try {
 							DomainNamesResponse resp = new DomainNamesResponse();
@@ -253,8 +247,8 @@ public class MV2Server {
 					System.out.println("New client on binding " + binding
 							+ ": " + client.getRemoteSocketAddress());
 
-					clientThread = new ClientThread(client, settings.doClone(),
-							getKeyPair(binding));
+					clientThread = new ClientThread(client, binding,
+							settings.doClone(), getKeyPair(binding));
 					clientThread.addClientListener(this);
 					clientThread.start();
 					clients.add(clientThread);
@@ -269,7 +263,7 @@ public class MV2Server {
 		}
 
 		/**
-		 * Attemts to stop the server thread.
+		 * Attempts to stop the server thread.
 		 */
 		private void shutdown() {
 			System.out.println("Server is shutting down...");

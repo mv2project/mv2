@@ -214,7 +214,7 @@ public class CertificateView extends JComponent {
 		JLabel lblValidTo = new JLabel("Valid to:");
 		add(lblValidTo, "cell 0 16,alignx right");
 
-		endLabel = new Label("New label");
+		endLabel = new Label("");
 		add(endLabel, "cell 1 16 4 1");
 
 		JSeparator separator_2 = new JSeparator();

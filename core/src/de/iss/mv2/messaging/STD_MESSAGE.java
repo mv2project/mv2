@@ -45,7 +45,11 @@ public enum STD_MESSAGE {
 	/**
 	 * The type of a domain names response.
 	 */
-	DOMAIN_NAMES_RESPONSE(9);
+	DOMAIN_NAMES_RESPONSE(9),
+	/**
+	 * The type of a hello message.
+	 */
+	HELLO(10);
 	
 	/**
 	 * Holds the identifier of a message type.
