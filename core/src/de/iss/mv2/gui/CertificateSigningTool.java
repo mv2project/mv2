@@ -262,7 +262,7 @@ public class CertificateSigningTool extends JFrame implements ActionListener {
 				return;
 			}
 		}
-		if(e.getSource() == createButton){
+		if (e.getSource() == createButton) {
 			createCert();
 		}
 	}
@@ -332,21 +332,29 @@ public class CertificateSigningTool extends JFrame implements ActionListener {
 			File f = jfc.getSelectedFile();
 			OutputStream out = new FileOutputStream(f);
 			PEMFileIO pemIO = new PEMFileIO();
-			pemIO.writePKCS8EncryptedPrivateKey(out, clientKey.getPrivate(), passphrase);
+			pemIO.writePKCS8EncryptedPrivateKey(out, clientKey.getPrivate(),
+					passphrase);
 			out.flush();
 			out.close();
 			PKCS10CertificationRequest csr = createRequest(clientKey);
-			CertificateSigner signer = new CertificateSigner(caCert, new LocalCertificateManager(caCert), new SecureRandom());
-			X509Certificate sigendCert = signer.sign(new KeyPair(caCert.getPublicKey(), caKey), csr, allowResign.isSelected());
+			CertificateSigner signer = new CertificateSigner(caCert,
+					new LocalCertificateManager(caCert), new SecureRandom());
+			X509Certificate sigendCert = signer.sign(caKey, csr,
+					allowResign.isSelected());
 			jfc = new JFileChooser(f.getAbsoluteFile());
 			jfc.setDialogTitle("Select a location to store the signed certificate");
-			if(jfc.showSaveDialog(this) != JFileChooser.APPROVE_OPTION) return;
+			if (jfc.showSaveDialog(this) != JFileChooser.APPROVE_OPTION)
+				return;
 			f = jfc.getSelectedFile();
 			out = new FileOutputStream(f);
 			pemIO.writeCertificate(out, sigendCert);
 			out.flush();
 			out.close();
-			DialogHelper.showSuccessMessage(this, "Certificate generated", "The sigend certificate was exported to '" + f.getAbsolutePath() + "'.");
+			DialogHelper.showSuccessMessage(
+					this,
+					"Certificate generated",
+					"The sigend certificate was exported to '"
+							+ f.getAbsolutePath() + "'.");
 		} catch (Exception ex) {
 			DialogHelper.showActionFailedWithExceptionMessage(this, ex);
 		}

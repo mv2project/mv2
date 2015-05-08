@@ -39,31 +39,7 @@ public enum DEF_MESSAGE_FIELD {
 	 * @deprecated Duplicate of {@link DEF_MESSAGE_FIELD#ENCRYPTION_KEY}.
 	 */
 	@Deprecated
-	KEY(7),
-	/**
-	 * The type of a message field containing the identifier of a message space.
-	 */
-	SPACE_IDENTIFIER(8),
-	/**
-	 * The type of a message field containing the state of a message space owner.
-	 */
-	STATE(9),
-	/**
-	 * The type of a message field containing a location.
-	 */
-	LOCATION(10),
-	/**
-	 * The type of a message field containing the country.
-	 */
-	COUNTRY(11),
-	/**
-	 * The type of a message field containing the organization.
-	 */
-	ORGANIZATION(12),
-	/**
-	 * The type of a message field containing the organization unit.
-	 */
-	ORGANIZATION_UNIT(13);
+	KEY(4);
 	
 	
 	/**

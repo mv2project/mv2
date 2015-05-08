@@ -121,7 +121,7 @@ public class CertificateTest implements TestConstants {
 		assertNotNull(request);
 		X509Certificate clientCert = null;
 		try {
-			clientCert = signer.sign(signersKey, request, false);
+			clientCert = signer.sign(signersKey.getPrivate(), request, false);
 		} catch (Exception ex) {
 			fail(ex.getMessage());
 		}

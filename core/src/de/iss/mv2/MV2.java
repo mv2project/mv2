@@ -208,7 +208,8 @@ public class MV2 {
 				new LocalCertificateManager(caCert), new SecureRandom());
 		signer.setValidity(365);
 		System.out.println("\nSigning certificate request...");
-		X509Certificate issued = signer.sign(caKeyPair, req, allowResign);
+		X509Certificate issued = signer.sign(caKeyPair.getPrivate(), req,
+				allowResign);
 		pemIO.writeCertificate(System.out, issued);
 		out = new FileOutputStream(new File(certPath));
 		pemIO.writeCertificate(out, issued);

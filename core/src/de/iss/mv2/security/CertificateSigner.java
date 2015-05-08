@@ -3,8 +3,8 @@ package de.iss.mv2.security;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.security.KeyFactory;
-import java.security.KeyPair;
 import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
@@ -41,7 +41,9 @@ import org.bouncycastle.pkcs.PKCS10CertificationRequest;
 import de.iss.mv2.data.CertificateManager;
 
 /**
- * A class to sign a given certificate signing request with an existing certificate.
+ * A class to sign a given certificate signing request with an existing
+ * certificate.
+ * 
  * @author Marcel Singer
  *
  */
@@ -64,15 +66,22 @@ public class CertificateSigner {
 	 */
 	private final CertificateManager certManager;
 	/**
-	 * Contains a randomizer used for creating the serial number for a signed certificate.
+	 * Contains a randomizer used for creating the serial number for a signed
+	 * certificate.
 	 */
 	private final SecureRandom random;
 
 	/**
 	 * Creates a new instance of {@link CertificateSigner}.
-	 * @param issuerCert The certificate of the signing instance.
-	 * @param manager An instance of {@link CertificateManager} to handle the signed certificates.
-	 * @param random An instance of {@link SecureRandom} to generate the serial numbers.
+	 * 
+	 * @param issuerCert
+	 *            The certificate of the signing instance.
+	 * @param manager
+	 *            An instance of {@link CertificateManager} to handle the signed
+	 *            certificates.
+	 * @param random
+	 *            An instance of {@link SecureRandom} to generate the serial
+	 *            numbers.
 	 */
 	public CertificateSigner(X509Certificate issuerCert,
 			CertificateManager manager, SecureRandom random) {
@@ -84,7 +93,9 @@ public class CertificateSigner {
 
 	/**
 	 * Sets the duration of validity in days.
-	 * @param days The duration of validity in days.
+	 * 
+	 * @param days
+	 *            The duration of validity in days.
 	 */
 	public void setValidity(int days) {
 		GregorianCalendar gc = new GregorianCalendar();
@@ -95,6 +106,7 @@ public class CertificateSigner {
 
 	/**
 	 * Returns the start date of validity.
+	 * 
 	 * @return The start date of validity.
 	 */
 	public Date getStartDate() {
@@ -103,6 +115,7 @@ public class CertificateSigner {
 
 	/**
 	 * Returns the end date of validity.
+	 * 
 	 * @return The end date of validity.
 	 */
 	public Date getEndDate() {
@@ -111,6 +124,7 @@ public class CertificateSigner {
 
 	/**
 	 * Looks for an unique serial number.
+	 * 
 	 * @return The found serial number.
 	 */
 	private BigInteger getFreeSerial() {
@@ -125,8 +139,10 @@ public class CertificateSigner {
 
 	/**
 	 * Returns the key identifier of the signing instance.
+	 * 
 	 * @return The key identifier of the signing instance.
-	 * @throws IOException if an I/O error occurs.
+	 * @throws IOException
+	 *             if an I/O error occurs.
 	 */
 	private AuthorityKeyIdentifier getSignerKeyIdentifier() throws IOException {
 		ASN1Primitive p = JcaX509ExtensionUtils.parseExtensionValue(signerCert
@@ -137,9 +153,13 @@ public class CertificateSigner {
 
 	/**
 	 * Returns the key identifier of the requesting instance.
-	 * @param pk The {@link SubjectPublicKeyInfo} of the requesting instance.
+	 * 
+	 * @param pk
+	 *            The {@link SubjectPublicKeyInfo} of the requesting instance.
 	 * @return The key identifier of the requesting instance.
-	 * @throws NoSuchAlgorithmException If there is no algorithm for the given {@link SubjectPublicKeyInfo}.
+	 * @throws NoSuchAlgorithmException
+	 *             If there is no algorithm for the given
+	 *             {@link SubjectPublicKeyInfo}.
 	 */
 	private SubjectKeyIdentifier getKeyIdentifier(SubjectPublicKeyInfo pk)
 			throws NoSuchAlgorithmException {
@@ -147,20 +167,41 @@ public class CertificateSigner {
 		return utils.createSubjectKeyIdentifier(pk);
 
 	}
+	
+	/**
+	 * Returns the certificate manager used by this instance.
+	 * @return The certificate manager used by this instance. 
+	 */
+	public CertificateManager getCertificateManager(){
+		return certManager;
+	}
 
 	/**
 	 * Signs the given certificate signing request.
-	 * @param caKey The private key of the signing instance. This key must belong to the certificate given at {@link CertificateSigner#CertificateSigner(X509Certificate, CertificateManager, SecureRandom)}.
-	 * @param signingRequest The request to be signed.
-	 * @param allowResign {@code true} if the requesting instance should be allowed to sign other request.
+	 * 
+	 * @param caKey
+	 *            The private key of the signing instance. This key must belong
+	 *            to the certificate given at
+	 *            {@link CertificateSigner#CertificateSigner(X509Certificate, CertificateManager, SecureRandom)}
+	 *            .
+	 * @param signingRequest
+	 *            The request to be signed.
+	 * @param allowResign
+	 *            {@code true} if the requesting instance should be allowed to
+	 *            sign other request.
 	 * @return The signed certificate.
-	 * @throws OperatorCreationException 
-	 * @throws IOException if an I/O error occurs.
-	 * @throws CertificateException If there was an exception creating the requesting instance's certificate.
-	 * @throws NoSuchAlgorithmException If an required algorithm implementation was not found.
-	 * @throws InvalidKeySpecException If a required key was invalid.
+	 * @throws OperatorCreationException
+	 * @throws IOException
+	 *             if an I/O error occurs.
+	 * @throws CertificateException
+	 *             If there was an exception creating the requesting instance's
+	 *             certificate.
+	 * @throws NoSuchAlgorithmException
+	 *             If an required algorithm implementation was not found.
+	 * @throws InvalidKeySpecException
+	 *             If a required key was invalid.
 	 */
-	public X509Certificate sign(KeyPair caKey,
+	public X509Certificate sign(PrivateKey caKey,
 			PKCS10CertificationRequest signingRequest, boolean allowResign)
 			throws OperatorCreationException, IOException,
 			CertificateException, NoSuchAlgorithmException,
@@ -200,7 +241,7 @@ public class CertificateSigner {
 		certGen.addExtension(Extension.basicConstraints, false,
 				new BasicConstraints(allowResign));
 		ContentSigner cs = new JcaContentSignerBuilder("SHA256WithRSA")
-				.setProvider("BC").build(caKey.getPrivate());
+				.setProvider("BC").build(caKey);
 		X509CertificateHolder holder = certGen.build(cs);
 		X509Certificate cert = new JcaX509CertificateConverter().setProvider(
 				"BC").getCertificate(holder);
