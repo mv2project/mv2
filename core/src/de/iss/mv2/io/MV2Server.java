@@ -52,7 +52,7 @@ public class MV2Server {
 	 */
 	private final List<MessageProcessor> processors = new ArrayList<MessageProcessor>();
 	/**
-	 * Holds a list with all registeres {@link MessagePreProcessor}s.
+	 * Holds a list with all registers {@link MessagePreProcessor}s.
 	 */
 	private final List<MessagePreProcessor> preProcessors = new ArrayList<MessagePreProcessor>();
 

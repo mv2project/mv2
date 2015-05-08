@@ -1,7 +1,6 @@
 package de.iss.mv2.client.gui;
 
 import java.awt.Dimension;
-import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
@@ -9,12 +8,13 @@ import java.awt.event.ComponentListener;
 import java.security.cert.X509Certificate;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import net.miginfocom.swing.MigLayout;
 import de.iss.mv2.gui.DialogHelper;
 import de.iss.mv2.io.MV2Client;
@@ -23,11 +23,12 @@ import de.iss.mv2.messaging.STD_MESSAGE;
 
 /**
  * A dialog that helps the user to configure his client.
+ * 
  * @author Marcel Singer
  *
  */
-public class ConfigurationAssistant extends JDialog implements ActionListener,
-		ComponentListener {
+public class ServerSelectionControl extends JComponent implements
+		ActionListener, ComponentListener {
 
 	/**
 	 * Serial.
@@ -59,20 +60,18 @@ public class ConfigurationAssistant extends JDialog implements ActionListener,
 	private CertificateView certView = new CertificateView();
 
 	/**
-	 * Crates a new instance of {@link ConfigurationAssistant}.
-	 * @param parent The parent frame.
+	 * Crates a new instance of {@link ServerSelectionControl}.
 	 */
-	public ConfigurationAssistant(Frame parent) {
-		super(parent);
+	public ServerSelectionControl() {
 		addComponentListener(this);
 		Dimension s = new Dimension(800, 600);
 		setMinimumSize(s);
 		setSize(s);
 		setPreferredSize(s);
-		getContentPane().setLayout(new MigLayout("", "[grow]", "[][][grow]"));
+		setLayout(new MigLayout("", "[grow]", "[][][grow]"));
 
 		connectionPanel = new JPanel();
-		getContentPane().add(connectionPanel, "cell 0 0,grow");
+		add(connectionPanel, "cell 0 0,grow");
 		connectionPanel.setLayout(new MigLayout("", "[][grow][][]",
 				"[][14.00][][][]"));
 
@@ -99,7 +98,7 @@ public class ConfigurationAssistant extends JDialog implements ActionListener,
 
 		certificatesPanel = new JPanel();
 		certificatesPanel.setEnabled(false);
-		getContentPane().add(certificatesPanel, "cell 0 2,grow");
+		add(certificatesPanel, "cell 0 2,grow");
 		certificatesPanel
 				.setLayout(new MigLayout("", "[grow]", "[][][grow][]"));
 
@@ -114,10 +113,14 @@ public class ConfigurationAssistant extends JDialog implements ActionListener,
 
 	/**
 	 * Connects to the given server.
-	 * @param host The address of the server.
-	 * @param port The port of the server.
+	 * 
+	 * @param host
+	 *            The address of the server.
+	 * @param port
+	 *            The port of the server.
 	 * @return A connected client instance.
-	 * @throws Exception If the connection can't be opened for any reasons.
+	 * @throws Exception
+	 *             If the connection can't be opened for any reasons.
 	 */
 	private MV2Client tryConnect(String host, int port) throws Exception {
 		MV2Client client = new MV2Client();
@@ -149,8 +152,19 @@ public class ConfigurationAssistant extends JDialog implements ActionListener,
 					certificatesPanel.setEnabled(true);
 					setCertificate(client.getServerCertificate());
 				} else {
-					throw new Exception(
-							"The server didn't respond with the needed certificate.");
+					if (client.getAlternativeNames() != null
+							&& client.getAlternativeNames().length > 0) {
+						if(client.getAlternativeNames().length == 1){
+							hostField.setText(client.getAlternativeNames()[0]);
+							this.actionPerformed(e);
+							return;
+						}else{
+							throw new NotImplementedException();
+						}
+					} else
+						throw new Exception(
+								"The server didn't respond with the needed certificate.");
+
 				}
 				try {
 					client.disconnect();
@@ -166,7 +180,9 @@ public class ConfigurationAssistant extends JDialog implements ActionListener,
 
 	/**
 	 * Sets the servers certificate.
-	 * @param cert The certificate to set.
+	 * 
+	 * @param cert
+	 *            The certificate to set.
 	 */
 	private void setCertificate(X509Certificate cert) {
 		this.cert = cert;

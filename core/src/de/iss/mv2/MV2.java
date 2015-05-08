@@ -90,9 +90,18 @@ public class MV2 {
 					.getResourceAsStream("localhost.key.der");
 			PrivateKey serverKey = pemIO.readEncryptedPrivateKey(in,
 					serverKeyPW);
-			serverKeyPW = null;
+			in.close();
+			
 			ServerBindings sb = new ServerBindings();
 			sb.addBinding(new ServerBinding("localhost", serverCert, serverKey));
+			in = mcs.getClass().getClassLoader().getResourceAsStream("imac.fritz.box.cert.der");
+			serverCert = pemIO.readCertificate(in);
+			in.close();
+			in = mcs.getClass().getClassLoader().getResourceAsStream("imac.fritz.box.key.der");
+			serverKey = pemIO.readEncryptedPrivateKey(in, serverKeyPW);
+			in.close();
+			serverKeyPW = null;
+			sb.addBinding(new ServerBinding("imac.fritz.box", serverCert, serverKey));
 			MV2Server server = new MV2Server(sb, mcs,
 					9898);
 			server.start();

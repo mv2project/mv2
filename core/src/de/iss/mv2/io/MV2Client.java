@@ -14,6 +14,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import de.iss.mv2.client.processors.DomainNamesResponseProcessor;
 import de.iss.mv2.messaging.EncryptedMessage;
 import de.iss.mv2.messaging.MV2Message;
 import de.iss.mv2.messaging.MessageParser;
@@ -72,6 +73,11 @@ public class MV2Client implements CommunicationPartner {
 	 * Holds the certificate of the server.
 	 */
 	private X509Certificate serverCert = null;
+	
+	/**
+	 * Holds the alternative domain names of the server.
+	 */
+	private String[] alternativeNames = new String[0];
 
 	/**
 	 * Creates a new client.
@@ -82,7 +88,17 @@ public class MV2Client implements CommunicationPartner {
 		} catch (Exception ex) {
 			System.err.println("Failed to load default root-CA.");
 		}
+		installDefaultProcessors();
+	}
+	
+	/**
+	 * Adds the default processors.
+	 */
+	private void installDefaultProcessors(){
 		registerProcessor(new CertResponseProcessor(this));
+		DomainNamesResponseProcessor dnrp = new DomainNamesResponseProcessor(this);
+		registerProcessor(dnrp);
+		register(dnrp);
 	}
 
 	/**
@@ -172,6 +188,22 @@ public class MV2Client implements CommunicationPartner {
 		this.cryptoSettings = settings;
 		if (parser != null)
 			parser.setEncryptionSetting(settings);
+	}
+	
+	/**
+	 * Sets the alternative names of the server.
+	 * @param alternativeDomainNames The alternative names to set.
+	 */
+	public void setAlternativeNames(String[] alternativeDomainNames){
+		this.alternativeNames = alternativeDomainNames;
+	}
+	
+	/**
+	 * Returns the alternative names of the server.
+	 * @return The alternative names of the server.
+	 */
+	public String[] getAlternativeNames(){
+		return alternativeNames;
 	}
 
 	/**

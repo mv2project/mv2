@@ -3,6 +3,8 @@ package de.iss.mv2.gui;
 import java.awt.BorderLayout;
 import java.awt.Component;
 
+import javax.swing.JComponent;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -136,6 +138,37 @@ public class DialogHelper {
 				fr.setVisible(true);
 			}
 		});
+	}
+	
+	/**
+	 * Opens a blocking dialog with the specified title.
+	 * @param title The title of the dialog to display.
+	 * @param parent The parent frame of the dialog to display.
+	 * @param component The component to display inside the dialog.
+	 * @return The shown dialog.
+	 */
+	public static JDialog showBlockingDialog(String title, JFrame parent, JComponent component){
+		JDialog dial = new JDialog(parent, title, true);
+		dial.setLocationRelativeTo(parent);
+		dial.getContentPane().setLayout(new BorderLayout());
+		dial.getContentPane().add(component, BorderLayout.CENTER);
+		dial.pack();
+		dial.setVisible(true);
+		return dial;
+	}
+	
+	/**
+	 * Opens a blocking dialog with the specified title, cancel button and submit button.
+	 * @param title The title of the dialog to display.
+	 * @param parent The parent frame of the dialog to display.
+	 * @param component The component to display inside the dialog.
+	 * @return The shown dialog.
+	 */
+	public static SubmitDialog<JComponent> showBlockingSubmitDialog(String title, JFrame parent, JComponent component){
+		SubmitDialog<JComponent> sd = new SubmitDialog<JComponent>(parent, component, title, true);
+		sd.pack();
+		sd.setVisible(true);
+		return sd;
 	}
 
 }

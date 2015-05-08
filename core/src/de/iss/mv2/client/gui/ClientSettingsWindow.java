@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
+import de.iss.mv2.gui.DialogHelper;
 import de.iss.mv2.gui.EditableListListener;
 import de.iss.mv2.gui.EditableListView;
 
@@ -53,9 +54,8 @@ public class ClientSettingsWindow extends JFrame implements EditableListListener
 
 	@Override
 	public void addItem(EditableListView<String> sender) {
-		ConfigurationAssistant cfa = new ConfigurationAssistant(this);
-		cfa.setLocationRelativeTo(this);
-		cfa.setVisible(true);
+		ServerSelectionControl cfa = new ServerSelectionControl();
+		DialogHelper.showBlockingSubmitDialog("Assistant", this, cfa);
 	}
 
 	@Override
