@@ -30,7 +30,7 @@ import de.iss.mv2.server.io.MV2Server;
  * The main class.
  * 
  * @author Marcel Singer
- *
+ * 
  */
 public class MV2 {
 
@@ -43,7 +43,8 @@ public class MV2 {
 
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
-
+		System.out.print(System.getProperty("java.runtime.name") + " - ");
+		System.out.println(System.getProperty("java.runtime.version"));
 		try {
 
 			Security.addProvider(new BouncyCastleProvider());
@@ -51,17 +52,8 @@ public class MV2 {
 			PEMFileIO pemIO = new PEMFileIO();
 			InputStream in;
 
-			System.out.println(new File("test.txt").getAbsolutePath());
 
-			PropertiesExportable pe = new PropertiesExportable();
-			pe.getProperties().setProperty("Foo", "Bar");
-			EncryptedExportable ee = new EncryptedExportable(pe);
-			ee.export("test123kss!", System.out);
 
-			/**
-			 * ClientMainWindow cmw = new ClientMainWindow();
-			 * cmw.setVisible(true);
-			 **/
 
 			MessageCryptorSettings mcs = new AESWithRSACryptoSettings();
 
@@ -69,8 +61,7 @@ public class MV2 {
 					.getResourceAsStream("localhost.cert.der");
 			X509Certificate serverCert = pemIO.readCertificate(in);
 			in.close();
-			String serverKeyPW = "test123";// VirtualConsoleReader.readPassword(System.in,
-											// System.out, "Key-File-PW: ");
+			String serverKeyPW = "test123";
 			in = mcs.getClass().getClassLoader()
 					.getResourceAsStream("localhost.key.der");
 			PrivateKey serverKey = pemIO.readEncryptedPrivateKey(in,
