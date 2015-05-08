@@ -39,7 +39,12 @@ public enum DEF_MESSAGE_FIELD {
 	 * @deprecated Duplicate of {@link DEF_MESSAGE_FIELD#ENCRYPTION_KEY}.
 	 */
 	@Deprecated
-	KEY(4);
+	KEY(4),
+	/**
+	 * A message field containing pain text content.
+	 */
+	CONTENT_PLAIN(7);
+	
 	
 	
 	/**

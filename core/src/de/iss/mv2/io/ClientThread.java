@@ -3,7 +3,9 @@ package de.iss.mv2.io;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.InetAddress;
 import java.net.Socket;
+import java.net.SocketAddress;
 import java.net.SocketTimeoutException;
 import java.security.KeyPair;
 import java.util.ArrayList;
@@ -159,6 +161,16 @@ public class ClientThread extends Thread implements CommunicationPartner{
 		}catch(IOException ex){
 			ex.printStackTrace();
 		}
+	}
+
+	@Override
+	public InetAddress getLocalAddress() {
+		return connection.getLocalAddress();
+	}
+
+	@Override
+	public SocketAddress getRemoteAddress() {
+		return connection.getRemoteSocketAddress();
 	}
 	
 

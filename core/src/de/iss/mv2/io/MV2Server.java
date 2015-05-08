@@ -5,19 +5,23 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.security.KeyPair;
+import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.iss.mv2.messaging.DomainNamesResponse;
 import de.iss.mv2.messaging.MV2Message;
 import de.iss.mv2.messaging.MessagePreProcessor;
 import de.iss.mv2.messaging.MessageProcessor;
 import de.iss.mv2.messaging.UnableToProcessMessage;
 import de.iss.mv2.processors.CertProcessor;
 import de.iss.mv2.security.MessageCryptorSettings;
+import de.iss.mv2.server.ServerBindings;
 
 /**
  * A MV2 server to serve client requests.
+ * 
  * @author Marcel Singer
  *
  */
@@ -53,39 +57,46 @@ public class MV2Server {
 	private final List<MessagePreProcessor> preProcessors = new ArrayList<MessagePreProcessor>();
 
 	/**
-	 * Holds the server certificate.
+	 * Holds the bindings of this server.
 	 */
-	private final X509Certificate cert;
-	
+	private final ServerBindings bindings;
+
 	/**
 	 * Holds the encryption settings.
 	 */
 	private final MessageCryptorSettings settings;
-	
-	/**
-	 * Holds the private key of this server.
-	 */
-	private final KeyPair key;
-	
+
 	/**
 	 * Creates a new server with the given settings.
-	 * @param cert The certificate of the server.
-	 * @param settings The encryption settings to use.
-	 * @param key The public and private Key of this server.
-	 * @param port The port to listen.
+	 * 
+	 * @param bindings
+	 *            The bindings for this server.
+	 * @param settings
+	 *            The encryption settings to use.
+	 * @param port
+	 *            The port to listen.
 	 */
-	public MV2Server(X509Certificate cert, MessageCryptorSettings settings, KeyPair key,  int port) {
+	public MV2Server(ServerBindings bindings, MessageCryptorSettings settings,
+			int port) {
 		this.port = port;
-		this.cert = cert;
-		this.key = key;
 		this.settings = settings;
+		this.bindings = bindings;
+		registerDefaultProcessors();
+
+	}
+
+	/**
+	 * Registers all default and or needed processors.
+	 */
+	public void registerDefaultProcessors() {
 		registerProcessor(new CertProcessor(this));
-		
 	}
 
 	/**
 	 * Starts the execution of this server.
-	 * @throws IOException if an I/O error occurs.
+	 * 
+	 * @throws IOException
+	 *             if an I/O error occurs.
 	 */
 	public void start() throws IOException {
 		socket = new ServerSocket(port);
@@ -103,7 +114,9 @@ public class MV2Server {
 
 	/**
 	 * Registers a new {@link MessageProcessor}.
-	 * @param processor The processor to register.
+	 * 
+	 * @param processor
+	 *            The processor to register.
 	 */
 	public void registerProcessor(MessageProcessor processor) {
 		this.processors.add(processor);
@@ -111,7 +124,9 @@ public class MV2Server {
 
 	/**
 	 * Registers a new {@link MessagePreProcessor}.
-	 * @param preProcessor The preprocessor to register.
+	 * 
+	 * @param preProcessor
+	 *            The preprocessor to register.
 	 */
 	public void registerPreProcessor(MessagePreProcessor preProcessor) {
 		this.preProcessors.add(preProcessor);
@@ -119,8 +134,11 @@ public class MV2Server {
 
 	/**
 	 * Handles a client message.
-	 * @param client The client that sent the message to handle.
-	 * @param message The received message.
+	 * 
+	 * @param client
+	 *            The client that sent the message to handle.
+	 * @param message
+	 *            The received message.
 	 */
 	private void handleMessage(ClientThread client, MV2Message message) {
 		for (MessagePreProcessor preP : preProcessors) {
@@ -144,15 +162,64 @@ public class MV2Server {
 	}
 
 	/**
-	 * Returns the servers certificate.
+	 * Returns the servers certificate for the specified binding.
+	 * 
+	 * @param serverAddress
+	 *            The address of the binding.
 	 * @return The servers certificate.
 	 */
-	public X509Certificate getCertificate() {
-		return cert;
+	public X509Certificate getCertificate(String serverAddress) {
+		return bindings.getBinding(serverAddress).getCertificate();
+	}
+
+	/**
+	 * Returns the servers private key for the specified binding.
+	 * 
+	 * @param serverAddress
+	 *            The address of the binding.
+	 * @return The servers private key for the specified binding.
+	 */
+	public PrivateKey getPrivateKey(String serverAddress) {
+		return bindings.getBinding(serverAddress).getPrivateKey();
+	}
+
+	/**
+	 * Returns the servers key pair for the specified binding.
+	 * 
+	 * @param serverAddress
+	 *            The address of the binding.
+	 * @return The servers key pair for the specified binding.
+	 */
+	public KeyPair getKeyPair(String serverAddress) {
+		return new KeyPair(getCertificate(serverAddress).getPublicKey(),
+				getPrivateKey(serverAddress));
+	}
+
+	/**
+	 * Returns the binding of the given partner.
+	 * 
+	 * @param communicationPartner
+	 *            The partner.
+	 * @return The binding of the given partner.
+	 */
+	public String getBindingName(CommunicationPartner communicationPartner) {
+		return communicationPartner.getLocalAddress().getHostName();
+	}
+
+	/**
+	 * Tests if this server has a binding for the given partner.
+	 * 
+	 * @param communicationPartner
+	 *            The partner.
+	 * @return {@code true} if there is a binding for the communication partner.
+	 */
+	public boolean hasBinding(CommunicationPartner communicationPartner) {
+		return bindings.hasBidnding(getBindingName(communicationPartner));
 	}
 
 	/**
 	 * Represents the communication thread of a server.
+	 * 
 	 * @author Marcel Singer
 	 *
 	 */
@@ -162,13 +229,32 @@ public class MV2Server {
 		public void run() {
 			super.run();
 			Socket client;
+			String binding;
 			ClientThread clientThread;
 			while (!isCanceled) {
 				try {
 					client = socket.accept();
-					System.out.println("New client: "
-							+ client.getRemoteSocketAddress());
-					clientThread = new ClientThread(client, settings.doClone(), key);
+					binding = client.getLocalAddress().getHostName();
+					if (!bindings.hasBidnding(binding)) {
+						try {
+							DomainNamesResponse resp = new DomainNamesResponse();
+							resp.setAvailableDomainNames(bindings
+									.getAvailableAddressesArray());
+							resp.serialize(client.getOutputStream());
+							client.getOutputStream().flush();
+							client.close();
+							System.err.println("There was no binding for "
+									+ binding + ".");
+							continue;
+						} catch (IOException ex) {
+							ex.printStackTrace();
+						}
+					}
+					System.out.println("New client on binding " + binding
+							+ ": " + client.getRemoteSocketAddress());
+
+					clientThread = new ClientThread(client, settings.doClone(),
+							getKeyPair(binding));
 					clientThread.addClientListener(this);
 					clientThread.start();
 					clients.add(clientThread);

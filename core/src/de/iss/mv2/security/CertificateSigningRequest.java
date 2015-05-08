@@ -5,6 +5,9 @@ import java.security.KeyPair;
 
 import javax.security.auth.x500.X500Principal;
 
+import org.bouncycastle.asn1.x500.X500Name;
+import org.bouncycastle.asn1.x500.X500NameBuilder;
+import org.bouncycastle.asn1.x500.style.BCStyle;
 import org.bouncycastle.operator.ContentSigner;
 import org.bouncycastle.operator.OperatorCreationException;
 import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;
@@ -12,11 +15,10 @@ import org.bouncycastle.pkcs.PKCS10CertificationRequest;
 import org.bouncycastle.pkcs.PKCS10CertificationRequestBuilder;
 import org.bouncycastle.pkcs.jcajce.JcaPKCS10CertificationRequestBuilder;
 
-import sun.security.x509.X500Name;
-
 /**
  * Represents a certificate signing request.
- * @author Marcel Singer 
+ * 
+ * @author Marcel Singer
  *
  */
 public class CertificateSigningRequest {
@@ -47,15 +49,22 @@ public class CertificateSigningRequest {
 	private String state;
 
 	/**
-	 * Creates an empty instance of  {@link CertificateSigningRequest}.
+	 * Holds the mail address of the requesting instance.
+	 */
+	private String mailAddress;
+
+	/**
+	 * Creates an empty instance of {@link CertificateSigningRequest}.
 	 */
 	public CertificateSigningRequest() {
 
 	}
 
 	/**
-	 * Removes all German 'Umlaute' (ä, ö, ü) from the given string. 
-	 * @param content The string to clean.
+	 * Removes all German 'Umlaute' (ä, ö, ü) from the given string.
+	 * 
+	 * @param content
+	 *            The string to clean.
 	 * @return The cleaned string.
 	 */
 	private String cleanString(String content) {
@@ -66,12 +75,19 @@ public class CertificateSigningRequest {
 
 	/**
 	 * Initializes this request with all needed values.
-	 * @param commonName The common name of the requesting instance.
-	 * @param country The country of the requesting instance.
-	 * @param state The state of the requesting instance.
-	 * @param location The location of the requesting instance.
-	 * @param organisation The organization of the requesting instance.
-	 * @param organisationUnit The organization unit of the requesting instance.
+	 * 
+	 * @param commonName
+	 *            The common name of the requesting instance.
+	 * @param country
+	 *            The country of the requesting instance.
+	 * @param state
+	 *            The state of the requesting instance.
+	 * @param location
+	 *            The location of the requesting instance.
+	 * @param organisation
+	 *            The organization of the requesting instance.
+	 * @param organisationUnit
+	 *            The organization unit of the requesting instance.
 	 */
 	public void init(String commonName, String country, String state,
 			String location, String organisation, String organisationUnit) {
@@ -85,6 +101,7 @@ public class CertificateSigningRequest {
 
 	/**
 	 * Returns the common name part.
+	 * 
 	 * @return The common name part.
 	 */
 	public String getCommonName() {
@@ -93,7 +110,9 @@ public class CertificateSigningRequest {
 
 	/**
 	 * Sets the common name part of this request.
-	 * @param commonName The common name part to set.
+	 * 
+	 * @param commonName
+	 *            The common name part to set.
 	 */
 	public void setCommonName(String commonName) {
 		this.commonName = cleanString(commonName);
@@ -101,6 +120,7 @@ public class CertificateSigningRequest {
 
 	/**
 	 * Returns the organization unit part.
+	 * 
 	 * @return The organization unit part.
 	 */
 	public String getOrganizationUnit() {
@@ -109,7 +129,9 @@ public class CertificateSigningRequest {
 
 	/**
 	 * Sets the organization unit part of this request.
-	 * @param organisationUnit The organization unit part to set.
+	 * 
+	 * @param organisationUnit
+	 *            The organization unit part to set.
 	 */
 	public void setOrganizationUnit(String organisationUnit) {
 		this.organizationUnit = cleanString(organisationUnit);
@@ -117,6 +139,7 @@ public class CertificateSigningRequest {
 
 	/**
 	 * Returns the organization part of this request.
+	 * 
 	 * @return The organization part of this request.
 	 */
 	public String getOrganizationName() {
@@ -125,7 +148,9 @@ public class CertificateSigningRequest {
 
 	/**
 	 * Sets the organization part of this request.
-	 * @param organisationName The organization part to set.
+	 * 
+	 * @param organisationName
+	 *            The organization part to set.
 	 */
 	public void setOrganizationName(String organisationName) {
 		this.organizationName = cleanString(organisationName);
@@ -133,6 +158,7 @@ public class CertificateSigningRequest {
 
 	/**
 	 * Returns the location part of this request.
+	 * 
 	 * @return The location part of this request.
 	 */
 	public String getLocation() {
@@ -141,7 +167,9 @@ public class CertificateSigningRequest {
 
 	/**
 	 * Sets the location part of this request.
-	 * @param location The location part to be set.
+	 * 
+	 * @param location
+	 *            The location part to be set.
 	 */
 	public void setLocation(String location) {
 		this.location = cleanString(location);
@@ -149,6 +177,7 @@ public class CertificateSigningRequest {
 
 	/**
 	 * Returns the country part of this request.
+	 * 
 	 * @return The country part of this request.
 	 */
 	public String getCountry() {
@@ -157,7 +186,9 @@ public class CertificateSigningRequest {
 
 	/**
 	 * Sets the country part of this request.
-	 * @param country The country part to be set.
+	 * 
+	 * @param country
+	 *            The country part to be set.
 	 */
 	public void setCountry(String country) {
 		this.country = cleanString(country);
@@ -165,6 +196,7 @@ public class CertificateSigningRequest {
 
 	/**
 	 * Returns the state part of this request.
+	 * 
 	 * @return The state part of this request.
 	 */
 	public String getState() {
@@ -173,26 +205,53 @@ public class CertificateSigningRequest {
 
 	/**
 	 * Sets the state part of this request.
-	 * @param state The state part to be set.
+	 * 
+	 * @param state
+	 *            The state part to be set.
 	 */
 	public void setState(String state) {
 		this.state = cleanString(state);
 	}
 
 	/**
+	 * Sets the mail address of the requesting instance.
+	 * 
+	 * @param mailAddress
+	 *            The mail address to set. If this parameter might be
+	 *            {@code null}.
+	 */
+	public void setMailAddress(String mailAddress) {
+		this.mailAddress = mailAddress;
+	}
+
+	/**
 	 * Generates a {@link PKCS10CertificationRequest}.
-	 * @param kp The key pair of the requesting instance.
+	 * 
+	 * @param kp
+	 *            The key pair of the requesting instance.
 	 * @return The generates certificate signing request.
-	 * @throws IOException if an I/O error occurs.
-	 * @throws OperatorCreationException If an error occurs creating the request.
+	 * @throws IOException
+	 *             if an I/O error occurs.
+	 * @throws OperatorCreationException
+	 *             If an error occurs creating the request.
 	 */
 	public PKCS10CertificationRequest generatePKCS10(KeyPair kp)
 			throws IOException, OperatorCreationException {
-		X500Name x500Name = new X500Name(commonName, organizationUnit,
-				organizationName, location, state, country);
+		X500NameBuilder nb = new X500NameBuilder(BCStyle.INSTANCE);
+		nb.addRDN(BCStyle.L, location);
+		nb.addRDN(BCStyle.ST, state);
+		nb.addRDN(BCStyle.C, country);
+		nb.addRDN(BCStyle.O, organizationName);
+		nb.addRDN(BCStyle.OU, organizationUnit);
+		nb.addRDN(BCStyle.CN, commonName);
+		if (mailAddress != null) {
+			nb.addRDN(BCStyle.EmailAddress, mailAddress);
+		}
+		X500Name x500Name = nb.build();
 		X500Principal pr = new X500Principal(x500Name.getEncoded());
 		PKCS10CertificationRequestBuilder p10Builder = new JcaPKCS10CertificationRequestBuilder(
 				pr, kp.getPublic());
+
 		JcaContentSignerBuilder csBuilder = new JcaContentSignerBuilder(
 				"SHA256WithRSA");
 		ContentSigner signer = csBuilder.build(kp.getPrivate());

@@ -108,6 +108,7 @@ public class CertificateTest implements TestConstants {
 		CertificateSigningRequest csr = new CertificateSigningRequest();
 		csr.init("Max Mustermann", "DE", "Baden-Württemberg", "Heilbronn",
 				"Individual Software Solutions - ISS", "Test Case");
+		csr.setMailAddress("max@mustermann.de");
 		assertTrue(csr.getState().equals("Baden-Wuerttemberg"));
 		PKCS10CertificationRequest request = null;
 		try {

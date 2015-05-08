@@ -37,7 +37,15 @@ public enum STD_MESSAGE {
 	/**
 	 * The type of a space creation response message.
 	 */
-	SPACE_CREATION_RESPONSE(7);
+	SPACE_CREATION_RESPONSE(7),
+	/**
+	 * The type of a domain names request. 
+	 */
+	DOMAIN_NAMES_REQUEST(8),
+	/**
+	 * The type of a domain names response.
+	 */
+	DOMAIN_NAMES_RESPONSE(9);
 	
 	/**
 	 * Holds the identifier of a message type.

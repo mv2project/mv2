@@ -32,6 +32,8 @@ import de.iss.mv2.security.CertificateSigningRequest;
 import de.iss.mv2.security.MessageCryptorSettings;
 import de.iss.mv2.security.PEMFileIO;
 import de.iss.mv2.security.RSAOutputStream;
+import de.iss.mv2.server.ServerBinding;
+import de.iss.mv2.server.ServerBindings;
 
 /**
  * The main class.
@@ -79,20 +81,19 @@ public class MV2 {
 			MessageCryptorSettings mcs = new AESWithRSACryptoSettings();
 
 			in = mcs.getClass().getClassLoader()
-					.getResourceAsStream("debug.cert.der");
+					.getResourceAsStream("localhost.cert.der");
 			X509Certificate serverCert = pemIO.readCertificate(in);
 			in.close();
 			String serverKeyPW = "test123";// VirtualConsoleReader.readPassword(System.in,
 											// System.out, "Key-File-PW: ");
 			in = mcs.getClass().getClassLoader()
-					.getResourceAsStream("debug.key.der");
+					.getResourceAsStream("localhost.key.der");
 			PrivateKey serverKey = pemIO.readEncryptedPrivateKey(in,
 					serverKeyPW);
 			serverKeyPW = null;
-			KeyPair serverKeyPair = new KeyPair(serverCert.getPublicKey(),
-					serverKey);
-
-			MV2Server server = new MV2Server(serverCert, mcs, serverKeyPair,
+			ServerBindings sb = new ServerBindings();
+			sb.addBinding(new ServerBinding("localhost", serverCert, serverKey));
+			MV2Server server = new MV2Server(sb, mcs,
 					9898);
 			server.start();
 			MV2Message m = new MV2Message(STD_MESSAGE.CERT_REQUEST);

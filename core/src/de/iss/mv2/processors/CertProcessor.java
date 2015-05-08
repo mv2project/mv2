@@ -40,9 +40,10 @@ public class CertProcessor implements MessageProcessor {
 		if (message.getMessageIdentifier() == STD_MESSAGE.CERT_REQUEST
 				.getIdentifier() && server != null) {
 			CertificateResponeMessage response;
+			String binding = server.getBindingName(client);
 			try {
 				response = new CertificateResponeMessage(
-						server.getCertificate());
+						server.getCertificate(binding));
 				client.send(response);
 				return true;
 			} catch (CertificateEncodingException e) {

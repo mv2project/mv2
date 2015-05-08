@@ -3,7 +3,9 @@ package de.iss.mv2.io;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.InetAddress;
 import java.net.Socket;
+import java.net.SocketAddress;
 import java.net.UnknownHostException;
 import java.nio.channels.AlreadyBoundException;
 import java.security.cert.X509Certificate;
@@ -269,6 +271,16 @@ public class MV2Client implements CommunicationPartner {
 		in = null;
 		parser = null;
 		serverCert = null;
+	}
+
+	@Override
+	public InetAddress getLocalAddress() {
+		return connection.getLocalAddress();
+	}
+
+	@Override
+	public SocketAddress getRemoteAddress() {
+		return connection.getRemoteSocketAddress();
 	}
 
 }
