@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 
 import de.iss.mv2.data.Certificate;
 import de.iss.mv2.data.CertificateManager;
-import de.iss.mv2.io.sql.SQLContext;
+import de.iss.mv2.server.io.sql.SQLContext;
 
 /**
  * A {@link CertificateManager} that persists given certificates into a database.

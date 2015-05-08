@@ -4,8 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import de.iss.mv2.io.sql.SQLContext;
-import de.iss.mv2.io.sql.SequentialSQLContext;
+import de.iss.mv2.server.io.sql.SQLContext;
+import de.iss.mv2.server.io.sql.SequentialSQLContext;
 
 /**
  * Provides a {@link SQLContext} to connect to the servers database.

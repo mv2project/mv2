@@ -3,5 +3,10 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/MV2Core"/>
+	<classpathentry kind="lib" path="/MV2Core/libs/bcpkix-jdk15on-152.jar"/>
+	<classpathentry kind="lib" path="/MV2Core/libs/bcprov-jdk15on-152.jar"/>
+	<classpathentry kind="lib" path="/MV2Core/libs/miglayout15-swing.jar"/>
+	<classpathentry kind="lib" path="/MV2Core/libs/postgresql-9.4-1201.jdbc4.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

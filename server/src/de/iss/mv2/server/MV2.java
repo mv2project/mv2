@@ -11,20 +11,13 @@ import java.security.Security;
 import java.security.cert.X509Certificate;
 import java.util.Scanner;
 
-import javax.swing.UIManager;
-
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.pkcs.PKCS10CertificationRequest;
 
-import de.iss.mv2.client.ClientStatrtup;
 import de.iss.mv2.data.EncryptedExportable;
 import de.iss.mv2.data.LocalCertificateManager;
 import de.iss.mv2.data.PropertiesExportable;
-import de.iss.mv2.io.MV2Client;
 import de.iss.mv2.io.VirtualConsoleReader;
-import de.iss.mv2.messaging.MV2Message;
-import de.iss.mv2.messaging.MessageField;
-import de.iss.mv2.messaging.STD_MESSAGE;
 import de.iss.mv2.security.AESWithRSACryptoSettings;
 import de.iss.mv2.security.CertificateSigner;
 import de.iss.mv2.security.CertificateSigningRequest;
@@ -50,11 +43,7 @@ public class MV2 {
 
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (Exception ex) {
 
-		}
 		try {
 
 			Security.addProvider(new BouncyCastleProvider());
@@ -74,8 +63,6 @@ public class MV2 {
 			 * cmw.setVisible(true);
 			 **/
 
-			ClientStatrtup.start(args);
-
 			MessageCryptorSettings mcs = new AESWithRSACryptoSettings();
 
 			in = mcs.getClass().getClassLoader()
@@ -89,31 +76,22 @@ public class MV2 {
 			PrivateKey serverKey = pemIO.readEncryptedPrivateKey(in,
 					serverKeyPW);
 			in.close();
-			
+
 			ServerBindings sb = new ServerBindings();
 			sb.addBinding(new ServerBinding("localhost", serverCert, serverKey));
-			in = mcs.getClass().getClassLoader().getResourceAsStream("imac.fritz.box.cert.der");
+			in = mcs.getClass().getClassLoader()
+					.getResourceAsStream("imac.fritz.box.cert.der");
 			serverCert = pemIO.readCertificate(in);
 			in.close();
-			in = mcs.getClass().getClassLoader().getResourceAsStream("imac.fritz.box.key.der");
+			in = mcs.getClass().getClassLoader()
+					.getResourceAsStream("imac.fritz.box.key.der");
 			serverKey = pemIO.readEncryptedPrivateKey(in, serverKeyPW);
 			in.close();
 			serverKeyPW = null;
-			sb.addBinding(new ServerBinding("imac.fritz.box", serverCert, serverKey));
-			MV2Server server = new MV2Server(sb, mcs,
-					9898);
+			sb.addBinding(new ServerBinding("imac.fritz.box", serverCert,
+					serverKey));
+			MV2Server server = new MV2Server(sb, mcs, 9898);
 			server.start();
-			MV2Message m = new MV2Message(STD_MESSAGE.CERT_REQUEST);
-			System.out.println("Sending: \n" + m);
-			MV2Client client = new MV2Client();
-			client.setCryptoSettings(mcs);
-			client.connect("127.0.0.1", 9898);
-			client.send(m);
-			System.out.println(client.handleNext());
-			m = new MV2Message(26);
-			m.setMessageField(new MessageField(11, "Hello World!"), true);
-			client.send(m);
-			System.out.println("Response: " + client.receive());
 
 			String line;
 			boolean canceled = false;
