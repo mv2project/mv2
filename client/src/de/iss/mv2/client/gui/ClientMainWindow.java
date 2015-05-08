@@ -111,7 +111,6 @@ public class ClientMainWindow extends JFrame implements WindowListener,
 		if(e.getSource() == settingsButton){
 			ClientSettingsWindow csw = new ClientSettingsWindow();
 			csw.setLocationRelativeTo(this);
-			csw.setAlwaysOnTop(true);
 			csw.setVisible(true);
 		}
 		if(e.getSource() == certSigningToolItem){

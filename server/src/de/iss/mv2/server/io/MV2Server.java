@@ -19,6 +19,7 @@ import de.iss.mv2.messaging.UnableToProcessMessage;
 import de.iss.mv2.security.MessageCryptorSettings;
 import de.iss.mv2.server.ServerBindings;
 import de.iss.mv2.server.processors.CertProcessor;
+import de.iss.mv2.server.processors.DomainNamesProcessor;
 import de.iss.mv2.server.processors.HelloMessageProcessor;
 
 /**
@@ -92,6 +93,9 @@ public class MV2Server {
 	 */
 	public void registerDefaultProcessors() {
 		registerProcessor(new CertProcessor(this));
+		DomainNamesProcessor dnp = new DomainNamesProcessor(bindings.getAvailableAddressesArray());
+		registerProcessor(dnp);
+		registerPreProcessor(dnp);
 	}
 
 	/**

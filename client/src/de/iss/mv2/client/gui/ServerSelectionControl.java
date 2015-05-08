@@ -20,6 +20,7 @@ import de.iss.mv2.client.io.MV2Client;
 import de.iss.mv2.gui.DialogHelper;
 import de.iss.mv2.gui.SubmitDialog;
 import de.iss.mv2.gui.SubmitListener;
+import de.iss.mv2.messaging.DomainNamesRequest;
 import de.iss.mv2.messaging.MV2Message;
 import de.iss.mv2.messaging.STD_MESSAGE;
 
@@ -27,7 +28,7 @@ import de.iss.mv2.messaging.STD_MESSAGE;
  * A dialog that helps the user to configure his client.
  * 
  * @author Marcel Singer
- *
+ * 
  */
 public class ServerSelectionControl extends JComponent implements
 		ActionListener, ComponentListener {
@@ -130,18 +131,29 @@ public class ServerSelectionControl extends JComponent implements
 		MV2Message message = new MV2Message(STD_MESSAGE.CERT_REQUEST);
 		client.send(message);
 		message = client.handleNext();
+
+		if (message.getMessageIdentifier() != STD_MESSAGE.DOMAIN_NAMES_RESPONSE
+				.getIdentifier()) {
+			message = new DomainNamesRequest();
+			client.send(message);
+			client.handleNext();
+		}
 		return client;
 	}
 
 	/**
 	 * The certificate of the server.
 	 */
-	@SuppressWarnings("unused")
 	private X509Certificate cert;
 	/**
 	 * The scroll pane containing the certificate control.
 	 */
 	private JScrollPane scrollPane;
+
+	/**
+	 * Holds the selected domain.
+	 */
+	private String serverDomain;
 
 	@Override
 	public void actionPerformed(final ActionEvent e) {
@@ -150,71 +162,75 @@ public class ServerSelectionControl extends JComponent implements
 				String host = hostField.getText();
 				int port = Integer.parseInt(portField.getText());
 				MV2Client client = tryConnect(host, port);
-				if (client.getServerCertificate() != null) {
-					certificatesPanel.setEnabled(true);
-					setCertificate(client.getServerCertificate());
+				if (client == null)
+					throw new RuntimeException(
+							"Can't connect to the remote host.");
+				String[] domainNames = client.getAlternativeNames();
+				if (domainNames.length == 0)
+					throw new RuntimeException(
+							"There is no available domain on this server.");
+				final DomainSelectorControl dsc = new DomainSelectorControl();
+				dsc.setAvailableDomainNames(domainNames);
+				SubmitDialog<DomainSelectorControl> submitDialog;
+				JFrame parentFrame = DialogHelper.getParentFrame(this);
+				if (parentFrame != null) {
+					submitDialog = new SubmitDialog<>(parentFrame, dsc,
+							"Select a mail domain", true);
 				} else {
-					if (client.getAlternativeNames() != null
-							&& client.getAlternativeNames().length > 0) {
-						if (client.getAlternativeNames().length == 1) {
-							hostField.setText(client.getAlternativeNames()[0]);
-							this.actionPerformed(e);
-							return;
-						} else {
-							final DomainSelectorControl dsc = new DomainSelectorControl();
-							dsc.setAvailableDomainNames(client
-									.getAlternativeNames());
-
-							SubmitDialog<DomainSelectorControl> selectionDialog;// =
-																				// new
-																				// SubmitDialog<DomainSelectorControl>(null,
-																				// dsc,
-																				// "Select a domain",
-																				// true);
-							JFrame parentFrame = DialogHelper
-									.getParentFrame(this);
-							if (parentFrame != null) {
-								selectionDialog = new SubmitDialog<DomainSelectorControl>(
-										parentFrame, dsc, "Select a domain",
-										true);
-							} else {
-								selectionDialog = new SubmitDialog<DomainSelectorControl>(
-										DialogHelper.getParentDialog(this),
-										dsc, "Select a domain", true);
-							}
-							selectionDialog
-									.addSubmitListener(new SubmitListener() {
-
-										@Override
-										public void submitted(Object sender) {
-											hostField.setText(dsc
-													.getSelectedDomainName());
-											actionPerformed(e);
-											return;
-										}
-
-										@Override
-										public void canceled(Object sender) {
-										}
-									});
-							selectionDialog.pack();
-							selectionDialog.setVisible(true);
-							return;
-						}
-					} else
-						throw new Exception(
-								"The server didn't respond with the needed certificate.");
-
+					submitDialog = new SubmitDialog<>(
+							DialogHelper.getParentDialog(this), dsc,
+							"Select a domain", true);
 				}
+				submitDialog.addSubmitListener(new SubmitListener() {
+
+					@Override
+					public void submitted(Object sender) {
+						serverDomain = dsc.getSelectedDomainName();
+						hostField.setText(serverDomain);
+						loadCertificate();
+					}
+
+					@Override
+					public void canceled(Object sender) {
+
+					}
+				});
+				submitDialog.pack();
+				submitDialog.setVisible(true);
 				try {
 					client.disconnect();
 				} catch (Exception iex) {
 
 				}
 			} catch (Exception ex) {
+				ex.printStackTrace();
 				certificatesPanel.setEnabled(false);
 				DialogHelper.showActionFailedWithExceptionMessage(this, ex);
 			}
+		}
+	}
+
+	/**
+	 * Loads the certificate from the server.
+	 */
+	private void loadCertificate() {
+		try {
+			MV2Client client = tryConnect(serverDomain,
+					Integer.parseInt(portField.getText()));
+			if (client.getServerCertificate() == null) {
+				throw new Exception("Could not load the server certificate.");
+			}
+			cert = client.getServerCertificate();
+			setCertificate(cert);
+			certificatesPanel.setEnabled(true);
+			try {
+				client.disconnect();
+			} catch (Exception e) {
+
+			}
+		} catch (Exception ex) {
+			certificatesPanel.setEnabled(false);
+			DialogHelper.showActionFailedWithExceptionMessage(this, ex);
 		}
 	}
 
@@ -229,6 +245,8 @@ public class ServerSelectionControl extends JComponent implements
 		certView = new CertificateView();
 		scrollPane.setViewportView(certView);
 		certView.setCertificate(cert);
+		repaint();
+		certificatesPanel.repaint();
 	}
 
 	@Override

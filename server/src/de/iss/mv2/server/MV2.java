@@ -14,9 +14,7 @@ import java.util.Scanner;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.pkcs.PKCS10CertificationRequest;
 
-import de.iss.mv2.data.EncryptedExportable;
 import de.iss.mv2.data.LocalCertificateManager;
-import de.iss.mv2.data.PropertiesExportable;
 import de.iss.mv2.io.VirtualConsoleReader;
 import de.iss.mv2.security.AESWithRSACryptoSettings;
 import de.iss.mv2.security.CertificateSigner;
@@ -51,9 +49,6 @@ public class MV2 {
 
 			PEMFileIO pemIO = new PEMFileIO();
 			InputStream in;
-
-
-
 
 			MessageCryptorSettings mcs = new AESWithRSACryptoSettings();
 

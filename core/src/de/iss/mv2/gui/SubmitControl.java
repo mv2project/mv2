@@ -7,7 +7,6 @@ import java.awt.event.ActionListener;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -19,7 +18,7 @@ import javax.swing.JSeparator;
  * @author Marcel Singer
  * @param <T>
  *            The type of the control to decorate.
- *
+ * 
  */
 public class SubmitControl<T extends JComponent> extends JComponent implements
 		ActionListener {
@@ -57,7 +56,6 @@ public class SubmitControl<T extends JComponent> extends JComponent implements
 	 */
 	public SubmitControl(T component) {
 		this.innerComponent = component;
-		innerComponent.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10), innerComponent.getBorder()));
 		setLayout(new BorderLayout());
 		add(component, BorderLayout.CENTER);
 
