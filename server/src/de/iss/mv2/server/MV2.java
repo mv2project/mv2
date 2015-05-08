@@ -1,4 +1,4 @@
-package de.iss.mv2;
+package de.iss.mv2.server;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -21,7 +21,6 @@ import de.iss.mv2.data.EncryptedExportable;
 import de.iss.mv2.data.LocalCertificateManager;
 import de.iss.mv2.data.PropertiesExportable;
 import de.iss.mv2.io.MV2Client;
-import de.iss.mv2.io.MV2Server;
 import de.iss.mv2.io.VirtualConsoleReader;
 import de.iss.mv2.messaging.MV2Message;
 import de.iss.mv2.messaging.MessageField;
@@ -32,8 +31,7 @@ import de.iss.mv2.security.CertificateSigningRequest;
 import de.iss.mv2.security.MessageCryptorSettings;
 import de.iss.mv2.security.PEMFileIO;
 import de.iss.mv2.security.RSAOutputStream;
-import de.iss.mv2.server.ServerBinding;
-import de.iss.mv2.server.ServerBindings;
+import de.iss.mv2.server.io.MV2Server;
 
 /**
  * The main class.

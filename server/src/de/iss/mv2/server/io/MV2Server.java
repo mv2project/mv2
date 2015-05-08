@@ -1,4 +1,4 @@
-package de.iss.mv2.io;
+package de.iss.mv2.server.io;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -16,9 +16,9 @@ import de.iss.mv2.messaging.MessageParser;
 import de.iss.mv2.messaging.MessagePreProcessor;
 import de.iss.mv2.messaging.MessageProcessor;
 import de.iss.mv2.messaging.UnableToProcessMessage;
-import de.iss.mv2.processors.CertProcessor;
 import de.iss.mv2.security.MessageCryptorSettings;
 import de.iss.mv2.server.ServerBindings;
+import de.iss.mv2.server.processors.CertProcessor;
 import de.iss.mv2.server.processors.HelloMessageProcessor;
 
 /**

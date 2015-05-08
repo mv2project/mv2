@@ -1,14 +1,14 @@
-package de.iss.mv2.processors;
+package de.iss.mv2.server.processors;
 
 import java.io.IOException;
 import java.security.cert.CertificateEncodingException;
 
 import de.iss.mv2.io.CommunicationPartner;
-import de.iss.mv2.io.MV2Server;
 import de.iss.mv2.messaging.CertificateResponeMessage;
 import de.iss.mv2.messaging.MV2Message;
 import de.iss.mv2.messaging.MessageProcessor;
 import de.iss.mv2.messaging.STD_MESSAGE;
+import de.iss.mv2.server.io.MV2Server;
 
 /**
  * A processor to process a certificate request.

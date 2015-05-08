@@ -1,4 +1,4 @@
-package de.iss.mv2.io;
+package de.iss.mv2.server.io;
 
 import de.iss.mv2.messaging.MV2Message;
 

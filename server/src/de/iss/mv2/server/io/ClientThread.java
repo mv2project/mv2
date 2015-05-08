@@ -1,4 +1,4 @@
-package de.iss.mv2.io;
+package de.iss.mv2.server.io;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -11,13 +11,14 @@ import java.security.KeyPair;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.iss.mv2.io.CommunicationPartner;
 import de.iss.mv2.messaging.EncryptedMessage;
 import de.iss.mv2.messaging.MV2Message;
 import de.iss.mv2.messaging.MessageParser;
 import de.iss.mv2.messaging.MessagePreProcessor;
-import de.iss.mv2.processors.EncryptedMessagePreProcessor;
 import de.iss.mv2.security.MessageCryptorSettings;
 import de.iss.mv2.security.SymetricKeyGenerator;
+import de.iss.mv2.server.processors.EncryptedMessagePreProcessor;
 
 /**
  * A thread to perform the communication with a client.

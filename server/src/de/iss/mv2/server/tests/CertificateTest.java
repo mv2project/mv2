@@ -1,4 +1,4 @@
-package de.iss.mv2.tests;
+package de.iss.mv2.server.tests;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -25,6 +25,7 @@ import de.iss.mv2.security.PEMFileIO;
 import de.iss.mv2.security.RSAOutputStream;
 import de.iss.mv2.server.data.CertificateManagerImpl;
 import de.iss.mv2.server.data.DatabaseContext;
+import de.iss.mv2.tests.TestConstants;
 
 /**
  * A test for the certification process.

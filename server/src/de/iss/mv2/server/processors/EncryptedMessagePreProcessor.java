@@ -1,10 +1,10 @@
-package de.iss.mv2.processors;
+package de.iss.mv2.server.processors;
 
-import de.iss.mv2.io.ClientThread;
 import de.iss.mv2.messaging.EncryptedMessage;
 import de.iss.mv2.messaging.MV2Message;
 import de.iss.mv2.messaging.MessagePreProcessor;
 import de.iss.mv2.security.SymetricKeyGenerator;
+import de.iss.mv2.server.io.ClientThread;
 
 /**
  * A preprocessor to decrypt incoming encrypted messages.

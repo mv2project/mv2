@@ -1,4 +1,4 @@
-package de.iss.mv2.tests;
+package de.iss.mv2.server.tests;
 
 import static org.junit.Assert.*;
 
@@ -11,6 +11,7 @@ import org.junit.Test;
 import de.iss.mv2.security.PEMFileIO;
 import de.iss.mv2.server.data.CertificateImpl;
 import de.iss.mv2.server.data.WebSpaceImpl;
+import de.iss.mv2.tests.TestConstants;
 
 /**
  * A test for {@link WebSpaceImpl}.
