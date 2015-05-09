@@ -11,12 +11,12 @@ import javax.swing.JPanel;
 
 /**
  * A control to display an assistant.
+ * 
  * @author Marcel Singer
  *
  */
 public class AssistantControl extends JComponent implements ActionListener {
 
-	
 	/**
 	 * The serial.
 	 */
@@ -26,12 +26,12 @@ public class AssistantControl extends JComponent implements ActionListener {
 	 * Holds the steps of this assistant.
 	 */
 	private final JComponent[] steps;
-	
+
 	/**
 	 * The current step index;
 	 */
 	private int stepIndex = -1;
-	
+
 	/**
 	 * The button to go to the next step.
 	 */
@@ -48,10 +48,13 @@ public class AssistantControl extends JComponent implements ActionListener {
 	 * The button to complete this assistant.
 	 */
 	private final JButton finishButton = new JButton("Finish");
-	
+
 	/**
 	 * Creates a new instance of {@link AssistantControl}.
-	 * @param steps An array with the controls representing each step in this assistant.
+	 * 
+	 * @param steps
+	 *            An array with the controls representing each step in this
+	 *            assistant.
 	 */
 	public AssistantControl(JComponent[] steps) {
 		this.steps = steps;
@@ -69,85 +72,125 @@ public class AssistantControl extends JComponent implements ActionListener {
 		add(buttonsPanel, BorderLayout.SOUTH);
 		nextStep();
 	}
-	
+
 	/**
 	 * Navigates to the next step.
+	 * 
 	 * @return {@code true} if the action was successful.
 	 */
-	public boolean nextStep(){
+	public boolean nextStep() {
 		JComponent currentStep = null;
-		if(stepIndex != -1) currentStep = steps[stepIndex];
-		if(!canProceed(stepIndex)){
+		if (stepIndex != -1)
+			currentStep = steps[stepIndex];
+		if (!canProceed(stepIndex)) {
 			return false;
 		}
 		stepIndex++;
 		JComponent nextStep = steps[stepIndex];
-		nextButton.setEnabled(stepIndex != steps.length-1);
+		nextButton.setEnabled(stepIndex != steps.length - 1);
 		finishButton.setEnabled(!nextButton.isEnabled());
 		backButton.setEnabled(canGoBack(stepIndex));
-		
-		if(currentStep != null) remove(currentStep);
+
+		if (currentStep != null)
+			remove(currentStep);
 		add(nextStep, BorderLayout.CENTER);
 		repaint();
 		revalidate();
 		return true;
 	}
-	
+
+	/**
+	 * Tests if this assistant can be completed.
+	 * 
+	 * @return {@code true} if this assistant ca be completed.
+	 */
+	public boolean canFinish() {
+		if (stepIndex != steps.length - 1)
+			return false;
+		if (stepIndex >= 0) {
+			if (!AssistantStep.class.isAssignableFrom(steps[stepIndex]
+					.getClass()))
+				return ((AssistantStep) steps[stepIndex]).canProceed();
+		}
+		return true;
+	}
+
 	/**
 	 * Navigates to the previous step.
+	 * 
 	 * @return {@code true} if the action was successful.
 	 */
-	public boolean goBack(){
+	public boolean goBack() {
 		JComponent currentStep = null;
-		if(stepIndex != -1) currentStep = steps[stepIndex];
-		if(!canGoBack(stepIndex)) return false;
+		if (stepIndex != -1)
+			currentStep = steps[stepIndex];
+		if (!canGoBack(stepIndex))
+			return false;
 		stepIndex--;
 		JComponent lastStep = steps[stepIndex];
 		nextButton.setEnabled(true);
 		finishButton.setEnabled(false);
 		backButton.setEnabled(canGoBack(stepIndex));
-		
-		if(currentStep != null) remove(currentStep);
+
+		if (currentStep != null)
+			remove(currentStep);
 		add(lastStep, BorderLayout.CENTER);
 		repaint();
 		revalidate();
 		return true;
 	}
-	
+
 	/**
 	 * Tests if this assistant can proceed from the given step.
-	 * @param index The index of the step to proceed from.
+	 * 
+	 * @param index
+	 *            The index of the step to proceed from.
 	 * @return {@code true} if this assistant can proceed to the next step.
 	 */
-	public boolean canProceed(int index){
-		if(index >= steps.length - 1) return false;
-		if(index < 0) return true;
+	public boolean canProceed(int index) {
+		if (index >= steps.length - 1)
+			return false;
+		if (index < 0)
+			return true;
 		JComponent step = steps[index];
-		if(AssistantStep.class.isAssignableFrom(step.getClass())){
+		if (AssistantStep.class.isAssignableFrom(step.getClass())) {
 			return ((AssistantStep) step).canProceed();
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Tests if this assistant can go back to the previous step.
-	 * @param index The index of the current step.
+	 * 
+	 * @param index
+	 *            The index of the current step.
 	 * @return {@code true} if the assistant can go back to the previous step.
 	 */
-	public boolean canGoBack(int index){
-		if(index <= 0) return false;
-		JComponent lastStep = steps[index-1];
-		if(AssistantStep.class.isAssignableFrom(lastStep.getClass())){
+	public boolean canGoBack(int index) {
+		if (index <= 0)
+			return false;
+		JComponent lastStep = steps[index - 1];
+		if (AssistantStep.class.isAssignableFrom(lastStep.getClass())) {
 			return ((AssistantStep) lastStep).canGoBack();
 		}
+
 		return true;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == nextButton) nextStep();
-		if(e.getSource() == backButton) goBack();
-		
+		if (e.getSource() == nextButton)
+			nextStep();
+		if (e.getSource() == backButton)
+			goBack();
+		if (e.getSource() == finishButton) {
+			JComponent c = steps[stepIndex];
+			boolean canFinish = true;
+			if (AssistantStep.class.isAssignableFrom(c.getClass())) {
+				AssistantStep step = (AssistantStep) c;
+				canFinish = step.canProceed();
+			}
+		}
 	}
 
 }

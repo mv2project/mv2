@@ -54,6 +54,11 @@ public class CertificateSigningRequest {
 	private String mailAddress;
 
 	/**
+	 * Holds the name of the requesting instance.
+	 */
+	private String name;
+
+	/**
 	 * Creates an empty instance of {@link CertificateSigningRequest}.
 	 */
 	public CertificateSigningRequest() {
@@ -116,6 +121,25 @@ public class CertificateSigningRequest {
 	 */
 	public void setCommonName(String commonName) {
 		this.commonName = cleanString(commonName);
+	}
+
+	/**
+	 * Returns the name of the requesting instance.
+	 * 
+	 * @return The name of the requesting instance.
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * Sets the name of the requesting instance.
+	 * 
+	 * @param name
+	 *            The name of the requesting instance.
+	 */
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	/**
@@ -238,15 +262,21 @@ public class CertificateSigningRequest {
 	public PKCS10CertificationRequest generatePKCS10(KeyPair kp)
 			throws IOException, OperatorCreationException {
 		X500NameBuilder nb = new X500NameBuilder(BCStyle.INSTANCE);
-		nb.addRDN(BCStyle.L, location);
-		nb.addRDN(BCStyle.ST, state);
-		nb.addRDN(BCStyle.C, country);
-		nb.addRDN(BCStyle.O, organizationName);
-		nb.addRDN(BCStyle.OU, organizationUnit);
+		if (location != null && !location.isEmpty())
+			nb.addRDN(BCStyle.L, location);
+		if (state != null && !state.isEmpty())
+			nb.addRDN(BCStyle.ST, state);
+		if (country != null && !country.isEmpty())
+			nb.addRDN(BCStyle.C, country);
+		if (organizationName != null && !organizationName.isEmpty())
+			nb.addRDN(BCStyle.O, organizationName);
+		if (organizationUnit != null && !organizationUnit.isEmpty())
+			nb.addRDN(BCStyle.OU, organizationUnit);
 		nb.addRDN(BCStyle.CN, commonName);
-		if (mailAddress != null) {
+		if (mailAddress != null && !mailAddress.isEmpty())
 			nb.addRDN(BCStyle.EmailAddress, mailAddress);
-		}
+		if(name != null && !name.isEmpty())
+			nb.addRDN(BCStyle.NAME, name);
 		X500Name x500Name = nb.build();
 		X500Principal pr = new X500Principal(x500Name.getEncoded());
 		PKCS10CertificationRequestBuilder p10Builder = new JcaPKCS10CertificationRequestBuilder(

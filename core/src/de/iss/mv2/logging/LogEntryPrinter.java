@@ -34,11 +34,11 @@ public class LogEntryPrinter {
 	 */
 	public String getStringRepresentation(LogEntry entry){
 		StringBuilder sb = new StringBuilder();
-		sb.append(entry.getLevel() + "<" + entry.getComponent() + "> at " + dateFormat.format(entry.getTimestamp())+ ": ");
+		sb.append(entry.getLevel() + "<" + entry.getComponent() + "> " + dateFormat.format(entry.getTimestamp())+ ": ");
 		sb.append(entry.getMessage());
 		if(entry.getStackTrace() != null && printStackTrace){
 			sb.append("\n\n");
-			sb.append("\t====== Stack Trace ======");
+			sb.append("\t====== Stack Trace ======\n");
 			String[] lines = entry.getStackTrace().split("\n");
 			for(String line : lines){
 				sb.append("\t");

@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
+import de.iss.mv2.client.data.WebSpaceSetup;
 import de.iss.mv2.gui.DialogHelper;
 import de.iss.mv2.gui.EditableListListener;
 import de.iss.mv2.gui.EditableListView;
@@ -55,8 +56,9 @@ public class ClientSettingsWindow extends JFrame implements EditableListListener
 
 	@Override
 	public void addItem(EditableListView<String> sender) {
-		ServerSelectionControl cfa = new ServerSelectionControl();
-		SpaceRequestControl src = new SpaceRequestControl();
+		WebSpaceSetup wss = new WebSpaceSetup();
+		ServerSelectionControl cfa = new ServerSelectionControl(wss);
+		SpaceRequestControl src = new SpaceRequestControl(wss);
 		AssistantControl ast = new AssistantControl(new JComponent[]{cfa, src});
 		DialogHelper.showBlockingSubmitDialog("Assistant", this, ast);
 	}

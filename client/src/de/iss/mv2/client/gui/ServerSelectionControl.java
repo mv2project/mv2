@@ -16,13 +16,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
+import de.iss.mv2.client.data.WebSpaceSetup;
 import de.iss.mv2.client.io.MV2Client;
 import de.iss.mv2.gui.DialogHelper;
 import de.iss.mv2.gui.SubmitDialog;
 import de.iss.mv2.gui.SubmitListener;
-import de.iss.mv2.messaging.DomainNamesRequest;
-import de.iss.mv2.messaging.MV2Message;
-import de.iss.mv2.messaging.STD_MESSAGE;
 
 /**
  * A dialog that helps the user to configure his client.
@@ -63,9 +61,19 @@ public class ServerSelectionControl extends JComponent implements
 	private CertificateView certView = new CertificateView();
 
 	/**
-	 * Crates a new instance of {@link ServerSelectionControl}.
+	 * Stores all information relevant to this setup.
 	 */
-	public ServerSelectionControl() {
+	private final WebSpaceSetup webSpaceSetup;
+
+	/**
+	 * Crates a new instance of {@link ServerSelectionControl}.
+	 * 
+	 * @param webSpaceSetup
+	 *            An {@link WebSpaceSetup} object that stores all relevant
+	 *            information for this setup.
+	 */
+	public ServerSelectionControl(WebSpaceSetup webSpaceSetup) {
+		this.webSpaceSetup = webSpaceSetup;
 		addComponentListener(this);
 		Dimension s = new Dimension(800, 600);
 		setMinimumSize(s);
@@ -115,33 +123,6 @@ public class ServerSelectionControl extends JComponent implements
 	}
 
 	/**
-	 * Connects to the given server.
-	 * 
-	 * @param host
-	 *            The address of the server.
-	 * @param port
-	 *            The port of the server.
-	 * @return A connected client instance.
-	 * @throws Exception
-	 *             If the connection can't be opened for any reasons.
-	 */
-	private MV2Client tryConnect(String host, int port) throws Exception {
-		MV2Client client = new MV2Client();
-		client.connect(host, port);
-		MV2Message message = new MV2Message(STD_MESSAGE.CERT_REQUEST);
-		client.send(message);
-		message = client.handleNext();
-
-		if (message.getMessageIdentifier() != STD_MESSAGE.DOMAIN_NAMES_RESPONSE
-				.getIdentifier()) {
-			message = new DomainNamesRequest();
-			client.send(message);
-			client.handleNext();
-		}
-		return client;
-	}
-
-	/**
 	 * The certificate of the server.
 	 */
 	private X509Certificate cert;
@@ -161,7 +142,7 @@ public class ServerSelectionControl extends JComponent implements
 			try {
 				String host = hostField.getText();
 				int port = Integer.parseInt(portField.getText());
-				MV2Client client = tryConnect(host, port);
+				MV2Client client = webSpaceSetup.tryConnect(host, port);
 				if (client == null)
 					throw new RuntimeException(
 							"Can't connect to the remote host.");
@@ -215,7 +196,7 @@ public class ServerSelectionControl extends JComponent implements
 	 */
 	private void loadCertificate() {
 		try {
-			MV2Client client = tryConnect(serverDomain,
+			MV2Client client = webSpaceSetup.tryConnect(serverDomain,
 					Integer.parseInt(portField.getText()));
 			if (client.getServerCertificate() == null) {
 				throw new Exception("Could not load the server certificate.");
@@ -275,9 +256,14 @@ public class ServerSelectionControl extends JComponent implements
 
 	@Override
 	public boolean canProceed() {
-		boolean result = (cert != null && serverDomain != null && !serverDomain.isEmpty());
-		if(!result){
-			DialogHelper.showErrorMessage(this, "Select a server", "You hava to select a server to complete this step.");
+		boolean result = (cert != null && serverDomain != null && !serverDomain
+				.isEmpty());
+		if (!result) {
+			DialogHelper.showErrorMessage(this, "Select a server",
+					"You hava to select a server to complete this step.");
+		} else {
+			webSpaceSetup.setHost(serverDomain);
+			webSpaceSetup.setPort(Integer.parseInt(portField.getText()));
 		}
 		return result;
 	}

@@ -50,6 +50,12 @@ public interface Logger {
 	 */
 	public LogEntry push(LogEntryLevel level, String component, String message);
 	
+	/**
+	 * Creates a new log entry from the given exception an adds it to this log.
+	 * @param ex The exception to log.
+	 * @return The generated log entry.
+	 */
+	public LogEntry push(Exception ex);
 	
 	/**
 	 * Adds all given entries to this log.

@@ -30,7 +30,7 @@ public class ConsoleLogger implements Logger {
 	/**
 	 * Stack tracing level.
 	 */
-	private StackTracingLevel stackTracingLevel;
+	private StackTracingLevel stackTracingLevel = StackTracingLevel.REDUCED;
 
 	/**
 	 * Creates a new instance of {@link ConsoleLogger}.
@@ -111,6 +111,13 @@ public class ConsoleLogger implements Logger {
 	@Override
 	public StackTracingLevel getStackTracingLevel() {
 		return stackTracingLevel;
+	}
+
+	@Override
+	public LogEntry push(Exception ex) {
+		DefaultLogEntry dle = new DefaultLogEntry(LogEntryLevel.EXCEPTION, "UNKNOWN", ex.getMessage(), StackTracingLevel.DETAILED, ex.getStackTrace());
+		push(dle);
+		return dle;
 	}
 
 }

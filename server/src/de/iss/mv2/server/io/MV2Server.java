@@ -10,6 +10,9 @@ import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.iss.mv2.data.CertificateManager;
+import de.iss.mv2.logging.LogEntryLevel;
+import de.iss.mv2.logging.LoggerManager;
 import de.iss.mv2.messaging.DomainNamesResponse;
 import de.iss.mv2.messaging.MV2Message;
 import de.iss.mv2.messaging.MessageParser;
@@ -18,9 +21,13 @@ import de.iss.mv2.messaging.MessageProcessor;
 import de.iss.mv2.messaging.UnableToProcessMessage;
 import de.iss.mv2.security.MessageCryptorSettings;
 import de.iss.mv2.server.ServerBindings;
+import de.iss.mv2.server.data.CertificateManagerImpl;
+import de.iss.mv2.server.data.DatabaseContext;
+import de.iss.mv2.server.data.WebSpaceManagerImpl;
 import de.iss.mv2.server.processors.CertProcessor;
 import de.iss.mv2.server.processors.DomainNamesProcessor;
 import de.iss.mv2.server.processors.HelloMessageProcessor;
+import de.iss.mv2.server.processors.SpaceCreationProcessor;
 
 /**
  * A MV2 server to serve client requests.
@@ -68,6 +75,12 @@ public class MV2Server {
 	 * Holds the encryption settings.
 	 */
 	private final MessageCryptorSettings settings;
+	
+	/**
+	 * Holds the current certificate manager.
+	 */
+	private final CertificateManager certificateManager;
+	
 
 	/**
 	 * Creates a new server with the given settings.
@@ -81,6 +94,7 @@ public class MV2Server {
 	 */
 	public MV2Server(ServerBindings bindings, MessageCryptorSettings settings,
 			int port) {
+		this.certificateManager = new CertificateManagerImpl(DatabaseContext.getContext());
 		this.port = port;
 		this.settings = settings;
 		this.bindings = bindings;
@@ -96,6 +110,17 @@ public class MV2Server {
 		DomainNamesProcessor dnp = new DomainNamesProcessor(bindings.getAvailableAddressesArray());
 		registerProcessor(dnp);
 		registerPreProcessor(dnp);
+		SpaceCreationProcessor scp = new SpaceCreationProcessor(this, new WebSpaceManagerImpl(DatabaseContext.getContext(), certificateManager));
+		registerProcessor(scp);
+		registerPreProcessor(scp);
+	}
+	
+	/**
+	 * Returns the certificate manager used by this server.
+	 * @return The certificate manager used by this server.
+	 */
+	public CertificateManager getCertificateManager(){
+		return certificateManager;
 	}
 
 	/**
@@ -241,14 +266,13 @@ public class MV2Server {
 							resp.serialize(client.getOutputStream());
 							client.getOutputStream().flush();
 							client.close();
-							System.err.println("There was no binding for "
-									+ binding + ".");
+							LoggerManager.getCurrentLogger().push(LogEntryLevel.WARNING, "Connection", "There was no binding for " + binding + ".");
 							continue;
 						} catch (IOException ex) {
 							ex.printStackTrace();
 						}
 					}
-					System.out.println("New client on binding " + binding
+					LoggerManager.getCurrentLogger().push(LogEntryLevel.INFORMATION, "Connection", "New client on binding " + binding
 							+ ": " + client.getRemoteSocketAddress());
 
 					clientThread = new ClientThread(client, binding,

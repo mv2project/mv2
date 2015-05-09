@@ -72,7 +72,7 @@ public class WebSpaceManagerImpl implements WebSpaceManager {
 			ps.setString(1, identifier);
 			ps.setBytes(2, cert.getCertificate().getSerialNumber()
 					.toByteArray());
-			ps.executeQuery();
+			ps.execute();
 			WebSpaceImpl wsi = new WebSpaceImpl(identifier, cert);
 			return wsi;
 		} catch (SQLException e) {

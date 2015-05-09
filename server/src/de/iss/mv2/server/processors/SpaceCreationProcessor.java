@@ -3,6 +3,7 @@ package de.iss.mv2.server.processors;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
+import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.security.spec.InvalidKeySpecException;
@@ -12,6 +13,7 @@ import org.bouncycastle.pkcs.PKCS10CertificationRequest;
 
 import de.iss.mv2.data.Certificate;
 import de.iss.mv2.io.CommunicationPartner;
+import de.iss.mv2.logging.LoggerManager;
 import de.iss.mv2.messaging.DEF_MESSAGE_FIELD;
 import de.iss.mv2.messaging.MV2Message;
 import de.iss.mv2.messaging.MessageField;
@@ -24,6 +26,7 @@ import de.iss.mv2.security.CertificateNameReader;
 import de.iss.mv2.security.CertificateSigner;
 import de.iss.mv2.server.data.WebSpace;
 import de.iss.mv2.server.data.WebSpaceManager;
+import de.iss.mv2.server.io.MV2Server;
 
 /**
  * Processes a {@link SpaceCreationRequest} message.
@@ -35,14 +38,11 @@ public class SpaceCreationProcessor implements MessagePreProcessor,
 		MessageProcessor {
 
 	/**
-	 * Holds the signer to sign the web space certificate.
+	 * The server that receives the messages.
 	 */
-	private final CertificateSigner signer;
+	private final MV2Server server;
 
-	/**
-	 * Holds the private key of the signing instance.
-	 */
-	private final PrivateKey privateKey;
+
 
 	/**
 	 * Holds the web space manager.
@@ -52,17 +52,13 @@ public class SpaceCreationProcessor implements MessagePreProcessor,
 	/**
 	 * Creates a new instance of {@link SpaceCreationProcessor}.
 	 * 
-	 * @param signer
-	 *            The signer to use for signing the web space certificates.
-	 * @param privateKey
-	 *            The private key of the signing instance.
+	 * @param server
+	 *            The server that receives the messages to process.
 	 * @param webSpaceManager
 	 *            The {@link WebSpaceManager} to use.
 	 */
-	public SpaceCreationProcessor(CertificateSigner signer,
-			PrivateKey privateKey, WebSpaceManager webSpaceManager) {
-		this.signer = signer;
-		this.privateKey = privateKey;
+	public SpaceCreationProcessor(MV2Server server, WebSpaceManager webSpaceManager) {
+		this.server = server;
 		this.webSpaceManager = webSpaceManager;
 	}
 
@@ -119,15 +115,16 @@ public class SpaceCreationProcessor implements MessagePreProcessor,
 			return;
 		}
 		X509Certificate cert = null;
-
 		try {
-			cert = signer.sign(privateKey, csr, false);
+			CertificateSigner signer = new CertificateSigner(server.getCertificate(partner.getHostName()), server.getCertificateManager(), new SecureRandom());
+			cert = signer.sign(server.getPrivateKey(partner.getHostName()), csr, false);
 		} catch (OperatorCreationException | CertificateException
 				| NoSuchAlgorithmException | InvalidKeySpecException e) {
+			LoggerManager.getCurrentLogger().push(e);
 			fail(partner, "There was an error signing the request.");
 			return;
 		}
-		Certificate dataCert = signer.getCertificateManager().load(
+		Certificate dataCert = server.getCertificateManager().load(
 				cert.getSerialNumber());
 		try {
 			WebSpace ws = webSpaceManager.createWebSpace(identifier, dataCert);
@@ -135,7 +132,8 @@ public class SpaceCreationProcessor implements MessagePreProcessor,
 			response.setCertificate(ws.getCertificate().getCertificate());
 			partner.send(response);
 		} catch (Exception ex) {
-			signer.getCertificateManager().remove(cert, false);
+			LoggerManager.getCurrentLogger().push(ex);
+			server.getCertificateManager().remove(cert, false);
 			fail(partner, "There was an error creating the web space.");
 			return;
 		}

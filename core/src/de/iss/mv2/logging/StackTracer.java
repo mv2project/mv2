@@ -26,7 +26,7 @@ public final class StackTracer {
 		if(ignore < 0) throw new IllegalArgumentException("The amount of levels to must not be negative.");
 		StackTraceElement[] elements = Thread.currentThread().getStackTrace();
 		if(elements.length == 0) return elements;
-		return Arrays.copyOfRange(elements, 2 * (ignore + 1), elements.length);
+		return Arrays.copyOfRange(elements, 2 + ignore, elements.length);
 	}
 	
 	/**
