@@ -102,7 +102,7 @@ public class AssistantControl extends JComponent implements ActionListener {
 	/**
 	 * Tests if this assistant can be completed.
 	 * 
-	 * @return {@code true} if this assistant ca be completed.
+	 * @return {@code true} if this assistant can be completed.
 	 */
 	public boolean canFinish() {
 		if (stepIndex != steps.length - 1)

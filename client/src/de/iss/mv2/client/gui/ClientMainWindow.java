@@ -8,6 +8,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -16,6 +19,13 @@ import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.KeyStroke;
+
+import de.iss.mv2.MV2Constants;
+import de.iss.mv2.client.data.MV2ClientSettings;
+import de.iss.mv2.client.data.UserPreferences;
+import de.iss.mv2.data.EncryptedExportable;
+import de.iss.mv2.io.PathBuilder;
+import de.iss.mv2.logging.LoggerManager;
 
 /**
  * The main window of the client application.
@@ -84,6 +94,18 @@ public class ClientMainWindow extends JFrame implements WindowListener,
 
 	@Override
 	public void windowClosing(WindowEvent e) {
+		try{
+			PathBuilder pb = new PathBuilder(new File(UserPreferences.getPreferences().getStoreAddress("")));
+			File f = pb.getChildFile(MV2Constants.CLIENT_CONFIG_FILE_NAME);
+			EncryptedExportable ee = new EncryptedExportable(MV2ClientSettings.getRuntimeSettings());
+			OutputStream out = new FileOutputStream(f);
+			ee.export(MV2ClientSettings.getRuntimeSettings().getPassphrase(), out);
+			out.flush();
+			out.close();
+			MV2ClientSettings.getRuntimeSettings().saveExtras(f);
+		}catch(Exception ex){
+			LoggerManager.getCurrentLogger().push(ex);
+		}
 	}
 
 	@Override

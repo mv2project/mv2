@@ -1,8 +1,12 @@
 package de.iss.mv2.client.data;
 
+import java.io.IOException;
 import java.security.KeyPair;
+import java.security.cert.CertificateEncodingException;
 import java.security.cert.X509Certificate;
 import java.util.Observable;
+
+import org.bouncycastle.operator.OperatorCreationException;
 
 import de.iss.mv2.client.io.MV2Client;
 import de.iss.mv2.messaging.DomainNamesRequest;
@@ -175,9 +179,21 @@ public class WebSpaceSetup extends Observable {
 	
 	/**
 	 * Completes this setup.
+	 * @param identifier The identifier of the created web space.
+	 * @throws IOException If an I/O exception occurs.
+	 * @throws CertificateEncodingException  If the certificate can not be encoded.
+	 * @throws IllegalStateException If the settings are in a illegal state.
+	 * @throws OperatorCreationException If the operator used to encrypt the key can not be found.
 	 */
-	public void complete(){
-		
+	public void complete(String identifier) throws CertificateEncodingException, IOException, OperatorCreationException, IllegalStateException{
+		MailBoxSettings mbs = new MailBoxSettings();
+		mbs.setAddress(identifier + "@" + host);
+		mbs.setClientCertificate(clientCertificate);
+		mbs.setServerCertificate(serverCertificate);
+		mbs.setClientKey(clientKey.getPrivate());
+		mbs.setHost(host);
+		mbs.setServerPort(port);
+		MV2ClientSettings.getRuntimeSettings().addMailBox(mbs);
 	}
 	
 }

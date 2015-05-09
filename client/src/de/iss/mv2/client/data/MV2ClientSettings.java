@@ -1,6 +1,17 @@
 package de.iss.mv2.client.data;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
+
+import de.iss.mv2.data.EncryptedExportable;
 import de.iss.mv2.data.PropertiesExportable;
+import de.iss.mv2.io.PathBuilder;
 
 /**
  * A store for default client settings.
@@ -19,7 +30,12 @@ public class MV2ClientSettings extends PropertiesExportable {
 	 * Holds the current runtime settings.
 	 */
 	private static MV2ClientSettings current = null;
-	
+
+	/**
+	 * Holds the mail boxes.
+	 */
+	private List<MailBoxSettings> mailBoxes = new ArrayList<MailBoxSettings>();
+
 	/**
 	 * The users passphrase.
 	 */
@@ -87,29 +103,119 @@ public class MV2ClientSettings extends PropertiesExportable {
 
 	/**
 	 * Returns the settings to be used for this execution.
+	 * 
 	 * @return The settings to be used for this execution.
-	 * @throws IllegalStateException Is thrown if no settings were set previously.
+	 * @throws IllegalStateException
+	 *             Is thrown if no settings were set previously.
 	 */
 	public static synchronized MV2ClientSettings getRuntimeSettings()
 			throws IllegalStateException {
-		if(current == null) throw new IllegalStateException("The session was not set.");
+		if (current == null)
+			throw new IllegalStateException("The session was not set.");
 		return current;
 	}
 
 	/**
 	 * Returns the passphrase of the user.
+	 * 
 	 * @return The passphrase of the user.
 	 */
-	public String getPassphrase(){
+	public String getPassphrase() {
 		return passphrase;
 	}
-	
+
 	/**
 	 * Sets the passphrase of the user.
-	 * @param passphrase The passphrase to set.
+	 * 
+	 * @param passphrase
+	 *            The passphrase to set.
 	 */
-	public void setPassphrase(String passphrase){
+	public void setPassphrase(String passphrase) {
 		this.passphrase = passphrase;
 	}
-	
+
+	/**
+	 * Adds the mail box.
+	 * 
+	 * @param mailBox
+	 *            The mail box to add.
+	 */
+	public void addMailBox(MailBoxSettings mailBox) {
+		mailBoxes.add(mailBox);
+	}
+
+	@Override
+	protected void exportContent(OutputStream out) throws IOException {
+		getProperties().setProperty("BOXES_COUNT", "" + mailBoxes.size());
+		for (int i = 0; i < mailBoxes.size(); i++) {
+			getProperties().setProperty("BOX_" + i,
+					mailBoxes.get(i).getAddress().replace("@", "at"));
+		}
+		super.exportContent(out);
+	}
+
+	/**
+	 * Returns the mail boxes.
+	 * 
+	 * @return The mail boxes of this user.
+	 */
+	public List<MailBoxSettings> getMailBoxes() {
+		return mailBoxes;
+	}
+
+	/**
+	 * Loads extra data.
+	 * 
+	 * @param f
+	 *            The file that contains this settings.
+	 * @throws NoSuchAlgorithmException
+	 *             If the algorithm to decrypt the data was not found.
+	 * @throws IOException
+	 *             If an I/O error occurs.
+	 */
+	public void loadExtras(File f) throws IOException, NoSuchAlgorithmException {
+		PathBuilder pb = new PathBuilder(f);
+		EncryptedExportable ee;
+		MailBoxSettings mb;
+		File boxesFile;
+		FileInputStream in;
+		int boxesCount = Integer.parseInt(getProperties().getProperty(
+				"BOXES_COUNT", "0"));
+		for (int i = 0; i < boxesCount; i++) {
+			boxesFile = pb
+					.getChildFile(getProperties().getProperty("BOX_" + i));
+			mb = new MailBoxSettings();
+			ee = new EncryptedExportable(mb);
+			in = new FileInputStream(boxesFile);
+			ee.importData(getPassphrase(), in);
+			in.close();
+			addMailBox(mb);
+		}
+	}
+
+	/**
+	 * Saves extra data.
+	 * 
+	 * @param f
+	 *            The file that contains this settings.
+	 * @throws IOException
+	 *             If an I/O error occurs.
+	 * @throws NoSuchAlgorithmException
+	 *             If the algorithm to encrypt the data was not found.
+	 */
+	public void saveExtras(File f) throws IOException, NoSuchAlgorithmException {
+		PathBuilder pb = new PathBuilder(f);
+		EncryptedExportable ee;
+		File boxFile;
+		FileOutputStream fos;
+		for (MailBoxSettings mb : mailBoxes) {
+			boxFile = pb.getChildFile(mb.getAddress().replace("@", "at"));
+			ee = new EncryptedExportable(mb);
+			fos = new FileOutputStream(boxFile);
+			ee.export(getPassphrase(), fos);
+			fos.flush();
+			fos.close();
+		}
+	}
+
 }

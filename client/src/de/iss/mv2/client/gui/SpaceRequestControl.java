@@ -217,8 +217,11 @@ public class SpaceRequestControl extends JComponent implements Observer,
 			X509Certificate clientCert = creationResponse.getCertificate();
 			CertificateView cv = new CertificateView();
 			cv.setCertificate(clientCert);
-			DialogHelper.showBlockingDialog("Generated Certificate",
-					DialogHelper.getParentFrame(this), cv);
+			
+			setupData.setClientCertificate(clientCert);
+			setupData.setClientKey(kp);
+			
+			setupData.complete(identifierName.getText());
 		} catch (Exception e) {
 			DialogHelper.showErrorMessage(this, "", e.getMessage());
 			return false;

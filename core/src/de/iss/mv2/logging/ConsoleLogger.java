@@ -26,7 +26,7 @@ public class ConsoleLogger implements Logger {
 	 * Holds the log entry printer to use.
 	 */
 	private LogEntryPrinter entryPrinter = new LogEntryPrinter();
-	
+
 	/**
 	 * Stack tracing level.
 	 */
@@ -79,21 +79,22 @@ public class ConsoleLogger implements Logger {
 	@Override
 	public LogEntry push(LogEntryLevel type, String component, String message) {
 		StackTraceElement[] stackTrace = StackTracer.getStackTrace(1);
-		DefaultLogEntry dle = new DefaultLogEntry(type, component, message, stackTracingLevel, stackTrace);
+		DefaultLogEntry dle = new DefaultLogEntry(type, component, message,
+				stackTracingLevel, stackTrace);
 		push(dle);
 		return dle;
 	}
 
 	@Override
 	public void pushAll(Iterable<LogEntry> entries) {
-		for(LogEntry le : entries){
+		for (LogEntry le : entries) {
 			push(le);
 		}
 	}
 
 	@Override
 	public void clear() {
-		
+
 	}
 
 	@Override
@@ -103,7 +104,8 @@ public class ConsoleLogger implements Logger {
 
 	@Override
 	public boolean setStackTracingLevel(StackTracingLevel level) {
-		if(level == StackTracingLevel.DETAILED) return false;
+		if (level == StackTracingLevel.DETAILED)
+			return false;
 		stackTracingLevel = level;
 		return true;
 	}
@@ -115,7 +117,9 @@ public class ConsoleLogger implements Logger {
 
 	@Override
 	public LogEntry push(Exception ex) {
-		DefaultLogEntry dle = new DefaultLogEntry(LogEntryLevel.EXCEPTION, "UNKNOWN", ex.getMessage(), StackTracingLevel.DETAILED, ex.getStackTrace());
+		DefaultLogEntry dle = new DefaultLogEntry(LogEntryLevel.EXCEPTION,
+				"UNKNOWN", ex.getClass().getName() + ": " + ex.getMessage(),
+				StackTracingLevel.DETAILED, ex.getStackTrace());
 		push(dle);
 		return dle;
 	}

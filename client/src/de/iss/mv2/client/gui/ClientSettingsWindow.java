@@ -3,11 +3,14 @@ package de.iss.mv2.client.gui;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
+import de.iss.mv2.client.data.MV2ClientSettings;
+import de.iss.mv2.client.data.MailBoxSettings;
 import de.iss.mv2.client.data.WebSpaceSetup;
 import de.iss.mv2.gui.DialogHelper;
 import de.iss.mv2.gui.EditableListListener;
@@ -19,13 +22,14 @@ import de.iss.mv2.gui.EditableListView;
  * @author Marcel Singer
  *
  */
-public class ClientSettingsWindow extends JFrame implements EditableListListener<String> {
+public class ClientSettingsWindow extends JFrame implements
+		EditableListListener<String> {
 
 	/**
 	 * The serial.
 	 */
 	private static final long serialVersionUID = -5761614696129347167L;
-	
+
 	/**
 	 * Holds the list with the available mail boxes.
 	 */
@@ -48,6 +52,13 @@ public class ClientSettingsWindow extends JFrame implements EditableListListener
 		panel_1.setLayout(new BorderLayout(0, 0));
 
 		mailBoxList = new EditableListView<String>();
+		DefaultListModel<String> model = new DefaultListModel<String>();
+		for (MailBoxSettings mbs : MV2ClientSettings.getRuntimeSettings()
+				.getMailBoxes()) {
+			model.addElement(mbs.getAddress());
+
+		}
+		mailBoxList.setListModel(model);
 		mailBoxList.addListener(this);
 		mailBoxList.setPreferredSize(new Dimension(200, 1));
 		panel_1.add(mailBoxList, BorderLayout.WEST);
@@ -59,7 +70,8 @@ public class ClientSettingsWindow extends JFrame implements EditableListListener
 		WebSpaceSetup wss = new WebSpaceSetup();
 		ServerSelectionControl cfa = new ServerSelectionControl(wss);
 		SpaceRequestControl src = new SpaceRequestControl(wss);
-		AssistantControl ast = new AssistantControl(new JComponent[]{cfa, src});
+		AssistantControl ast = new AssistantControl(
+				new JComponent[] { cfa, src });
 		DialogHelper.showBlockingSubmitDialog("Assistant", this, ast);
 	}
 

@@ -148,6 +148,10 @@ public class ClientStatrtup {
 		try {
 			FileInputStream fin = new FileInputStream(prefFile);
 			ee.importData(pw, fin);
+			if(settings.isValid()){
+				settings.setPassphrase(pw);
+				settings.loadExtras(prefFile);
+			}
 		} catch (NoSuchAlgorithmException | IOException e) {
 			e.printStackTrace();
 			DialogHelper.showActionFailedWithExceptionMessage(null, e);
@@ -159,6 +163,7 @@ public class ClientStatrtup {
 			loadSettings(args);
 			return;
 		}
+		
 		MV2ClientSettings.setRuntimeSettings(settings);
 		ClientMainWindow cmw = new ClientMainWindow();
 		cmw.setVisible(true);

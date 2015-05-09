@@ -2,7 +2,6 @@ package de.iss.mv2.server.processors;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
-import java.security.PrivateKey;
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
@@ -42,8 +41,6 @@ public class SpaceCreationProcessor implements MessagePreProcessor,
 	 */
 	private final MV2Server server;
 
-
-
 	/**
 	 * Holds the web space manager.
 	 */
@@ -57,7 +54,8 @@ public class SpaceCreationProcessor implements MessagePreProcessor,
 	 * @param webSpaceManager
 	 *            The {@link WebSpaceManager} to use.
 	 */
-	public SpaceCreationProcessor(MV2Server server, WebSpaceManager webSpaceManager) {
+	public SpaceCreationProcessor(MV2Server server,
+			WebSpaceManager webSpaceManager) {
 		this.server = server;
 		this.webSpaceManager = webSpaceManager;
 	}
@@ -116,8 +114,11 @@ public class SpaceCreationProcessor implements MessagePreProcessor,
 		}
 		X509Certificate cert = null;
 		try {
-			CertificateSigner signer = new CertificateSigner(server.getCertificate(partner.getHostName()), server.getCertificateManager(), new SecureRandom());
-			cert = signer.sign(server.getPrivateKey(partner.getHostName()), csr, false);
+			CertificateSigner signer = new CertificateSigner(
+					server.getCertificate(partner.getHostName()),
+					server.getCertificateManager(), new SecureRandom());
+			cert = signer.sign(server.getPrivateKey(partner.getHostName()),
+					csr, false);
 		} catch (OperatorCreationException | CertificateException
 				| NoSuchAlgorithmException | InvalidKeySpecException e) {
 			LoggerManager.getCurrentLogger().push(e);

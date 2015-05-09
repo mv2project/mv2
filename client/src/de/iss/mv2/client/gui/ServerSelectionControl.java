@@ -264,6 +264,7 @@ public class ServerSelectionControl extends JComponent implements
 		} else {
 			webSpaceSetup.setHost(serverDomain);
 			webSpaceSetup.setPort(Integer.parseInt(portField.getText()));
+			webSpaceSetup.setServerCertificate(cert);
 		}
 		return result;
 	}
