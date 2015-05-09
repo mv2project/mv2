@@ -13,14 +13,14 @@ public interface Logger {
 	 * Sets the minimal logging level. Already cached log entries with a lower log level will be remove.
 	 * @param minimalLevel The minimal logging level to set.
 	 */
-	public void setMinimalLogLevel(LogEntryType minimalLevel);
+	public void setMinimalLogLevel(LogEntryLevel minimalLevel);
 	
 	/**
 	 * Returns all log entries with a level higher or equal to the given minimum level.
 	 * @param minimumLevel The minimum level of the entries to return.
 	 * @return All log entries with a level higher or equal to the given minimum level.
 	 */
-	public Iterable<LogEntry> filter(LogEntryType minimumLevel);
+	public Iterable<LogEntry> filter(LogEntryLevel minimumLevel);
 	
 	/**
 	 * Returns all log entries.
@@ -43,12 +43,12 @@ public interface Logger {
 	
 	/**
 	 * Creates a new log entry and adds it to this log.
-	 * @param type The log level type of the entry to create.
+	 * @param level The log level type of the entry to create.
 	 * @param component The component affected by the log entry to create.
 	 * @param message The message of the log entry to create.
 	 * @return The created log entry.
 	 */
-	public LogEntry push(LogEntry type, String component, String message);
+	public LogEntry push(LogEntryLevel level, String component, String message);
 	
 	
 	/**

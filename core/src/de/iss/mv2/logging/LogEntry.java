@@ -13,7 +13,7 @@ public interface LogEntry {
 	 * Returns the log level of this entry.
 	 * @return The log level of this entry.
 	 */
-	public LogEntryType getLevel();
+	public LogEntryLevel getLevel();
 	
 	/**
 	 * Returns the timestamp of this entry.
