@@ -18,12 +18,25 @@ public final class StackTracer {
 	
 	/**
 	 * Retrieves the current stack trace.
+	 * @param ignore the amount of stack levels to ignore.
 	 * @return The retrieved stack trace. 
+	 * @throws IllegalArgumentException Is thrown if the given amount of stack levels to ignore is negative.
 	 */
-	public static StackTraceElement[] getStackTrace(){
+	public static StackTraceElement[] getStackTrace(int ignore) throws IllegalArgumentException{
+		if(ignore < 0) throw new IllegalArgumentException("The amount of levels to must not be negative.");
 		StackTraceElement[] elements = Thread.currentThread().getStackTrace();
 		if(elements.length == 0) return elements;
-		return Arrays.copyOfRange(elements, 2, elements.length);
+		return Arrays.copyOfRange(elements, 2 * (ignore + 1), elements.length);
 	}
+	
+	/**
+	 * Retrieves the current stack trace.
+	 * @return The retrieved stack trace.
+	 */
+	public static StackTraceElement[] getStackTrace() {
+		return getStackTrace(0);
+	}
+	
+	
 
 }

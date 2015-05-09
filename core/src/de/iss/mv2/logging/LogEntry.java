@@ -33,4 +33,16 @@ public interface LogEntry {
 	 */
 	public String getComponent();
 	
+	/**
+	 * Returns the detailed stack trace of this log entry.
+	 * @return The detailed stack trace of this entry or {@code null} if there is none.
+	 */
+	public StackTraceElement[] getDatailedStackTrace();
+	
+	/**
+	 * Returns the reduced stack trace information.
+	 * @return The reduced stack trace information or {@code null} if there is none.
+	 */
+	public String getStackTrace();
+	
 }

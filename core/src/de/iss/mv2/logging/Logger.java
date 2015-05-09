@@ -69,4 +69,16 @@ public interface Logger {
 	 */
 	public boolean delete(LogEntry entry);
 	
+	/**
+	 * Sets the stack tracing level.
+	 * @param level The stack tracing level to set.
+	 * @return {@code true} if the logging to set is supported by this logger.
+	 */
+	public boolean setStackTracingLevel(StackTracingLevel level);
+	
+	/**
+	 * Sets the stack tracing level
+	 * @return The current stack tracing level of this logger.
+	 */
+	public StackTracingLevel getStackTracingLevel();
 }
