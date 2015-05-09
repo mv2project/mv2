@@ -11,6 +11,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 
+import javax.imageio.ImageIO;
+
+import com.apple.eawt.Application;
+
 import de.iss.mv2.MV2Constants;
 import de.iss.mv2.client.data.MV2ClientSettings;
 import de.iss.mv2.client.data.UserPreferences;
@@ -36,6 +40,12 @@ public class ClientStatrtup {
 	 *            The command line arguments.
 	 */
 	public static void start(final String[] args) {
+		try{
+			Application.getApplication().setDockIconImage(ImageIO.read(ClientStatrtup.class.getClassLoader().getResourceAsStream("mv2Icon.png")));
+		}catch(Exception ex){
+			
+		}
+		
 		final UserPreferences up = UserPreferences.getPreferences();
 		Toolkit tk = Toolkit.getDefaultToolkit();
 
@@ -135,7 +145,6 @@ public class ClientStatrtup {
 		if (pd.getDialogResult() != MV2Constants.SUBMIT_OPTION)
 			System.exit(0);
 		String pw = new String(pd.getPassword());
-		System.out.println(prefFile.getAbsolutePath());
 		try {
 			FileInputStream fin = new FileInputStream(prefFile);
 			ee.importData(pw, fin);

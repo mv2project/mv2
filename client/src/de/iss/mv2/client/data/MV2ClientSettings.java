@@ -19,6 +19,11 @@ public class MV2ClientSettings extends PropertiesExportable {
 	 * Holds the current runtime settings.
 	 */
 	private static MV2ClientSettings current = null;
+	
+	/**
+	 * The users passphrase.
+	 */
+	private String passphrase;
 
 	/**
 	 * Creates a new instance of {@link MV2ClientSettings}.
@@ -91,4 +96,20 @@ public class MV2ClientSettings extends PropertiesExportable {
 		return current;
 	}
 
+	/**
+	 * Returns the passphrase of the user.
+	 * @return The passphrase of the user.
+	 */
+	public String getPassphrase(){
+		return passphrase;
+	}
+	
+	/**
+	 * Sets the passphrase of the user.
+	 * @param passphrase The passphrase to set.
+	 */
+	public void setPassphrase(String passphrase){
+		this.passphrase = passphrase;
+	}
+	
 }

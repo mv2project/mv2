@@ -16,8 +16,6 @@ import net.miginfocom.swing.MigLayout;
 import de.iss.mv2.client.data.WebSpaceSetup;
 import de.iss.mv2.client.io.MV2Client;
 import de.iss.mv2.gui.DialogHelper;
-import de.iss.mv2.logging.LogEntryLevel;
-import de.iss.mv2.logging.LoggerManager;
 import de.iss.mv2.messaging.DEF_MESSAGE_FIELD;
 import de.iss.mv2.messaging.MV2Message;
 import de.iss.mv2.messaging.STD_MESSAGE;
@@ -203,10 +201,15 @@ public class SpaceRequestControl extends JComponent implements Observer,
 			MV2Client client = setupData.tryConnect();
 			client.send(scr);
 			MV2Message response = client.handleNext();
-			if(response.getMessageIdentifier() == STD_MESSAGE.UNABLE_TO_PROCESS.getIdentifier()){
-				throw new Exception("The server could not process your request. See the following details:\n\n" + response.getFieldValue(DEF_MESSAGE_FIELD.CAUSE, "NONE"));
+			if (response.getMessageIdentifier() == STD_MESSAGE.UNABLE_TO_PROCESS
+					.getIdentifier()) {
+				throw new Exception(
+						"The server could not process your request. See the following details:\n\n"
+								+ response.getFieldValue(
+										DEF_MESSAGE_FIELD.CAUSE, "NONE"));
 			}
-			if(response.getMessageIdentifier() != STD_MESSAGE.SPACE_CREATION_RESPONSE.getIdentifier()){
+			if (response.getMessageIdentifier() != STD_MESSAGE.SPACE_CREATION_RESPONSE
+					.getIdentifier()) {
 				throw new Exception("The servers response was invalid.");
 			}
 			SpaceCreationResponse creationResponse = new SpaceCreationResponse();
@@ -214,7 +217,8 @@ public class SpaceRequestControl extends JComponent implements Observer,
 			X509Certificate clientCert = creationResponse.getCertificate();
 			CertificateView cv = new CertificateView();
 			cv.setCertificate(clientCert);
-			DialogHelper.showBlockingDialog("Generated Certificate", DialogHelper.getParentFrame(this), cv);
+			DialogHelper.showBlockingDialog("Generated Certificate",
+					DialogHelper.getParentFrame(this), cv);
 		} catch (Exception e) {
 			DialogHelper.showErrorMessage(this, "", e.getMessage());
 			return false;

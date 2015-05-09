@@ -1,6 +1,7 @@
 package de.iss.mv2.client.data;
 
 import java.security.KeyPair;
+import java.security.cert.X509Certificate;
 import java.util.Observable;
 
 import de.iss.mv2.client.io.MV2Client;
@@ -15,6 +16,8 @@ import de.iss.mv2.messaging.STD_MESSAGE;
  */
 public class WebSpaceSetup extends Observable {
 
+	
+
 	/**
 	 * The clients key pair.
 	 */
@@ -28,6 +31,16 @@ public class WebSpaceSetup extends Observable {
 	 * The port to connect to.
 	 */
 	private int port;
+	
+	/**
+	 * The servers certificate.
+	 */
+	private X509Certificate serverCertificate;
+	
+	/**
+	 * The clients certificate.
+	 */
+	private X509Certificate clientCertificate;
 	
 	/**
 	 * Creates a new instance of {@link WebSpaceSetup}.
@@ -122,6 +135,49 @@ public class WebSpaceSetup extends Observable {
 		this.clientKey = key;
 		setChanged();
 		notifyObservers();
+	}
+
+	/**
+	 * Returns the servers certificate.
+	 * @return The servers certificate.
+	 */
+	public X509Certificate getServerCertificate() {
+		return serverCertificate;
+	}
+
+	/**
+	 * Sets the servers certificate.
+	 * @param serverCertificate The server certificate to set.
+	 */
+	public void setServerCertificate(X509Certificate serverCertificate) {
+		this.serverCertificate = serverCertificate;
+		setChanged();
+		notifyObservers();
+	}
+
+	/**
+	 * Returns the clients certificate.
+	 * @return The clients certificate.
+	 */
+	public X509Certificate getClientCertificate() {
+		return clientCertificate;
+	}
+
+	/**
+	 * Sets the clients certificate.
+	 * @param clientCertificate The certificate to set.
+	 */
+	public void setClientCertificate(X509Certificate clientCertificate) {
+		this.clientCertificate = clientCertificate;
+		setChanged();
+		notifyObservers();
+	}
+	
+	/**
+	 * Completes this setup.
+	 */
+	public void complete(){
+		
 	}
 	
 }
