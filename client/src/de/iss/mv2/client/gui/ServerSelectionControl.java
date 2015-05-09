@@ -31,7 +31,7 @@ import de.iss.mv2.messaging.STD_MESSAGE;
  * 
  */
 public class ServerSelectionControl extends JComponent implements
-		ActionListener, ComponentListener {
+		ActionListener, ComponentListener, AssistantStep {
 
 	/**
 	 * Serial.
@@ -271,6 +271,20 @@ public class ServerSelectionControl extends JComponent implements
 	@Override
 	public void componentHidden(ComponentEvent e) {
 
+	}
+
+	@Override
+	public boolean canProceed() {
+		boolean result = (cert != null && serverDomain != null && !serverDomain.isEmpty());
+		if(!result){
+			DialogHelper.showErrorMessage(this, "Select a server", "You hava to select a server to complete this step.");
+		}
+		return result;
+	}
+
+	@Override
+	public boolean canGoBack() {
+		return true;
 	}
 
 }

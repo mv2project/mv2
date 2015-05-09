@@ -3,6 +3,7 @@ package de.iss.mv2.client.gui;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
@@ -55,7 +56,9 @@ public class ClientSettingsWindow extends JFrame implements EditableListListener
 	@Override
 	public void addItem(EditableListView<String> sender) {
 		ServerSelectionControl cfa = new ServerSelectionControl();
-		DialogHelper.showBlockingSubmitDialog("Assistant", this, cfa);
+		SpaceRequestControl src = new SpaceRequestControl();
+		AssistantControl ast = new AssistantControl(new JComponent[]{cfa, src});
+		DialogHelper.showBlockingSubmitDialog("Assistant", this, ast);
 	}
 
 	@Override

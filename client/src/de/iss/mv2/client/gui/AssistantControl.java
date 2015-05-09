@@ -2,6 +2,8 @@ package de.iss.mv2.client.gui;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -12,7 +14,7 @@ import javax.swing.JPanel;
  * @author Marcel Singer
  *
  */
-public class AssistantControl extends JComponent {
+public class AssistantControl extends JComponent implements ActionListener {
 
 	
 	/**
@@ -28,7 +30,7 @@ public class AssistantControl extends JComponent {
 	/**
 	 * The current step index;
 	 */
-	private int stepIndex = 0;
+	private int stepIndex = -1;
 	
 	/**
 	 * The button to go to the next step.
@@ -53,6 +55,10 @@ public class AssistantControl extends JComponent {
 	 */
 	public AssistantControl(JComponent[] steps) {
 		this.steps = steps;
+		nextButton.addActionListener(this);
+		cancelButton.addActionListener(this);
+		backButton.addActionListener(this);
+		finishButton.addActionListener(this);
 		setLayout(new BorderLayout());
 		JPanel buttonsPanel = new JPanel();
 		buttonsPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -61,26 +67,87 @@ public class AssistantControl extends JComponent {
 		buttonsPanel.add(nextButton);
 		buttonsPanel.add(finishButton);
 		add(buttonsPanel, BorderLayout.SOUTH);
-		setStep(0);
+		nextStep();
 	}
 	
 	/**
-	 * Sets the current step of this assistant.
-	 * @param index The number of the step to set.
+	 * Navigates to the next step.
+	 * @return {@code true} if the action was successful.
 	 */
-	private void setStep(int index){
-		JComponent step = steps[index];
-		if(index == 0) backButton.setEnabled(false); else backButton.setEnabled(true);
-		if(index == steps.length-1){
-			nextButton.setEnabled(false);
-			finishButton.setEnabled(true);
-		}else{
-			nextButton.setEnabled(true);
-			finishButton.setEnabled(false);
+	public boolean nextStep(){
+		JComponent currentStep = null;
+		if(stepIndex != -1) currentStep = steps[stepIndex];
+		if(!canProceed(stepIndex)){
+			return false;
 		}
-		//TODO: Complete here!
+		stepIndex++;
+		JComponent nextStep = steps[stepIndex];
+		nextButton.setEnabled(stepIndex != steps.length-1);
+		finishButton.setEnabled(!nextButton.isEnabled());
+		backButton.setEnabled(canGoBack(stepIndex));
+		
+		if(currentStep != null) remove(currentStep);
+		add(nextStep, BorderLayout.CENTER);
+		repaint();
+		revalidate();
+		return true;
 	}
 	
+	/**
+	 * Navigates to the previous step.
+	 * @return {@code true} if the action was successful.
+	 */
+	public boolean goBack(){
+		JComponent currentStep = null;
+		if(stepIndex != -1) currentStep = steps[stepIndex];
+		if(!canGoBack(stepIndex)) return false;
+		stepIndex--;
+		JComponent lastStep = steps[stepIndex];
+		nextButton.setEnabled(true);
+		finishButton.setEnabled(false);
+		backButton.setEnabled(canGoBack(stepIndex));
+		
+		if(currentStep != null) remove(currentStep);
+		add(lastStep, BorderLayout.CENTER);
+		repaint();
+		revalidate();
+		return true;
+	}
 	
+	/**
+	 * Tests if this assistant can proceed from the given step.
+	 * @param index The index of the step to proceed from.
+	 * @return {@code true} if this assistant can proceed to the next step.
+	 */
+	public boolean canProceed(int index){
+		if(index >= steps.length - 1) return false;
+		if(index < 0) return true;
+		JComponent step = steps[index];
+		if(AssistantStep.class.isAssignableFrom(step.getClass())){
+			return ((AssistantStep) step).canProceed();
+		}
+		return true;
+	}
+	
+	/**
+	 * Tests if this assistant can go back to the previous step.
+	 * @param index The index of the current step.
+	 * @return {@code true} if the assistant can go back to the previous step.
+	 */
+	public boolean canGoBack(int index){
+		if(index <= 0) return false;
+		JComponent lastStep = steps[index-1];
+		if(AssistantStep.class.isAssignableFrom(lastStep.getClass())){
+			return ((AssistantStep) lastStep).canGoBack();
+		}
+		return true;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == nextButton) nextStep();
+		if(e.getSource() == backButton) goBack();
+		
+	}
 
 }
