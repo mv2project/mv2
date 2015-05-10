@@ -34,7 +34,7 @@ public final class StackTracer {
 	 * @return The retrieved stack trace.
 	 */
 	public static StackTraceElement[] getStackTrace() {
-		return getStackTrace(0);
+		return getStackTrace(1);
 	}
 	
 	
