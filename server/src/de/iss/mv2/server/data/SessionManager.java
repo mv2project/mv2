@@ -43,4 +43,17 @@ public interface SessionManager {
 	 */
 	public void cancelLoginProcedure(CommunicationPartner client);
 	
+	/**
+	 * Completes the login procedure for the given client.
+	 * @param client The client thats login procedure should be completed.
+	 */
+	public void completeLoginProcedure(CommunicationPartner client);
+	
+	/**
+	 * Gets the current identifier of the given client.
+	 * @param client The client thats identifier should be returned.
+	 * @return The clients identifier.
+	 */
+	public String getIdentifier(CommunicationPartner client);
+	
 }
