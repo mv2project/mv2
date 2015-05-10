@@ -49,7 +49,23 @@ public enum STD_MESSAGE {
 	/**
 	 * The type of a hello message.
 	 */
-	HELLO(10);
+	HELLO(10),
+	/**
+	 * The type of a clients login request.
+	 */
+	CLIENT_LOGIN_REQUEST(11),
+	/**
+	 * The servers answer to client login request.
+	 */
+	SERVER_LOGIN_RESPONSE(12),
+	/**
+	 * A message containing the clients login data.
+	 */
+	CLIENT_LOGIN_DATA(13),
+	/**
+	 * The servers answer containing the answer to a {@link STD_MESSAGE#CLIENT_LOGIN_DATA}.
+	 */
+	SERVER_LOGIN_RESULT(14);
 	
 	/**
 	 * Holds the identifier of a message type.
