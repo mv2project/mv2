@@ -125,12 +125,12 @@ public class ClientLoginRequestProcessor implements MessagePreProcessor,
 		encryptionStream.write(testPhrase);
 		encryptionStream.flush();
 		encryptionStream.close();
-		testPhrase = baos.toByteArray();
+		byte[] encryptedTestPhrase = baos.toByteArray();
 		ServerLoginResponse response = new ServerLoginResponse();
 		response.setHashAlgorithm(digest.getAlgorithm());
-		response.setTestPhrase(testPhrase);
+		response.setTestPhrase(encryptedTestPhrase);
 		response.setTestPhraseHash(testPhraseHash);
-		sessionManager.startLoginProcedure(client, identifier);
+		sessionManager.startLoginProcedure(client, identifier, testPhrase);
 		client.send(response);
 		return true;
 	}

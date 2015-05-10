@@ -64,6 +64,11 @@ public class ClientThread extends Thread implements CommunicationPartner {
 	 * to.
 	 */
 	private String identifier;
+	
+	/**
+	 * The test phrase of the login procedure.
+	 */
+	private byte[] loginTestPhrase;
 
 	/**
 	 * {@code true} if this client is authenticated.
@@ -274,4 +279,19 @@ public class ClientThread extends Thread implements CommunicationPartner {
 		this.isAuthenticated = isAuthenticated;
 	}
 
+	/**
+	 * Returns the login test phrase.
+	 * @return The login test phrase.
+	 */
+	public byte[] getLoginTestPhrase(){
+		return loginTestPhrase;
+	}
+	
+	/**
+	 * Sets the login test phrase of this client.
+	 * @param testPhrase The test phrase to set.
+	 */
+	public void setLoginTestPhrase(byte[] testPhrase){
+		this.loginTestPhrase = testPhrase;
+	}
 }

@@ -33,9 +33,10 @@ public interface SessionManager {
 	/**
 	 * Starts a login procedure for the given client.
 	 * @param client The client that started the login procedure.
+	 * @param testPhrase The login test phrase of the login procedure.
 	 * @param identifier The identifier of the client.
 	 */
-	public void startLoginProcedure(CommunicationPartner client, String identifier);
+	public void startLoginProcedure(CommunicationPartner client, String identifier, byte[] testPhrase);
 	
 	/**
 	 * Cancels the login procedure for the given client.
@@ -55,5 +56,14 @@ public interface SessionManager {
 	 * @return The clients identifier.
 	 */
 	public String getIdentifier(CommunicationPartner client);
+	
+	
+	
+	/**
+	 * Returns the test phrase of the login procedure.
+	 * @param client The client thats test phrase should be returned.
+	 * @return The test phrase of the login procedure.
+	 */
+	public byte[] getLoginTestPhrase(CommunicationPartner client);
 	
 }

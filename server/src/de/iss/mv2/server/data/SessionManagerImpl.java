@@ -34,17 +34,20 @@ public class SessionManagerImpl implements SessionManager {
 
 	@Override
 	public void startLoginProcedure(CommunicationPartner client,
-			String identifier) {
+			String identifier, byte[] testPhrase) {
 		ClientThread cT = (ClientThread) client;
 		cT.setHasActiveLoginProcedure(true);
 		cT.setIdentifier(identifier);
+		cT.setLoginTestPhrase(testPhrase);
 	}
 
 	@Override
 	public void cancelLoginProcedure(CommunicationPartner client) {
-		((ClientThread) client).setHasActiveLoginProcedure(false);
-		((ClientThread) client).setAuthenticated(false);
-		((ClientThread) client).setHasActiveLoginProcedure(false);
+		ClientThread cT = (ClientThread) client;
+		cT.setHasActiveLoginProcedure(false);
+		cT.setAuthenticated(false);
+		cT.setHasActiveLoginProcedure(false);
+		cT.setLoginTestPhrase(null);
 	}
 
 	@Override
@@ -57,6 +60,11 @@ public class SessionManagerImpl implements SessionManager {
 	@Override
 	public String getIdentifier(CommunicationPartner client) {
 		return ((ClientThread) client).getIdentifier();
+	}
+
+	@Override
+	public byte[] getLoginTestPhrase(CommunicationPartner client) {
+		return ((ClientThread) client).getLoginTestPhrase();
 	}
 
 }
