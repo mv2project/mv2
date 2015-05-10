@@ -43,7 +43,16 @@ public enum DEF_MESSAGE_FIELD {
 	/**
 	 * A message field containing pain text content.
 	 */
-	CONTENT_PLAIN(7);
+	CONTENT_PLAIN(7),
+	/**
+	 * A message field containing a Base64 encoded hash value.
+	 */
+	HASH_BASE64(8),
+	/**
+	 * A message field containing the name of a hash algorithm.
+	 */
+	HASH_ALGORITHM(9);
+	
 	
 	
 	
