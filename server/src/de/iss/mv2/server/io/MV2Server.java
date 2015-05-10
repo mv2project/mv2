@@ -5,6 +5,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.security.KeyPair;
+import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
@@ -23,8 +24,12 @@ import de.iss.mv2.security.MessageCryptorSettings;
 import de.iss.mv2.server.ServerBindings;
 import de.iss.mv2.server.data.CertificateManagerImpl;
 import de.iss.mv2.server.data.DatabaseContext;
+import de.iss.mv2.server.data.SessionManagerImpl;
+import de.iss.mv2.server.data.WebSpaceManager;
 import de.iss.mv2.server.data.WebSpaceManagerImpl;
 import de.iss.mv2.server.processors.CertProcessor;
+import de.iss.mv2.server.processors.ClientLoginDataProcessor;
+import de.iss.mv2.server.processors.ClientLoginRequestProcessor;
 import de.iss.mv2.server.processors.DomainNamesProcessor;
 import de.iss.mv2.server.processors.HelloMessageProcessor;
 import de.iss.mv2.server.processors.SpaceCreationProcessor;
@@ -75,12 +80,11 @@ public class MV2Server {
 	 * Holds the encryption settings.
 	 */
 	private final MessageCryptorSettings settings;
-	
+
 	/**
 	 * Holds the current certificate manager.
 	 */
 	private final CertificateManager certificateManager;
-	
 
 	/**
 	 * Creates a new server with the given settings.
@@ -94,7 +98,8 @@ public class MV2Server {
 	 */
 	public MV2Server(ServerBindings bindings, MessageCryptorSettings settings,
 			int port) {
-		this.certificateManager = new CertificateManagerImpl(DatabaseContext.getContext());
+		this.certificateManager = new CertificateManagerImpl(
+				DatabaseContext.getContext());
 		this.port = port;
 		this.settings = settings;
 		this.bindings = bindings;
@@ -106,20 +111,38 @@ public class MV2Server {
 	 * Registers all default and or needed processors.
 	 */
 	public void registerDefaultProcessors() {
+		WebSpaceManager spaceManager = new WebSpaceManagerImpl(
+				DatabaseContext.getContext(), certificateManager);
 		registerProcessor(new CertProcessor(this));
-		DomainNamesProcessor dnp = new DomainNamesProcessor(bindings.getAvailableAddressesArray());
+		DomainNamesProcessor dnp = new DomainNamesProcessor(
+				bindings.getAvailableAddressesArray());
 		registerProcessor(dnp);
 		registerPreProcessor(dnp);
-		SpaceCreationProcessor scp = new SpaceCreationProcessor(this, new WebSpaceManagerImpl(DatabaseContext.getContext(), certificateManager));
+		SpaceCreationProcessor scp = new SpaceCreationProcessor(this,
+				spaceManager);
 		registerProcessor(scp);
 		registerPreProcessor(scp);
+		SessionManagerImpl smi = new SessionManagerImpl();
+		ClientLoginDataProcessor cldp = new ClientLoginDataProcessor(smi);
+		registerProcessor(cldp);
+		registerPreProcessor(cldp);
+		try {
+			ClientLoginRequestProcessor clrp = new ClientLoginRequestProcessor(
+					smi, spaceManager);
+			registerProcessor(clrp);
+			registerPreProcessor(clrp);
+		} catch (NoSuchAlgorithmException e) {
+			LoggerManager.getCurrentLogger().push(e);
+		}
+
 	}
-	
+
 	/**
 	 * Returns the certificate manager used by this server.
+	 * 
 	 * @return The certificate manager used by this server.
 	 */
-	public CertificateManager getCertificateManager(){
+	public CertificateManager getCertificateManager() {
 		return certificateManager;
 	}
 
@@ -226,10 +249,6 @@ public class MV2Server {
 				getPrivateKey(serverAddress));
 	}
 
-	
-
-	
-
 	/**
 	 * Represents the communication thread of a server.
 	 * 
@@ -266,14 +285,21 @@ public class MV2Server {
 							resp.serialize(client.getOutputStream());
 							client.getOutputStream().flush();
 							client.close();
-							LoggerManager.getCurrentLogger().push(LogEntryLevel.WARNING, "Connection", "There was no binding for " + binding + ".");
+							LoggerManager.getCurrentLogger()
+									.push(LogEntryLevel.WARNING,
+											"Connection",
+											"There was no binding for "
+													+ binding + ".");
 							continue;
 						} catch (IOException ex) {
 							ex.printStackTrace();
 						}
 					}
-					LoggerManager.getCurrentLogger().push(LogEntryLevel.INFORMATION, "Connection", "New client on binding " + binding
-							+ ": " + client.getRemoteSocketAddress());
+					LoggerManager.getCurrentLogger().push(
+							LogEntryLevel.INFORMATION,
+							"Connection",
+							"New client on binding " + binding + ": "
+									+ client.getRemoteSocketAddress());
 
 					clientThread = new ClientThread(client, binding,
 							settings.doClone(), getKeyPair(binding));
