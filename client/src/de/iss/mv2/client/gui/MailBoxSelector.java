@@ -4,8 +4,9 @@ import java.awt.BorderLayout;
 
 import javax.swing.JComponent;
 import javax.swing.JTree;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
+
+import de.iss.mv2.client.data.MV2ClientSettings;
+import de.iss.mv2.client.data.MailTreeModel;
 
 /**
  * A component displaying the available mail boxes.
@@ -28,34 +29,7 @@ public class MailBoxSelector extends JComponent {
 
 		JTree tree = new JTree();
 		tree.setRowHeight(40);
-		tree.setModel(new DefaultTreeModel(new DefaultMutableTreeNode("JTree") {
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-
-			{
-				DefaultMutableTreeNode node_1;
-				node_1 = new DefaultMutableTreeNode("colors");
-				node_1.add(new DefaultMutableTreeNode("blue"));
-				node_1.add(new DefaultMutableTreeNode("violet"));
-				node_1.add(new DefaultMutableTreeNode("red"));
-				node_1.add(new DefaultMutableTreeNode("yellow"));
-				add(node_1);
-				node_1 = new DefaultMutableTreeNode("sports");
-				node_1.add(new DefaultMutableTreeNode("basketball"));
-				node_1.add(new DefaultMutableTreeNode("soccer"));
-				node_1.add(new DefaultMutableTreeNode("football"));
-				node_1.add(new DefaultMutableTreeNode("hockey"));
-				add(node_1);
-				node_1 = new DefaultMutableTreeNode("food");
-				node_1.add(new DefaultMutableTreeNode("hot dogs"));
-				node_1.add(new DefaultMutableTreeNode("pizza"));
-				node_1.add(new DefaultMutableTreeNode("ravioli"));
-				node_1.add(new DefaultMutableTreeNode("bananas"));
-				add(node_1);
-			}
-		}));
+		tree.setModel(new MailTreeModel(MV2ClientSettings.getRuntimeSettings()));
 		tree.setRootVisible(false);
 		tree.setCellRenderer(new MailBoxCellRenderer());
 		add(tree, BorderLayout.CENTER);

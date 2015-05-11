@@ -234,4 +234,9 @@ public class MailBoxSettings extends PropertiesExportable {
 		return pk;
 	}
 
+	@Override
+	public String toString() {
+		return getAddress();
+	}
+	
 }
