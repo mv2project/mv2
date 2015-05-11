@@ -162,6 +162,19 @@ public class MV2ClientSettings extends PropertiesExportable {
 	public List<MailBoxSettings> getMailBoxes() {
 		return mailBoxes;
 	}
+	
+	/**
+	 * Returns the mail boxes.
+	 * @return An array containing the available mail boxes.
+	 */
+	public MailBoxSettings[] getMailBoxesArray(){
+		List<MailBoxSettings> list = getMailBoxes();
+		MailBoxSettings[] boxes = new MailBoxSettings[list.size()];
+		for(int i = 0; i<boxes.length; i++){
+			boxes[i] = list.get(i);
+		}
+		return boxes;
+	}
 
 	/**
 	 * Loads extra data.

@@ -1,6 +1,7 @@
 package de.iss.mv2.client.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -24,8 +25,11 @@ import de.iss.mv2.MV2Constants;
 import de.iss.mv2.client.data.MV2ClientSettings;
 import de.iss.mv2.client.data.UserPreferences;
 import de.iss.mv2.data.EncryptedExportable;
+import de.iss.mv2.gui.DialogHelper;
 import de.iss.mv2.io.PathBuilder;
 import de.iss.mv2.logging.LoggerManager;
+
+import java.awt.event.InputEvent;
 
 /**
  * The main window of the client application.
@@ -50,6 +54,10 @@ public class ClientMainWindow extends JFrame implements WindowListener,
 	 * The menu item to open the certificate signing tool.
 	 */
 	private JMenuItem certSigningToolItem;
+	/**
+	 * The menu item to create a new mail.
+	 */
+	private JMenuItem newMailItem;
 
 	/**
 	 * Creates a new instance of {@link ClientMainWindow}.
@@ -78,6 +86,11 @@ public class ClientMainWindow extends JFrame implements WindowListener,
 		settingsButton.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_COMMA,
 				tk.getMenuShortcutKeyMask()));
 		settingsButton.addActionListener(this);
+		
+		newMailItem = new JMenuItem("New Mail");
+		newMailItem.addActionListener(this);
+		newMailItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, tk.getMenuShortcutKeyMask()));
+		mnNewMenu.add(newMailItem);
 		mnNewMenu.add(settingsButton);
 
 		JSplitPane splitPane = new JSplitPane();
@@ -130,6 +143,15 @@ public class ClientMainWindow extends JFrame implements WindowListener,
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == newMailItem){
+			JFrame frame = new JFrame("New Mail");
+			frame.getContentPane().setLayout(new BorderLayout());
+			frame.getContentPane().add(new MessageCreatorControl(MV2ClientSettings.getRuntimeSettings().getMailBoxesArray()), BorderLayout.CENTER);
+			frame.setLocationRelativeTo(this);
+			frame.pack();
+			frame.setSize(new Dimension(800, 600));
+			frame.setVisible(true);
+		}
 		if(e.getSource() == settingsButton){
 			ClientSettingsWindow csw = new ClientSettingsWindow();
 			csw.setLocationRelativeTo(this);

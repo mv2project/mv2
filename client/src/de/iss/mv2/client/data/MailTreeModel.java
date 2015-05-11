@@ -6,6 +6,7 @@ import javax.swing.tree.TreePath;
 
 /**
  * A tree model to display connected web spaces.
+ * 
  * @author Marcel Singer
  *
  */
@@ -15,10 +16,12 @@ public class MailTreeModel implements TreeModel {
 	 * Holds the client settings to display.
 	 */
 	private final MV2ClientSettings clientSettings;
-	
+
 	/**
 	 * Creates a new instance of {@link MailTreeModel}.
-	 * @param settings The client settings to use.
+	 * 
+	 * @param settings
+	 *            The client settings to use.
 	 */
 	public MailTreeModel(MV2ClientSettings settings) {
 		this.clientSettings = settings;
@@ -31,9 +34,9 @@ public class MailTreeModel implements TreeModel {
 
 	@Override
 	public Object getChild(Object parent, int index) {
-		if(parent == clientSettings){
+		if (parent == clientSettings) {
 			return clientSettings.getMailBoxes().get(index);
-		}else{
+		} else {
 			switch (index) {
 			case 0:
 				return "Inbox";
@@ -46,25 +49,32 @@ public class MailTreeModel implements TreeModel {
 
 	@Override
 	public int getChildCount(Object parent) {
-		if(parent == clientSettings) return clientSettings.getMailBoxes().size(); else return 2;
+		if (parent == clientSettings)
+			return clientSettings.getMailBoxes().size();
+		else
+			return 2;
 	}
 
 	@Override
 	public boolean isLeaf(Object node) {
-		if(String.class.isAssignableFrom(node.getClass())) return true;
+		if (String.class.isAssignableFrom(node.getClass()))
+			return true;
 		return false;
 	}
 
 	@Override
 	public void valueForPathChanged(TreePath path, Object newValue) {
-		
+
 	}
 
 	@Override
 	public int getIndexOfChild(Object parent, Object child) {
-		if(parent == clientSettings) return clientSettings.getMailBoxes().indexOf(child);
-		if(child.equals("Inbox")) return 0;
-		if(child.equals("Sent")) return 1;
+		if (parent == clientSettings)
+			return clientSettings.getMailBoxes().indexOf(child);
+		if (child.equals("Inbox"))
+			return 0;
+		if (child.equals("Sent"))
+			return 1;
 		return 0;
 	}
 
@@ -74,7 +84,7 @@ public class MailTreeModel implements TreeModel {
 
 	@Override
 	public void removeTreeModelListener(TreeModelListener l) {
-		
+
 	}
 
 }
