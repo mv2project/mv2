@@ -1,4 +1,4 @@
-package de.iss.mv2.server.io.sql;
+package de.iss.mv2.sql;
 
 import java.lang.reflect.Field;
 import java.sql.Connection;

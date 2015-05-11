@@ -1,4 +1,4 @@
-package de.iss.mv2.server.io.sql;
+package de.iss.mv2.sql;
 
 /**
  * An exception that is thrown if there is no load constructor inside an {@link AutoLoadable} class.

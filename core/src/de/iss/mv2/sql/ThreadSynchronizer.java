@@ -1,4 +1,4 @@
-package de.iss.mv2.server.io.sql;
+package de.iss.mv2.sql;
 
 /**
  * A synchronizer that is used to run a given runnable in a certain manner.

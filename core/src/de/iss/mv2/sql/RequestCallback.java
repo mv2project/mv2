@@ -1,4 +1,4 @@
-package de.iss.mv2.server.io.sql;
+package de.iss.mv2.sql;
 
 /**
  * Stellt einen Callback für asynchron durchgeführte Anfragen zur Verfügung.

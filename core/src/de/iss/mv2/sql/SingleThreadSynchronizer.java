@@ -1,4 +1,4 @@
-package de.iss.mv2.server.io.sql;
+package de.iss.mv2.sql;
 
 /**
  * A {@link ThreadSynchronizer} that instantly runs the given {@link Runnable} on a own thread.

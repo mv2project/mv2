@@ -10,7 +10,7 @@ import org.bouncycastle.pkcs.PKCS10CertificationRequest;
 
 import de.iss.mv2.data.Certificate;
 import de.iss.mv2.data.CertificateManager;
-import de.iss.mv2.server.io.sql.SQLContext;
+import de.iss.mv2.sql.SQLContext;
 
 /**
  * The default implementation of {@link WebSpaceManager}.

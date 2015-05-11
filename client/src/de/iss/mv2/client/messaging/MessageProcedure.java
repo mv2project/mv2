@@ -19,6 +19,16 @@ public abstract class MessageProcedure<E extends Throwable, R> {
 	 * The client performing this procedure.
 	 */
 	private final MV2Client client;
+	
+	/** 
+	 * Holds the state of this procedure.
+	 */
+	private volatile String state = "";
+	
+	/**
+	 * Holds the progress of this procedure.
+	 */
+	private volatile int progress = 0;
 
 	/**
 	 * Creates a new instance of {@link MessageProcedure} with the given client
@@ -61,6 +71,49 @@ public abstract class MessageProcedure<E extends Throwable, R> {
 	 *            The thrown exception to handle.
 	 */
 	protected abstract void handleProcedureException(Throwable exception);
+	
+	/**
+	 * Updates the state of this procedure.
+	 * @param state The new state to set.
+	 */
+	protected void update(String state){
+		this.state = state;
+	}
+	
+	/**
+	 * Updates the progress of this procedure.
+	 * @param progress The new progress to set.
+	 */
+	protected void update(int progress){
+		this.progress = progress;
+	}
+	
+	/**
+	 * Updates the state and progress of this procedure.
+	 * @param state The new state of this procedure.
+	 * @param progress The new progress of this procedure.
+	 */
+	protected void update(String state, int progress){
+		update(progress);
+		update(state);
+	}
+	
+	/**
+	 * Returns the current state of this procedure.
+	 * @return The current state of this procedure.
+	 */
+	public String getState(){
+		return state;
+	}
+	
+	/**
+	 * Returns the progress of this procedure.
+	 * @return The progress of this procedure.
+	 */
+	public int getProgress(){
+		return progress;
+	}
+	
 
 	/**
 	 * Runs this procedure immediately on the calling thread an returns the
@@ -75,6 +128,8 @@ public abstract class MessageProcedure<E extends Throwable, R> {
 	public R runImmediate() throws ProcedureException {
 		try {
 			return doPerform(client);
+			
+			
 		} catch (IOException communicationException) {
 			handleCommunicationException(communicationException);
 			throw new ProcedureException(communicationException);

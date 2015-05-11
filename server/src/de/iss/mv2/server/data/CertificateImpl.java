@@ -10,9 +10,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import de.iss.mv2.data.Certificate;
-import de.iss.mv2.server.io.sql.Commitable;
-import de.iss.mv2.server.io.sql.ReferenceValueResolver;
-import de.iss.mv2.server.io.sql.TableField;
+import de.iss.mv2.sql.Commitable;
+import de.iss.mv2.sql.ReferenceValueResolver;
+import de.iss.mv2.sql.TableField;
 
 /**
  * Represents a certificate that can be stored into a database.
