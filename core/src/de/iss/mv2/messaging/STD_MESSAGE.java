@@ -73,7 +73,15 @@ public enum STD_MESSAGE {
 	/**
 	 * The message type of servers answer to a {@link ClientCertificateRequest}.
 	 */
-	CLIENT_CERTIFICATE_RESPONSE(16);
+	CLIENT_CERTIFICATE_RESPONSE(16),
+	/**
+	 * The message type of a clients outgoing mail message.
+	 */
+	MESSAGE_DELIVERY_REQUEST(17),
+	/**
+	 * The message type of a servers response to an incoming {@link STD_MESSAGE#MESSAGE_DELIVERY_REQUEST}.
+	 */
+	MESSAGE_DELIVERY_RESPONSE(18);
 	
 	/**
 	 * Holds the identifier of a message type.
