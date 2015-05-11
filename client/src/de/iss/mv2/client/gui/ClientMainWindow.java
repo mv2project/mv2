@@ -1,7 +1,6 @@
 package de.iss.mv2.client.gui;
 
 import java.awt.BorderLayout;
-import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -25,11 +24,8 @@ import de.iss.mv2.MV2Constants;
 import de.iss.mv2.client.data.MV2ClientSettings;
 import de.iss.mv2.client.data.UserPreferences;
 import de.iss.mv2.data.EncryptedExportable;
-import de.iss.mv2.gui.DialogHelper;
 import de.iss.mv2.io.PathBuilder;
 import de.iss.mv2.logging.LoggerManager;
-
-import java.awt.event.InputEvent;
 
 /**
  * The main window of the client application.
@@ -49,7 +45,7 @@ public class ClientMainWindow extends JFrame implements WindowListener,
 	 * The menu item to open the client settings.
 	 */
 	private JMenuItem settingsButton;
-	
+
 	/**
 	 * The menu item to open the certificate signing tool.
 	 */
@@ -81,15 +77,16 @@ public class ClientMainWindow extends JFrame implements WindowListener,
 		certSigningToolItem.addActionListener(this);
 		toolsMenu.add(certSigningToolItem);
 		menuBar.add(toolsMenu);
-		
+
 		settingsButton = new JMenuItem("Settings");
 		settingsButton.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_COMMA,
 				tk.getMenuShortcutKeyMask()));
 		settingsButton.addActionListener(this);
-		
+
 		newMailItem = new JMenuItem("New Mail");
 		newMailItem.addActionListener(this);
-		newMailItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, tk.getMenuShortcutKeyMask()));
+		newMailItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N,
+				tk.getMenuShortcutKeyMask()));
 		mnNewMenu.add(newMailItem);
 		mnNewMenu.add(settingsButton);
 
@@ -107,16 +104,19 @@ public class ClientMainWindow extends JFrame implements WindowListener,
 
 	@Override
 	public void windowClosing(WindowEvent e) {
-		try{
-			PathBuilder pb = new PathBuilder(new File(UserPreferences.getPreferences().getStoreAddress("")));
+		try {
+			PathBuilder pb = new PathBuilder(new File(UserPreferences
+					.getPreferences().getStoreAddress("")));
 			File f = pb.getChildFile(MV2Constants.CLIENT_CONFIG_FILE_NAME);
-			EncryptedExportable ee = new EncryptedExportable(MV2ClientSettings.getRuntimeSettings());
+			EncryptedExportable ee = new EncryptedExportable(
+					MV2ClientSettings.getRuntimeSettings());
 			OutputStream out = new FileOutputStream(f);
-			ee.export(MV2ClientSettings.getRuntimeSettings().getPassphrase(), out);
+			ee.export(MV2ClientSettings.getRuntimeSettings().getPassphrase(),
+					out);
 			out.flush();
 			out.close();
 			MV2ClientSettings.getRuntimeSettings().saveExtras(f);
-		}catch(Exception ex){
+		} catch (Exception ex) {
 			LoggerManager.getCurrentLogger().push(ex);
 		}
 	}
@@ -143,21 +143,24 @@ public class ClientMainWindow extends JFrame implements WindowListener,
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == newMailItem){
+		if (e.getSource() == newMailItem) {
 			JFrame frame = new JFrame("New Mail");
 			frame.getContentPane().setLayout(new BorderLayout());
-			frame.getContentPane().add(new MessageCreatorControl(MV2ClientSettings.getRuntimeSettings().getMailBoxesArray()), BorderLayout.CENTER);
+			frame.getContentPane().add(
+					new MessageCreatorControl(MV2ClientSettings
+							.getRuntimeSettings().getMailBoxesArray()),
+					BorderLayout.CENTER);
 			frame.setLocationRelativeTo(this);
 			frame.pack();
 			frame.setSize(new Dimension(800, 600));
 			frame.setVisible(true);
 		}
-		if(e.getSource() == settingsButton){
+		if (e.getSource() == settingsButton) {
 			ClientSettingsWindow csw = new ClientSettingsWindow();
 			csw.setLocationRelativeTo(this);
 			csw.setVisible(true);
 		}
-		if(e.getSource() == certSigningToolItem){
+		if (e.getSource() == certSigningToolItem) {
 			CertificateSigningTool cst = new CertificateSigningTool();
 			cst.setLocationRelativeTo(this);
 			cst.setVisible(true);

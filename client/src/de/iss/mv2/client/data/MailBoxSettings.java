@@ -12,6 +12,7 @@ import java.util.Base64;
 import org.bouncycastle.operator.OperatorCreationException;
 import org.bouncycastle.pkcs.PKCSException;
 
+import de.iss.mv2.client.io.MV2Client;
 import de.iss.mv2.data.PropertiesExportable;
 import de.iss.mv2.security.PEMFileIO;
 
@@ -155,6 +156,19 @@ public class MailBoxSettings extends PropertiesExportable {
 				.getDecoder().decode(value));
 		PEMFileIO pemIO = new PEMFileIO();
 		return pemIO.readCertificate(bais);
+	}
+	
+	/**
+	 * Creates a new client using this settings.
+	 * @return A new client that was created using this mail box settings.
+	 * @throws IOException If an I/O error occurs.
+	 * @throws CertificateException If the servers certificate can not be retrieved.
+	 */
+	public MV2Client getClient() throws IOException, CertificateException{
+		MV2Client cl = new MV2Client();
+		cl.connect(getHost(), getServerPort());
+		cl.setServerCert(getServerCertificate());
+		return cl;
 	}
 
 	/**
