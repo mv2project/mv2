@@ -39,6 +39,11 @@ public class LoadingDialog extends JDialog implements ProcedureListener {
 	 * Holds the progress bar.
 	 */
 	private JProgressBar progressBar;
+	
+	/**
+	 * Specifies if this dialog should remain opened after the procedure was executed.
+	 */
+	private boolean remainOpened = false;
 
 	/**
 	 * Creates a new loading dialog with the provided owner.
@@ -67,6 +72,14 @@ public class LoadingDialog extends JDialog implements ProcedureListener {
 		buildGUI();
 	}
 
+	/**
+	 * Sets if this dialog should remain opened after the procedure was executed.
+	 * @param remainOpen {@code true} if this dialog should remain opened after the procedure was executed.
+	 */
+	public void setRemainOpened(boolean remainOpen){
+		this.remainOpened = remainOpen;
+	}
+	
 	/**
 	 * Builds the GUI of this dialog.
 	 */
@@ -101,13 +114,14 @@ public class LoadingDialog extends JDialog implements ProcedureListener {
 	@Override
 	public void handleProcedureException(MessageProcedure procedure,
 			ProcedureException ex) {
+		if(remainOpened) return;
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setVisible(false);
 	}
 
 	@Override
 	public void procedureCompleted(MessageProcedure procedure, Object result) {
-		// TODO Auto-generated method stub
+		if(remainOpened) return;
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setVisible(false);
 	}
