@@ -11,9 +11,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 
-import javax.imageio.ImageIO;
+//import javax.imageio.ImageIO;
 
-import com.apple.eawt.Application;
+//import com.apple.eawt.Application;
 
 import de.iss.mv2.MV2Constants;
 import de.iss.mv2.client.data.MV2ClientSettings;
@@ -41,7 +41,7 @@ public class ClientStatrtup {
 	 */
 	public static void start(final String[] args) {
 		try{
-			Application.getApplication().setDockIconImage(ImageIO.read(ClientStatrtup.class.getClassLoader().getResourceAsStream("mv2Icon.png")));
+			//Application.getApplication().setDockIconImage(ImageIO.read(ClientStatrtup.class.getClassLoader().getResourceAsStream("mv2Icon.png")));
 		}catch(Exception ex){
 			
 		}

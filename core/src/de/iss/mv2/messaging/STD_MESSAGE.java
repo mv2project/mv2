@@ -65,7 +65,15 @@ public enum STD_MESSAGE {
 	/**
 	 * The servers answer containing the answer to a {@link STD_MESSAGE#CLIENT_LOGIN_DATA}.
 	 */
-	SERVER_LOGIN_RESULT(14);
+	SERVER_LOGIN_RESULT(14),
+	/**
+	 * The clients request for a foreign client certificate. 
+	 */
+	CLIENT_CERTIFICATE_REQUEST(15),
+	/**
+	 * The message type of servers answer to a {@link ClientCertificateRequest}.
+	 */
+	CLIENT_CERTIFICATE_RESPONSE(16);
 	
 	/**
 	 * Holds the identifier of a message type.
