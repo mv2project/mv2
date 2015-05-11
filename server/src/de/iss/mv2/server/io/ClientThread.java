@@ -200,10 +200,11 @@ public class ClientThread extends Thread implements CommunicationPartner {
 				reportMessage(received);
 			} catch (SocketTimeoutException ex) {
 
-			} catch (EOFException e) {
+			}catch (EOFException e) {
 				cancel();
 			} catch (IOException e) {
 				e.printStackTrace();
+				cancel();
 			}
 
 		}
