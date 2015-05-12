@@ -27,5 +27,7 @@ public interface WebSpace {
 	 * @return The identifier for this web space.
 	 */
 	public String getIdentifier();
+	
+	
 
 }
