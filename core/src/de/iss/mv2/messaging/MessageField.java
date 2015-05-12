@@ -1,5 +1,6 @@
 package de.iss.mv2.messaging;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -18,6 +19,11 @@ public class MessageField extends MV2CommunicationElement {
 	 * Holds the content of this field.
 	 */
 	private String content;
+	
+	/**
+	 * Holds the binary content.
+	 */
+	private ByteArrayOutputStream binaryContent;
 	
 	/**
 	 * Creates a new instance of {@link MessageField}.
@@ -110,7 +116,22 @@ public class MessageField extends MV2CommunicationElement {
 	
 	@Override
 	protected void doDeserialize(InputStream in, Charset encdoding) throws IOException {
-		InputStreamReader reader = new InputStreamReader(in, encdoding);
+		DEF_MESSAGE_FIELD dmf = DEF_MESSAGE_FIELD.find(getFieldIdentifier());
+		if(dmf.getContentType() == CONTENT_TYPE.BINARY){
+			
+		}else{
+			doDeserializeString(in, encdoding);
+		}
+	}
+	
+	/**
+	 * Deserializes an input stream to a string.
+	 * @param in The input stream to deserialize.
+	 * @param encoding The encoding to use.
+	 * @throws IOException If an I/O error occurs.
+	 */
+	private void doDeserializeString(InputStream in, Charset encoding) throws IOException{
+		InputStreamReader reader = new InputStreamReader(in, encoding);
 		StringBuilder sb = new StringBuilder();
 		int read;
 		while((read = reader.read()) != -1){

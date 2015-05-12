@@ -1,5 +1,6 @@
 package de.iss.mv2.messaging;
 
+
 /**
  * An enumeration containing all well known message fields.
  * @author Marcel Singer
@@ -51,7 +52,17 @@ public enum DEF_MESSAGE_FIELD {
 	/**
 	 * A message field containing the name of a hash algorithm.
 	 */
-	HASH_ALGORITHM(9);
+	HASH_ALGORITHM(9),
+	/**
+	 * A message field containing binary content data.
+	 */
+	CONTENT_BINARY(10, CONTENT_TYPE.BINARY),
+	/**
+	 * A message field containing binary hash data.
+	 */
+	HASH_BINARY(11, CONTENT_TYPE.BINARY);
+	
+	
 	
 	
 	
@@ -62,11 +73,26 @@ public enum DEF_MESSAGE_FIELD {
 	private final int identifier;
 	
 	/**
+	 * The type of the field content.
+	 */
+	private final CONTENT_TYPE contentType;
+	
+	/**
 	 * Creates a new field type.
 	 * @param identifier The identifier of the field type to create.
 	 */
 	private DEF_MESSAGE_FIELD(int identifier) {
+		this(identifier, CONTENT_TYPE.STRING_LITERAL);
+	}
+	
+	/**
+	 * Creates a new field type.
+	 * @param identifier The identifier 
+	 * @param contentType
+	 */
+	private DEF_MESSAGE_FIELD(int identifier, CONTENT_TYPE contentType){
 		this.identifier = identifier;
+		this.contentType = contentType;
 	}
 	
 	/**
@@ -74,6 +100,12 @@ public enum DEF_MESSAGE_FIELD {
 	 * @return The identifier of this field.
 	 */
 	public int getIdentifier(){ return identifier; }
+	
+	/**
+	 * Returns the content type of the message field.
+	 * @return The content type of the message field.
+	 */
+	public CONTENT_TYPE getContentType(){ return contentType; }
 	
 	/**
 	 * Searches all well known message fields for the given identifier.
