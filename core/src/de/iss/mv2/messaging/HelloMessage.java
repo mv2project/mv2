@@ -32,7 +32,7 @@ public class HelloMessage extends MV2Message {
 	 * @return The host name of the server.
 	 */
 	public String getHostName(){
-		return getFieldValue(DEF_MESSAGE_FIELD.CONTENT_PLAIN, "");
+		return getFieldStringValue(DEF_MESSAGE_FIELD.CONTENT_PLAIN, "");
 	}
 
 }

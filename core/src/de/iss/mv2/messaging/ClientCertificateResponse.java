@@ -1,11 +1,10 @@
 package de.iss.mv2.messaging;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.cert.CertificateEncodingException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
-import java.util.Base64;
 
 import de.iss.mv2.security.PEMFileIO;
 
@@ -40,8 +39,8 @@ public class ClientCertificateResponse extends MV2Message {
 			throw new IllegalArgumentException(
 					"The certificate must not be null.");
 		byte[] certData = certificate.getEncoded();
-		setMessageField(new MessageField(DEF_MESSAGE_FIELD.CONTENT_BASE64,
-				Base64.getEncoder().encodeToString(certData)), true);
+		setMessageField(new MessageField(DEF_MESSAGE_FIELD.CONTENT_BINARY,
+				certData), true);
 	}
 
 	/**
@@ -55,12 +54,12 @@ public class ClientCertificateResponse extends MV2Message {
 	 */
 	public X509Certificate getCertificate() throws CertificateException,
 			IOException {
-		String value = getFieldValue(DEF_MESSAGE_FIELD.CONTENT_BASE64, null);
-		if (value == null)
+		InputStream in = getFieldData(DEF_MESSAGE_FIELD.CONTENT_BINARY, null);
+		if (in == null)
 			return null;
 		PEMFileIO pemIO = new PEMFileIO();
-		X509Certificate cert = pemIO.readCertificate(new ByteArrayInputStream(
-				Base64.getDecoder().decode(value)));
+		X509Certificate cert = pemIO.readCertificate(in);
+		in.close();
 		return cert;
 	}
 

@@ -136,10 +136,8 @@ public class EncryptedMessage extends MV2Message {
 			keyCryptoOut.write(key);
 			keyCryptoOut.flush();
 			keyCryptoOut.close();
-			String keyContent = Base64.getEncoder().encodeToString(
-					keyOut.toByteArray());
 			MessageField keyField = new MessageField(DEF_MESSAGE_FIELD.ENCRYPTION_KEY,
-					keyContent);
+					keyOut.toByteArray());
 			keyField.setEncoding(ENCODING);
 			keyField.serialize(out);
 			symAlgorithmName.serialize(out);
@@ -176,7 +174,6 @@ public class EncryptedMessage extends MV2Message {
 				mf.completeDeserialize(ENCODING);
 				setMessageField(mf, true);
 			}
-			MessageField keyField = getFieldOrThrow(DEF_MESSAGE_FIELD.ENCRYPTION_KEY);
 			MessageField symNameField = getFieldOrThrow(DEF_MESSAGE_FIELD.SYMETRIC_ALGORITHM);
 			MessageField asymNameField = getFieldOrThrow(DEF_MESSAGE_FIELD.ASYMETRIC_ALGORITHM);
 			this.symmetricAlgorithm = symNameField.getContent();
@@ -186,7 +183,7 @@ public class EncryptedMessage extends MV2Message {
 							settings.getAsymetricAlgorithmName())) {
 				throw new CryptoException();
 			}
-			byte[] keyData = Base64.getDecoder().decode(keyField.getContent());
+			byte[] keyData = getFieldDataArrayValue(DEF_MESSAGE_FIELD.ENCRYPTION_KEY, null);
 			ByteArrayInputStream bin = new ByteArrayInputStream(keyData);
 			InputStream asymIn = settings.getAsymenticDecryptionStram(bin,
 					keyPair);

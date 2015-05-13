@@ -44,7 +44,7 @@ public class ClientCertificateRequestProcedure extends SwingMessageProcedure<Req
 		client.send(ccr);
 		MV2Message m = client.handleNext();
 		if(m.getMessageIdentifier() == STD_MESSAGE.UNABLE_TO_PROCESS.getIdentifier()){
-			throw new RequestException(m.getFieldValue(DEF_MESSAGE_FIELD.CAUSE, ""));
+			throw new RequestException(m.getFieldStringValue(DEF_MESSAGE_FIELD.CAUSE, ""));
 		}
 		if(m.getMessageIdentifier() != STD_MESSAGE.CLIENT_CERTIFICATE_RESPONSE.getIdentifier()) throw new RequestException("The server did not respond with the requested certificate.");
 		ClientCertificateResponse response = new ClientCertificateResponse();

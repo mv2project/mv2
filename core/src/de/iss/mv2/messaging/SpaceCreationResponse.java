@@ -1,12 +1,11 @@
 package de.iss.mv2.messaging;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.cert.CertificateEncodingException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
-import java.util.Base64;
 
 import de.iss.mv2.security.PEMFileIO;
 
@@ -37,8 +36,8 @@ public class SpaceCreationResponse extends MV2Message {
 		if (certData == null || certData.length == 0)
 			throw new IllegalArgumentException(
 					"The given data may not be null or empty.");
-		setMessageField(new MessageField(DEF_MESSAGE_FIELD.CONTENT_BASE64,
-				Base64.getEncoder().encodeToString(certData)), true);
+		setMessageField(new MessageField(DEF_MESSAGE_FIELD.CONTENT_BINARY,
+				certData), true);
 	}
 
 	/**
@@ -75,12 +74,11 @@ public class SpaceCreationResponse extends MV2Message {
 	 */
 	public X509Certificate getCertificate() throws CertificateException,
 			IOException {
-		String content = getFieldValue(DEF_MESSAGE_FIELD.CONTENT_BASE64, null);
-		if (content == null)
+		InputStream in = getFieldData(DEF_MESSAGE_FIELD.CONTENT_BINARY, null);
+		if (in == null)
 			return null;
-		ByteArrayInputStream bais = new ByteArrayInputStream(Base64
-				.getDecoder().decode(content));
-		X509Certificate cert = new PEMFileIO().readCertificate(bais);
+		X509Certificate cert = new PEMFileIO().readCertificate(in);
+		in.close();
 		return cert;
 	}
 

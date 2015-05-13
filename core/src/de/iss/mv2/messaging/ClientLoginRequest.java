@@ -30,7 +30,7 @@ public class ClientLoginRequest extends MV2Message {
 	 * @return The identifier of the web space to connect to.
 	 */
 	public String getIdentifier(){
-		return getFieldValue(DEF_MESSAGE_FIELD.CONTENT_PLAIN, "");
+		return getFieldStringValue(DEF_MESSAGE_FIELD.CONTENT_PLAIN, "");
 	}
 	
 	

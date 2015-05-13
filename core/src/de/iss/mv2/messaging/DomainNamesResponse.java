@@ -33,7 +33,7 @@ public class DomainNamesResponse extends MV2Message {
 	 * @return The available domain names.
 	 */
 	public String[] getAvailableDomainNames(){
-		String cont = getFieldValue(DEF_MESSAGE_FIELD.CONTENT_PLAIN, null);
+		String cont = getFieldStringValue(DEF_MESSAGE_FIELD.CONTENT_PLAIN, null);
 		if(cont == null) return new String[0];
 		return cont.split(";");
 	}

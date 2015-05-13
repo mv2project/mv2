@@ -12,6 +12,7 @@ import de.iss.mv2.server.io.MV2Server;
 
 /**
  * A processor to process a certificate request.
+ * 
  * @author Marcel Singer
  *
  */
@@ -24,12 +25,13 @@ public class CertProcessor implements MessageProcessor {
 
 	/**
 	 * Creates a new instance of {@link CertProcessor}.
-	 * @param server The server that receives the messages.
+	 * 
+	 * @param server
+	 *            The server that receives the messages.
 	 */
 	public CertProcessor(MV2Server server) {
 		this.server = server;
 	}
-	
 
 	@Override
 	/**
@@ -42,8 +44,8 @@ public class CertProcessor implements MessageProcessor {
 			CertificateResponeMessage response;
 			String binding = client.getHostName();
 			try {
-				response = new CertificateResponeMessage(
-						server.getCertificate(binding));
+				response = new CertificateResponeMessage();
+				response.setCertificate(server.getCertificate(binding));
 				client.send(response);
 				return true;
 			} catch (CertificateEncodingException e) {

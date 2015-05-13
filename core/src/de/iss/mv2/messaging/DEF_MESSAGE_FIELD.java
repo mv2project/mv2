@@ -21,12 +21,14 @@ public enum DEF_MESSAGE_FIELD {
 	CAUSE(2),
 	/**
 	 * A message field containing a Base64 encoded binary value.
+	 * @deprecated Use {@link DEF_MESSAGE_FIELD#CONTENT_BINARY}.
 	 */
+	@Deprecated
 	CONTENT_BASE64(3),
 	/**
 	 * A message field containing the symmetric encryption key and IV.
 	 */
-	ENCRYPTION_KEY(4),
+	ENCRYPTION_KEY(4, CONTENT_TYPE.BINARY),
 	/**
 	 * A message field containing the name of the symmetric algorithm.
 	 */
@@ -47,7 +49,9 @@ public enum DEF_MESSAGE_FIELD {
 	CONTENT_PLAIN(7),
 	/**
 	 * A message field containing a Base64 encoded hash value.
+	 * @deprecated Use {@link DEF_MESSAGE_FIELD#HASH_BINARY}.
 	 */
+	@Deprecated
 	HASH_BASE64(8),
 	/**
 	 * A message field containing the name of a hash algorithm.

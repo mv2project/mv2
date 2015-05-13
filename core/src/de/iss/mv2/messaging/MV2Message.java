@@ -114,6 +114,7 @@ public class MV2Message extends MV2CommunicationElement {
 	 * @param defaultValue The value that should be returned if no field with the given identifier war found.
 	 * @return The value of the field with the given identifier.
 	 */
+	@Deprecated
 	public String getFieldValue(int fieldIdentifier, String defaultValue){
 		if(!fields.containsKey(fieldIdentifier)) return defaultValue;
 		return fields.get(fieldIdentifier).getContent();
@@ -124,9 +125,44 @@ public class MV2Message extends MV2CommunicationElement {
 	 * @param field The type of the field thats content should be returned.
 	 * @param defaultValue The value that should be returned if no field with the given type war found.
 	 * @return The value of the field with the given type.
+	 * @deprecated Use {@link MV2Message#getFieldStringValue(DEF_MESSAGE_FIELD, String)} or {@link MV2Message#getFieldData(DEF_MESSAGE_FIELD, InputStream)}.
 	 */
+	@Deprecated
 	public String getFieldValue(DEF_MESSAGE_FIELD field, String defaultValue){
 		return getFieldValue(field.getIdentifier(), defaultValue);
+	}
+	
+	/**
+	 * Returns the string value of the field with the given type.
+	 * @param field The type of the field thats content should be returned.
+	 * @param defaultValue The value that should be returned if no field with the given type war found.
+	 * @return The value of the field with the given type.
+	 */
+	public String getFieldStringValue(DEF_MESSAGE_FIELD field, String defaultValue){
+		if(!fields.containsKey(field.getIdentifier())) return defaultValue;
+		return fields.get(field.getIdentifier()).getContent();
+	}
+	
+	/**
+	 * Returns the binary content of the field with the given type.
+	 * @param field The type of the field thats content data should be returned.
+	 * @param defaultValue The value that should be returned is no field with the given type was found.
+	 * @return The binary content of the specified field.
+	 */
+	public byte[] getFieldDataArrayValue(DEF_MESSAGE_FIELD field, byte[] defaultValue){
+		if(!fields.containsKey(field.getIdentifier())) return defaultValue;
+		return fields.get(field.getIdentifier()).getDataArrayContent();
+	}
+	
+	/**
+	 * Returns the binary content stream of the field with the given type.
+	 * @param field The type of the field thats content data should be returned.
+	 * @param defaultValue The value that should be returned is no field with the given type was found.
+	 * @return The binary content stream of the specified field.
+	 */
+	public InputStream getFieldData(DEF_MESSAGE_FIELD field, InputStream defaultValue){
+		if(!fields.containsKey(field.getIdentifier())) return defaultValue;
+		return fields.get(field.getIdentifier()).getDataContent();
 	}
 	
 	@Override

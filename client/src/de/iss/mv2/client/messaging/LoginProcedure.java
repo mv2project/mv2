@@ -106,7 +106,7 @@ public class LoginProcedure extends
 		m = client.handleNext();
 		if (m.getMessageIdentifier() == STD_MESSAGE.UNABLE_TO_PROCESS
 				.getIdentifier()
-				&& m.getFieldValue(DEF_MESSAGE_FIELD.CAUSE, "").equals(
+				&& m.getFieldStringValue(DEF_MESSAGE_FIELD.CAUSE, "").equals(
 						"Invalid login data."))
 			return false;
 		testFailure(m);

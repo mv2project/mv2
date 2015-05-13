@@ -1,6 +1,5 @@
 package de.iss.mv2.messaging;
 
-import java.util.Base64;
 
 /**
  * The servers response to a {@link ClientLoginRequest} containing the test
@@ -32,8 +31,8 @@ public class ServerLoginResponse extends MV2Message {
 		if (testPhrase == null || testPhrase.length == 0)
 			throw new IllegalArgumentException(
 					"The test phrase must not be null or empty.");
-		setMessageField(new MessageField(DEF_MESSAGE_FIELD.CONTENT_BASE64,
-				Base64.getEncoder().encodeToString(testPhrase)), true);
+		setMessageField(new MessageField(DEF_MESSAGE_FIELD.CONTENT_BINARY,
+				testPhrase), true);
 	}
 
 	/**
@@ -42,10 +41,7 @@ public class ServerLoginResponse extends MV2Message {
 	 * @return The encrypted phrase to test the clients identity.
 	 */
 	public byte[] getTestPhrase() {
-		String value = getFieldValue(DEF_MESSAGE_FIELD.CONTENT_BASE64, null);
-		if (value == null)
-			return null;
-		return Base64.getDecoder().decode(value);
+		return getFieldDataArrayValue(DEF_MESSAGE_FIELD.CONTENT_BINARY, null);
 	}
 
 	/**
@@ -66,35 +62,42 @@ public class ServerLoginResponse extends MV2Message {
 		setMessageField(new MessageField(DEF_MESSAGE_FIELD.HASH_ALGORITHM,
 				algorithmName), true);
 	}
-	
+
 	/**
-	 * Returns the name of the hash algorithm used to compose the digest of the unencrypted test phrase.
-	 * @return The name of the hash algorithm used to compose the digest of the unencrypted test phrase.
+	 * Returns the name of the hash algorithm used to compose the digest of the
+	 * unencrypted test phrase.
+	 * 
+	 * @return The name of the hash algorithm used to compose the digest of the
+	 *         unencrypted test phrase.
 	 */
-	public String getHashAlgorithm(){
-		return getFieldValue(DEF_MESSAGE_FIELD.HASH_ALGORITHM, "");
+	public String getHashAlgorithm() {
+		return getFieldStringValue(DEF_MESSAGE_FIELD.HASH_ALGORITHM, "");
 	}
-	
+
 	/**
 	 * Sets the digest of the unencrypted test phrase.
-	 * @param testPhraseHash The digest to set.
-	 * @throws IllegalArgumentException Is thrown if the given digest is {@code null} or empty.
+	 * 
+	 * @param testPhraseHash
+	 *            The digest to set.
+	 * @throws IllegalArgumentException
+	 *             Is thrown if the given digest is {@code null} or empty.
 	 */
-	public void setTestPhraseHash(byte[] testPhraseHash) throws IllegalArgumentException{
-		if(testPhraseHash == null || testPhraseHash.length == 0) throw new IllegalArgumentException("The test phrase hash must not be null or empty.");
-		setMessageField(new MessageField(DEF_MESSAGE_FIELD.HASH_BASE64, Base64.getEncoder().encodeToString(testPhraseHash)), true);
+	public void setTestPhraseHash(byte[] testPhraseHash)
+			throws IllegalArgumentException {
+		if (testPhraseHash == null || testPhraseHash.length == 0)
+			throw new IllegalArgumentException(
+					"The test phrase hash must not be null or empty.");
+		setMessageField(new MessageField(DEF_MESSAGE_FIELD.HASH_BINARY,
+				testPhraseHash), true);
 	}
-	
+
 	/**
 	 * Returns the digest of the unencrypted test phrase.
+	 * 
 	 * @return The digest of the unencrypted test phrase.
 	 */
-	public byte[] getTestPhraseHash(){
-		String value = getFieldValue(DEF_MESSAGE_FIELD.HASH_BASE64, null);
-		if(value == null) return null;
-		return Base64.getDecoder().decode(value);
+	public byte[] getTestPhraseHash() {
+		return getFieldDataArrayValue(DEF_MESSAGE_FIELD.HASH_BINARY, null);
 	}
-	
-	
 
 }

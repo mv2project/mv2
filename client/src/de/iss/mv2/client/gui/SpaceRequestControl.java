@@ -205,7 +205,7 @@ public class SpaceRequestControl extends JComponent implements Observer,
 					.getIdentifier()) {
 				throw new Exception(
 						"The server could not process your request. See the following details:\n\n"
-								+ response.getFieldValue(
+								+ response.getFieldStringValue(
 										DEF_MESSAGE_FIELD.CAUSE, "NONE"));
 			}
 			if (response.getMessageIdentifier() != STD_MESSAGE.SPACE_CREATION_RESPONSE
