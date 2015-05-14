@@ -34,6 +34,22 @@ public class ContentMessageImpl implements ContentMessage{
 	 */
 	private byte[] key;
 	
+	/**
+	 * Creates a new instance of {@link ContentMessageImpl}.
+	 * @param webSpace The web space this message is allocated to.
+	 * @param timestamp The timestamp when this message was received.
+	 * @param contentData The content of this message.
+	 * @param key The symmetric encryption key of this message.
+	 * @param algorithmName The symmetric algorithm name.
+	 */
+	public ContentMessageImpl(WebSpace webSpace, Date timestamp, byte[] contentData, byte[] key, String algorithmName) {
+		this.webSpace = webSpace;
+		this.timestamp = timestamp;
+		this.key = key;
+		this.algorithmName = algorithmName;
+		this.contentData = contentData;
+	}
+	
 	@Override
 	public WebSpace getReceiver() {
 		return webSpace;

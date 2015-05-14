@@ -137,21 +137,28 @@ public class MessageCreatorControl extends JComponent implements ActionListener 
 							public void procedureCompleted(
 									MessageProcedure<? extends Throwable, X509Certificate> procedure,
 									X509Certificate result) {
-								CertificateView cv = new CertificateView();
-								cv.setCertificate(result);
-								SubmitDialog<JComponent> dialog = DialogHelper
-										.showBlockingSubmitDialog(
-												"Certificate", null,
-												new JScrollPane(cv));
-								if (dialog.getDialogResult() != MV2Constants.SUBMIT_OPTION) {
-									DialogHelper
-											.showErrorMessage(
-													MessageCreatorControl.this,
-													"Certificate discarded",
-													"The system is not able to send this mail because you discarded the receivers certificate.");
-									return;
+								if (!MV2ClientSettings.getRuntimeSettings()
+										.getTrustedClientCertificates()
+										.hasCertificate(result)) {
+									CertificateView cv = new CertificateView();
+									cv.setCertificate(result);
+									SubmitDialog<JComponent> dialog = DialogHelper
+											.showBlockingSubmitDialog(
+													"Certificate", null,
+													new JScrollPane(cv));
+									if (dialog.getDialogResult() != MV2Constants.SUBMIT_OPTION) {
+										DialogHelper
+												.showErrorMessage(
+														MessageCreatorControl.this,
+														"Certificate discarded",
+														"The system is not able to send this mail because you discarded the receivers certificate.");
+										return;
+									}
+									MV2ClientSettings.getRuntimeSettings()
+											.getTrustedClientCertificates()
+											.add(result);
 								}
-								MV2ClientSettings.getRuntimeSettings().getTrustedClientCertificates().add(result);
+								sendMessage(result);
 							}
 						}));
 				ccrp.run();
@@ -159,6 +166,14 @@ public class MessageCreatorControl extends JComponent implements ActionListener 
 				DialogHelper.showActionFailedWithExceptionMessage(this, ex);
 			}
 		}
+	}
+	
+	/**
+	 * Sends the message.
+	 * @param receiverCert The certificate of the receiver.
+	 */
+	private void sendMessage(X509Certificate receiverCert){
+		
 	}
 
 }

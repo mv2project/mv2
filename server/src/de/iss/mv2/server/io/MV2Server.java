@@ -33,6 +33,7 @@ import de.iss.mv2.server.processors.ClientLoginDataProcessor;
 import de.iss.mv2.server.processors.ClientLoginRequestProcessor;
 import de.iss.mv2.server.processors.DomainNamesProcessor;
 import de.iss.mv2.server.processors.HelloMessageProcessor;
+import de.iss.mv2.server.processors.MessageDeliveryRequestProcessor;
 import de.iss.mv2.server.processors.SpaceCreationProcessor;
 
 /**
@@ -135,9 +136,14 @@ public class MV2Server {
 		} catch (NoSuchAlgorithmException e) {
 			LoggerManager.getCurrentLogger().push(e);
 		}
-		ClientCertificateRequestProcessor ccrp = new ClientCertificateRequestProcessor(spaceManager);
+		ClientCertificateRequestProcessor ccrp = new ClientCertificateRequestProcessor(
+				spaceManager);
 		registerProcessor(ccrp);
 		registerPreProcessor(ccrp);
+		MessageDeliveryRequestProcessor mdrp = new MessageDeliveryRequestProcessor(
+				spaceManager);
+		registerProcessor(mdrp);
+		registerPreProcessor(mdrp);
 	}
 
 	/**

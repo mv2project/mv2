@@ -64,7 +64,11 @@ public enum DEF_MESSAGE_FIELD {
 	/**
 	 * A message field containing binary hash data.
 	 */
-	HASH_BINARY(11, CONTENT_TYPE.BINARY);
+	HASH_BINARY(11, CONTENT_TYPE.BINARY),
+	/**
+	 * A message field containing the receiving web space address.
+	 */
+	RECEIVER(12);
 	
 	
 	

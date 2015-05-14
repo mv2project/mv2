@@ -77,5 +77,21 @@ public class MessageDeliveryRequest extends MV2Message {
 	public byte[] getEncryptedSymmetricKey() {
 		return getFieldDataArrayValue(DEF_MESSAGE_FIELD.ENCRYPTION_KEY, null);
 	}
+	
+	/**
+	 * Sets the receiver of this message.
+	 * @param receiver The receiver of this message.
+	 */
+	public void setReceiver(String receiver){
+		setMessageField(new MessageField(DEF_MESSAGE_FIELD.RECEIVER, receiver), true); 
+	}
+	
+	/**
+	 * Returns the receiver of this message.
+	 * @return The receiver of this message.
+	 */
+	public String getReceiver(){
+		return getFieldStringValue(DEF_MESSAGE_FIELD.RECEIVER, null);
+	}
 
 }
