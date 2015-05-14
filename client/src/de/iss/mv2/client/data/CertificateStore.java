@@ -18,6 +18,7 @@ import java.util.Set;
 
 import de.iss.mv2.data.Exportable;
 import de.iss.mv2.data.PropertiesExportable;
+import de.iss.mv2.security.CertificateNameReader;
 import de.iss.mv2.security.PEMFileIO;
 
 /**
@@ -113,6 +114,27 @@ public class CertificateStore extends Exportable implements
 		internalStore.clear();
 	}
 
+	/**
+	 * Returns the first occurring certificate with the given common name.
+	 * @param commonName The common name of the certificate to 
+	 * @return The first occurring certificate with the given common name or {@code null} if there is none.
+	 */
+	public X509Certificate getCertificate(String commonName){
+		for(X509Certificate cert : this){
+			if(new CertificateNameReader(cert.getSubjectX500Principal()).getCommonName().equals(commonName)) return cert;
+		}
+		return null;
+	}
+	
+	/**
+	 * Tests if there is a certificate with the given common name.
+	 * @param commonName The common name to search for.
+	 * @return {@code true} if there is a certificate with the given common name.
+	 */
+	public boolean hasCertificate(String commonName){
+		return getCertificate(commonName) != null;
+	}
+	
 	@Override
 	protected void exportContent(OutputStream out) throws IOException {
 		Encoder enc = Base64.getEncoder();
@@ -162,5 +184,7 @@ public class CertificateStore extends Exportable implements
 		}
 		return super.equals(obj);
 	}
+	
+	
 	
 }

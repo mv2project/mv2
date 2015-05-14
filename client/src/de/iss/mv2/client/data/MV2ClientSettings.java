@@ -40,6 +40,11 @@ public class MV2ClientSettings extends PropertiesExportable {
 	 * The users passphrase.
 	 */
 	private String passphrase;
+	
+	/**
+	 * Holds the trusted client certificates.
+	 */
+	private CertificateStore trustedClientCertificates = new CertificateStore();
 
 	/**
 	 * Creates a new instance of {@link MV2ClientSettings}.
@@ -164,6 +169,14 @@ public class MV2ClientSettings extends PropertiesExportable {
 	}
 	
 	/**
+	 * Returns the store containing the trusted client certificates.
+	 * @return The store containing the trusted client certificates.
+	 */
+	public CertificateStore getTrustedClientCertificates(){
+		return trustedClientCertificates;
+	}
+	
+	/**
 	 * Returns the mail boxes.
 	 * @return An array containing the available mail boxes.
 	 */
@@ -204,6 +217,15 @@ public class MV2ClientSettings extends PropertiesExportable {
 			in.close();
 			addMailBox(mb);
 		}
+		
+		boxesFile = pb.getChildFile(".clientcerts");
+		if(boxesFile.exists()){
+			trustedClientCertificates = new CertificateStore();
+			ee = new EncryptedExportable(trustedClientCertificates);
+			in = new FileInputStream(boxesFile);
+			ee.importData(getPassphrase(), in);
+			in.close();
+		}
 	}
 
 	/**
@@ -229,6 +251,14 @@ public class MV2ClientSettings extends PropertiesExportable {
 			fos.flush();
 			fos.close();
 		}
+		boxFile = pb.getChildFile(".clientcerts");
+		fos = new FileOutputStream(boxFile);
+		ee = new EncryptedExportable(trustedClientCertificates);
+		ee.export(getPassphrase(), fos);
+		fos.flush();
+		fos.close();
 	}
+	
+	
 
 }

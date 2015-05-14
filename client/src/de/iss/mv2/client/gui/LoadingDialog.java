@@ -2,6 +2,7 @@ package de.iss.mv2.client.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Dialog;
+import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Rectangle;
 
@@ -52,11 +53,11 @@ public class LoadingDialog extends JDialog implements ProcedureListener {
 	 *            The owner of this dialog.
 	 * @param modal
 	 *            {@code true} if this dialog is modal.
-	 * @wbp.parser.constructor
 	 */
 	public LoadingDialog(Frame owner, boolean modal) {
 		super(owner, modal);
 		buildGUI();
+		setLocationRelativeTo(owner);
 	}
 
 	/**
@@ -70,6 +71,7 @@ public class LoadingDialog extends JDialog implements ProcedureListener {
 	public LoadingDialog(Dialog owner, boolean modal) {
 		super(owner, modal);
 		buildGUI();
+		setLocationRelativeTo(owner);
 	}
 
 	/**
@@ -109,6 +111,8 @@ public class LoadingDialog extends JDialog implements ProcedureListener {
 
 		stateArea = new JTextArea();
 		scrollPane.setViewportView(stateArea);
+		setMinimumSize(new Dimension(400,300));
+		pack();
 	}
 
 	@Override

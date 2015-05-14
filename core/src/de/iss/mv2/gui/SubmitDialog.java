@@ -8,6 +8,8 @@ import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 
+import de.iss.mv2.MV2Constants;
+
 /**
  * A dialog with a submit and cancel button.
  * 
@@ -19,6 +21,8 @@ import javax.swing.JFrame;
 public class SubmitDialog<T extends JComponent> extends JDialog implements
 		SubmitListener {
 
+	
+	
 	/**
 	 * The serial.
 	 */
@@ -34,6 +38,11 @@ public class SubmitDialog<T extends JComponent> extends JDialog implements
 	 * Holds the displayed content control.
 	 */
 	private final SubmitControl<T> contentControl;
+	
+	/**
+	 * Holds the dialogs result.
+	 */
+	private int dialogResult = MV2Constants.CANCEL_OPTION;
 
 	/**
 	 * Creates a new instance of {@link SubmitDialog}.
@@ -144,6 +153,7 @@ public class SubmitDialog<T extends JComponent> extends JDialog implements
 
 	@Override
 	public void submitted(Object sender) {
+		dialogResult = MV2Constants.SUBMIT_OPTION;
 		for (SubmitListener l : listeners)
 			l.submitted(this);
 		setVisible(false);
@@ -151,9 +161,18 @@ public class SubmitDialog<T extends JComponent> extends JDialog implements
 
 	@Override
 	public void canceled(Object sender) {
+		dialogResult = MV2Constants.CANCEL_OPTION;
 		for (SubmitListener l : listeners)
 			l.canceled(this);
 		setVisible(false);
 	}
 
+	/**
+	 * Returns the result of this dialog.
+	 * @return {@link MV2Constants#SUBMIT_OPTION} if the user submitted this dialog. Otherwise {@link MV2Constants#CANCEL_OPTION}.
+	 */
+	public int getDialogResult(){
+		return dialogResult;
+	}
+	
 }

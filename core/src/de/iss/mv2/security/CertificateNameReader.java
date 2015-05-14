@@ -54,7 +54,6 @@ public class CertificateNameReader {
 	 *            The principal to read.
 	 */
 	public CertificateNameReader(X500Principal p) {
-		// this.principal = p;
 		String[] args = p.getName().split(",");
 		for (String arg : args) {
 			if (arg.contains("=")) {

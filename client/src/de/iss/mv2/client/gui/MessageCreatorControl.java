@@ -18,6 +18,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
+import de.iss.mv2.MV2Constants;
+import de.iss.mv2.client.data.MV2ClientSettings;
 import de.iss.mv2.client.data.MailBoxSettings;
 import de.iss.mv2.client.io.MV2Client;
 import de.iss.mv2.client.messaging.ClientCertificateRequestProcedure;
@@ -26,6 +28,7 @@ import de.iss.mv2.client.messaging.ProcedureException;
 import de.iss.mv2.client.messaging.ProcedureListenerAdapter;
 import de.iss.mv2.client.messaging.ProcedureResultListener;
 import de.iss.mv2.gui.DialogHelper;
+import de.iss.mv2.gui.SubmitDialog;
 
 /**
  * A control to create a mail message.
@@ -118,24 +121,39 @@ public class MessageCreatorControl extends JComponent implements ActionListener 
 						DialogHelper.getParentFrame(this), false);
 				ld.setVisible(true);
 				ccrp.addProcedureListener(ld);
-				ccrp.addProcedureListener(new ProcedureListenerAdapter<X509Certificate>(new ProcedureResultListener<X509Certificate>() {
+				ccrp.addProcedureListener(new ProcedureListenerAdapter<X509Certificate>(
+						new ProcedureResultListener<X509Certificate>() {
 
-					@Override
-					public void handleProcedureException(
-							MessageProcedure<? extends Throwable, X509Certificate> procedure,
-							ProcedureException ex) {
-						DialogHelper.showActionFailedWithExceptionMessage(MessageCreatorControl.this, ex);
-					}
+							@Override
+							public void handleProcedureException(
+									MessageProcedure<? extends Throwable, X509Certificate> procedure,
+									ProcedureException ex) {
+								DialogHelper
+										.showActionFailedWithExceptionMessage(
+												MessageCreatorControl.this, ex);
+							}
 
-					@Override
-					public void procedureCompleted(
-							MessageProcedure<? extends Throwable, X509Certificate> procedure,
-							X509Certificate result) {
-						CertificateView cv = new CertificateView();
-						cv.setCertificate(result);
-						DialogHelper.showBlockingSubmitDialog("Certificate", null, cv);
-					}
-				}));
+							@Override
+							public void procedureCompleted(
+									MessageProcedure<? extends Throwable, X509Certificate> procedure,
+									X509Certificate result) {
+								CertificateView cv = new CertificateView();
+								cv.setCertificate(result);
+								SubmitDialog<JComponent> dialog = DialogHelper
+										.showBlockingSubmitDialog(
+												"Certificate", null,
+												new JScrollPane(cv));
+								if (dialog.getDialogResult() != MV2Constants.SUBMIT_OPTION) {
+									DialogHelper
+											.showErrorMessage(
+													MessageCreatorControl.this,
+													"Certificate discarded",
+													"The system is not able to send this mail because you discarded the receivers certificate.");
+									return;
+								}
+								MV2ClientSettings.getRuntimeSettings().getTrustedClientCertificates().add(result);
+							}
+						}));
 				ccrp.run();
 			} catch (IOException | CertificateException ex) {
 				DialogHelper.showActionFailedWithExceptionMessage(this, ex);
