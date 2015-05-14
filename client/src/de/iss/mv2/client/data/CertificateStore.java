@@ -135,6 +135,16 @@ public class CertificateStore extends Exportable implements
 		return getCertificate(commonName) != null;
 	}
 	
+	/**
+	 * Tests if the given certificate is present in this certificate store.
+	 * @param certificate The certificate to check.
+	 * @return {@code true} if this certificate store contains the given certificate.
+	 */
+	public boolean hasCertificate(X509Certificate certificate){
+		for(X509Certificate c : this) if(c.equals(certificate)) return true;
+		return false;
+	}
+	
 	@Override
 	protected void exportContent(OutputStream out) throws IOException {
 		Encoder enc = Base64.getEncoder();

@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -232,6 +233,15 @@ public class MV2ClientSettings extends PropertiesExportable {
 		loadCertificates(pb.getChildFile(".clientcerts"), trustedClientCertificates);
 		loadCertificates(pb.getChildFile(".servercerts"), trustedServerCertificates);
 		loadCertificates(pb.getChildFile(".cacerts"), trusredCACertificates);
+		
+		for(MailBoxSettings mbs : mailBoxes){
+				try {
+					if(!trustedServerCertificates.hasCertificate(mbs.getServerCertificate()))trustedServerCertificates.add(mbs.getServerCertificate());
+				} catch (IllegalArgumentException | CertificateException e) {
+				}
+		}
+		
+		
 	}
 
 	/**
