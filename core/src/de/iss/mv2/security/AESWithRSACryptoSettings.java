@@ -50,7 +50,7 @@ public class AESWithRSACryptoSettings implements MessageCryptorSettings {
 	}
 
 	@Override
-	public OutputStream getSymetricEncryptionStream(OutputStream baseStream,
+	public OutputStream getSymmetricEncryptionStream(OutputStream baseStream,
 			byte[] key, byte[] iv) throws IOException, CryptoException {
 		AESOutputStream out;
 		try {
@@ -63,7 +63,7 @@ public class AESWithRSACryptoSettings implements MessageCryptorSettings {
 	}
 
 	@Override
-	public InputStream getSymetricDecryptionStream(InputStream baseStream,
+	public InputStream getSymmetricDecryptionStream(InputStream baseStream,
 			byte[] key, byte[] iv) throws IOException, CryptoException {
 		AESInputStream in;
 		try {
@@ -76,12 +76,12 @@ public class AESWithRSACryptoSettings implements MessageCryptorSettings {
 	}
 
 	@Override
-	public int getDesiredSymetricKeySize() {
+	public int getDesiredSymmetricKeySize() {
 		return desiredSymetricKeySize;
 	}
 
 	@Override
-	public OutputStream getAsymetricEncryptionStream(OutputStream baseStream,
+	public OutputStream getAsymmetricEncryptionStream(OutputStream baseStream,
 			PublicKey key) throws CryptoException, IOException {
 		RSAOutputStream out;
 		try {
@@ -94,7 +94,7 @@ public class AESWithRSACryptoSettings implements MessageCryptorSettings {
 	}
 
 	@Override
-	public InputStream getAsymenticDecryptionStram(InputStream baseStream,
+	public InputStream getAsymmenticDecryptionStream(InputStream baseStream,
 			KeyPair key) throws IOException, CryptoException {
 		RSAInputStream in;
 		try {
@@ -111,7 +111,7 @@ public class AESWithRSACryptoSettings implements MessageCryptorSettings {
 	 */
 	private static final String SYMETRIC_ALGORITHM_NAME = "AES/CBC/PKCS5";
 	@Override
-	public String getSymetricAlgorithmName() {
+	public String getSymmetricAlgorithmName() {
 		return SYMETRIC_ALGORITHM_NAME;
 	}
 
@@ -122,7 +122,7 @@ public class AESWithRSACryptoSettings implements MessageCryptorSettings {
 	
 	
 	@Override
-	public String getAsymetricAlgorithmName() {
+	public String getAsymmetricAlgorithmName() {
 		return ASYMENTRIC_ALGORITHM_NAME;
 	}
 

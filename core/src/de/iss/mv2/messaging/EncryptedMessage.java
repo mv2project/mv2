@@ -109,13 +109,13 @@ public class EncryptedMessage extends MV2Message {
 	protected void doSerialize(OutputStream out, Charset encoding)
 			throws IOException {
 		SymetricKeyGenerator keyGen = settings.getKeyGenerator();
-		byte[] key = keyGen.getRandomKey(settings.getDesiredSymetricKeySize());
+		byte[] key = keyGen.getRandomKey(settings.getDesiredSymmetricKeySize());
 		byte[] iv = keyGen.getRandomIV();
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		if (!keyGen.hasFixedKeyAndIV()) {
 			this.symmetricIV = iv;
 			this.symmetricKey = key;
-			OutputStream cryptoStream = settings.getSymetricEncryptionStream(
+			OutputStream cryptoStream = settings.getSymmetricEncryptionStream(
 					baos, key, iv);
 			MV2Message contentMessage = getContentMessage();
 			contentMessage.serialize(cryptoStream);
@@ -123,14 +123,14 @@ public class EncryptedMessage extends MV2Message {
 			cryptoStream.close();
 			MessageField symAlgorithmName = new MessageField(
 					DEF_MESSAGE_FIELD.SYMETRIC_ALGORITHM,
-					settings.getSymetricAlgorithmName());
+					settings.getSymmetricAlgorithmName());
 			symAlgorithmName.setEncoding(ENCODING);
 			MessageField asymAlgorithmName = new MessageField(
 					DEF_MESSAGE_FIELD.ASYMETRIC_ALGORITHM,
-					settings.getAsymetricAlgorithmName());
+					settings.getAsymmetricAlgorithmName());
 			asymAlgorithmName.setEncoding(ENCODING);
 			ByteArrayOutputStream keyOut = new ByteArrayOutputStream();
-			OutputStream keyCryptoOut = settings.getAsymetricEncryptionStream(
+			OutputStream keyCryptoOut = settings.getAsymmetricEncryptionStream(
 					keyOut, publicKey);
 			keyCryptoOut.write(iv);
 			keyCryptoOut.write(key);
@@ -143,7 +143,7 @@ public class EncryptedMessage extends MV2Message {
 			symAlgorithmName.serialize(out);
 			asymAlgorithmName.serialize(out);
 		} else {
-			OutputStream cryptoStream = settings.getSymetricEncryptionStream(
+			OutputStream cryptoStream = settings.getSymmetricEncryptionStream(
 					baos, key, iv);
 			MV2Message contentMessage = getContentMessage();
 			contentMessage.serialize(cryptoStream);
@@ -178,14 +178,14 @@ public class EncryptedMessage extends MV2Message {
 			MessageField asymNameField = getFieldOrThrow(DEF_MESSAGE_FIELD.ASYMETRIC_ALGORITHM);
 			this.symmetricAlgorithm = symNameField.getContent();
 			if (!symNameField.getContent().equals(
-					settings.getSymetricAlgorithmName())
+					settings.getSymmetricAlgorithmName())
 					|| !asymNameField.getContent().equals(
-							settings.getAsymetricAlgorithmName())) {
+							settings.getAsymmetricAlgorithmName())) {
 				throw new CryptoException();
 			}
 			byte[] keyData = getFieldDataArrayValue(DEF_MESSAGE_FIELD.ENCRYPTION_KEY, null);
 			ByteArrayInputStream bin = new ByteArrayInputStream(keyData);
-			InputStream asymIn = settings.getAsymenticDecryptionStram(bin,
+			InputStream asymIn = settings.getAsymmenticDecryptionStream(bin,
 					keyPair);
 			keyData = readAll(asymIn);
 			asymIn.close();
@@ -200,7 +200,7 @@ public class EncryptedMessage extends MV2Message {
 		}
 		this.symmetricKey = key;
 		this.symmetricIV = iv;
-		InputStream symIn = settings.getSymetricDecryptionStream(in, key, iv);
+		InputStream symIn = settings.getSymmetricDecryptionStream(in, key, iv);
 		ByteArrayInputStream content = new ByteArrayInputStream(readAll(symIn));
 		MessageParser parser = new MessageParser(content);
 		parser.setKey(keyPair);

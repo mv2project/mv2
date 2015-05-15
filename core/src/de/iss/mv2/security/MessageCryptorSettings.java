@@ -30,7 +30,7 @@ public interface MessageCryptorSettings extends
 	 * @throws IOException if an I/O error occurs.
 	 * @throws CryptoException Is thrown if there was an error during the initialization of the encryption.
 	 */
-	public OutputStream getSymetricEncryptionStream(OutputStream baseStream,
+	public OutputStream getSymmetricEncryptionStream(OutputStream baseStream,
 			byte[] key, byte[] iv) throws IOException, CryptoException;
 
 	/**
@@ -42,14 +42,14 @@ public interface MessageCryptorSettings extends
 	 * @throws IOException if an I/O error occurs.
 	 * @throws CryptoException Is thrown if there was an error during the initialization of the cipher. 
 	 */
-	public InputStream getSymetricDecryptionStream(InputStream baseStream,
+	public InputStream getSymmetricDecryptionStream(InputStream baseStream,
 			byte[] key, byte[] iv) throws IOException, CryptoException;
 
 	/**
 	 * Returns the desired key size of this settings.
 	 * @return The desired symmetric key size in bytes.
 	 */
-	public int getDesiredSymetricKeySize();
+	public int getDesiredSymmetricKeySize();
 
 	/**
 	 * Creates an output stream for asymmetric encrypted data output. The stream must be fully initialized.
@@ -59,7 +59,7 @@ public interface MessageCryptorSettings extends
 	 * @throws IOException if an I/O error occurs.
 	 * @throws CryptoException Is thrown if there was an error during the initialization of the encryption.
 	 */
-	public OutputStream getAsymetricEncryptionStream(OutputStream baseStream,
+	public OutputStream getAsymmetricEncryptionStream(OutputStream baseStream,
 			PublicKey key) throws IOException, CryptoException;
 
 	
@@ -71,19 +71,19 @@ public interface MessageCryptorSettings extends
 	 * @throws IOException if an I/O error occurs.
 	 * @throws CryptoException Is thrown if there was an error during the initialization of the cipher. 
 	 */
-	public InputStream getAsymenticDecryptionStram(InputStream baseStream,
+	public InputStream getAsymmenticDecryptionStream(InputStream baseStream,
 			KeyPair key) throws IOException, CryptoException;
 
 	/**
 	 * Returns the name of the symmetric encryption algorithm.
 	 * @return The name of the symmetric encryption algorithm.
 	 */
-	public String getSymetricAlgorithmName();
+	public String getSymmetricAlgorithmName();
 
 	/**
 	 * Returns the name of the asymmetric encryption algorithm.
 	 * @return The name of the asymmetric encryption algorithm.
 	 */
-	public String getAsymetricAlgorithmName();
+	public String getAsymmetricAlgorithmName();
 
 }
