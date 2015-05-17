@@ -68,7 +68,23 @@ public enum DEF_MESSAGE_FIELD {
 	/**
 	 * A message field containing the receiving web space address.
 	 */
-	RECEIVER(12);
+	RECEIVER(12),
+	/**
+	 * A message field containing the subject of a {@link STD_MESSAGE#CONTENT_MESSAGE}.
+	 */
+	SUBJECT(13),
+	/**
+	 * A message field containing the senders certificate. The encoded certificate is stored <b>binary</b>.
+	 */
+	SENDER_CERTIFICATE(14, CONTENT_TYPE.BINARY),
+	/**
+	 * A message field containing the carbon copy (CC) addresses.
+	 */
+	CARBON_COPY(15),
+	/**
+	 * The type of a message field containing a signature.
+	 */
+	SIGNATURE(16, CONTENT_TYPE.BINARY);
 	
 	
 	

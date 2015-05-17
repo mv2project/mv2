@@ -81,7 +81,12 @@ public enum STD_MESSAGE {
 	/**
 	 * The message type of a servers response to an incoming {@link STD_MESSAGE#MESSAGE_DELIVERY_REQUEST}.
 	 */
-	MESSAGE_DELIVERY_RESPONSE(18);
+	MESSAGE_DELIVERY_RESPONSE(18),
+	/**
+	 * The message type of a client message.
+	 * <p><b>Remarks:</b> This is not a transport message, but the encoded form of a plain mail message.</p> 
+	 */
+	CONTENT_MESSAGE(19);
 	
 	/**
 	 * Holds the identifier of a message type.

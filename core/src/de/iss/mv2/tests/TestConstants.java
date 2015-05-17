@@ -30,4 +30,9 @@ public interface TestConstants {
 	 */
 	public static final String CA_CERT_PASSPHRASE = "test123";
 	
+	/**
+	 * A constant holding the passphrase to decrypt the private key connected to the debug certificate.
+	 */
+	public static final String DEBUG_KEY_PASSPHRASE = "test123";
+	
 }
