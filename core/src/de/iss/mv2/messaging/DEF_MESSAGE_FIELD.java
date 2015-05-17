@@ -84,7 +84,11 @@ public enum DEF_MESSAGE_FIELD {
 	/**
 	 * The type of a message field containing a signature.
 	 */
-	SIGNATURE(16, CONTENT_TYPE.BINARY);
+	SIGNATURE(16, CONTENT_TYPE.BINARY),
+	/**
+	 * The type of a message field containing the lower bound of a time range.
+	 */
+	NOT_BEFORE(17);
 	
 	
 	

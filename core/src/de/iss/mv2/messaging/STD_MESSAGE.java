@@ -86,7 +86,11 @@ public enum STD_MESSAGE {
 	 * The message type of a client message.
 	 * <p><b>Remarks:</b> This is not a transport message, but the encoded form of a plain mail message.</p> 
 	 */
-	CONTENT_MESSAGE(19);
+	CONTENT_MESSAGE(19),
+	/**
+	 * The type of a message that request the clients message.
+	 */
+	MESSAGE_QUERY_REQUEST(20);
 	
 	/**
 	 * Holds the identifier of a message type.
