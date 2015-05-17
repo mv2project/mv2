@@ -35,48 +35,6 @@ public class MessageDeliveryRequest extends MV2Message {
 	public byte[] getContent() {
 		return getFieldDataArrayValue(DEF_MESSAGE_FIELD.CONTENT_BINARY, null);
 	}
-
-	/**
-	 * Sets the identifier of the used symmetric algorithm.
-	 * 
-	 * @param algorithmName
-	 *            The name of the symmetric algorithm used to encrypt the
-	 *            content message.
-	 */
-	public void setSymmetricAlgorithm(String algorithmName) {
-		setMessageField(new MessageField(DEF_MESSAGE_FIELD.SYMETRIC_ALGORITHM,
-				algorithmName), true);
-	}
-
-	/**
-	 * Returns the name of the symmetric algorithm used to encrypt the content
-	 * message.
-	 * 
-	 * @return The name of the symmetric algorithm.
-	 */
-	public String getSymmetricAlgorithmName() {
-		return getFieldStringValue(DEF_MESSAGE_FIELD.SYMETRIC_ALGORITHM, "");
-	}
-
-	/**
-	 * Sets the asymmetric encrypted key used to encrypt the content message.
-	 * 
-	 * @param key
-	 *            The encrypted key to set.
-	 */
-	public void setEncrpytedSymmetricKey(byte[] key) {
-		setMessageField(
-				new MessageField(DEF_MESSAGE_FIELD.ENCRYPTION_KEY, key), true);
-	}
-
-	/**
-	 * Returns the asymmetric encrypted key used to encrypt the content message.
-	 * 
-	 * @return The encrypted key.
-	 */
-	public byte[] getEncryptedSymmetricKey() {
-		return getFieldDataArrayValue(DEF_MESSAGE_FIELD.ENCRYPTION_KEY, null);
-	}
 	
 	/**
 	 * Sets the receiver of this message.

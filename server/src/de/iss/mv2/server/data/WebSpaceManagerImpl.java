@@ -111,23 +111,20 @@ public class WebSpaceManagerImpl implements WebSpaceManager {
 	/**
 	 * The SQL command to persist an incoming message.
 	 */
-	private static final String CREATE_MESSAGE = "INSERT INTO message (receiver, content, key, algorithm) VALUES (?, ?, ?, ?); SELECT * FROM message WHERE idmessage = currval('message_idmessage_seq');";
+	private static final String CREATE_MESSAGE = "INSERT INTO message (receiver, content) VALUES (?, ?); SELECT * FROM message WHERE idmessage = currval('message_idmessage_seq');";
 
 	@Override
-	public ContentMessage storeMessage(WebSpace webSpace, byte[] content,
-			byte[] key, String algorithmName) {
+	public Message storeMessage(WebSpace webSpace, byte[] content) {
 		try {
 			PreparedStatement ps = context.getConnection().prepareStatement(
 					CREATE_MESSAGE);
 			ps.setString(1, webSpace.getIdentifier());
 			ps.setBytes(2, content);
-			ps.setBytes(3, key);
-			ps.setString(4, algorithmName);
 			ps.execute();
 			ps.getMoreResults();
 			ResultSet rs = ps.getResultSet();
 			rs.next();
-			return new ContentMessageImpl(webSpace, new Date(rs.getTimestamp("timestamp").getTime()), content, key, algorithmName);
+			return new MessageImpl(webSpace, new Date(rs.getTimestamp("timestamp").getTime()), content);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}

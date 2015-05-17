@@ -7,7 +7,7 @@ import java.util.Date;
  * @author Marcel Singer
  *
  */
-public interface ContentMessage {
+public interface Message {
 	
 	/**
 	 * Returns the receiving web space.
@@ -27,16 +27,6 @@ public interface ContentMessage {
 	 */
 	public byte[] getContent();
 	
-	/**
-	 * Returns the encrypted symmetric key and IV of this message.
-	 * @return The encrypted symmetric key and IV of this message.
-	 */
-	public byte[] getKey();
 	
-	/**
-	 * Returns the name of the symmetric algorithm used to encrypt the content of this message.
-	 * @return The name of the symmetric algorithm used to encrypt the content of this message.
-	 */
-	public String getSymmetricAlgorithm();
 
 }

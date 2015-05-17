@@ -56,10 +56,8 @@ public interface WebSpaceManager extends UnambiguityPovider<String> {
 	 * Stores an incoming message for the given web space.
 	 * @param webSpace The receiving web space.
 	 * @param content The encrypted content of the incoming message.
-	 * @param key The symmetric key.
-	 * @param algorithmName The symmetric algorithm name.
 	 * @return The stored message.
 	 */
-	public ContentMessage storeMessage(WebSpace webSpace, byte[] content, byte[] key, String algorithmName);
+	public Message storeMessage(WebSpace webSpace, byte[] content);
 
 }
