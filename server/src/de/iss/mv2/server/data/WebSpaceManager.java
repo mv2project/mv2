@@ -1,5 +1,7 @@
 package de.iss.mv2.server.data;
 
+import java.util.Date;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.bouncycastle.pkcs.PKCS10CertificationRequest;
@@ -59,5 +61,21 @@ public interface WebSpaceManager extends UnambiguityPovider<String> {
 	 * @return The stored message.
 	 */
 	public Message storeMessage(WebSpace webSpace, byte[] content);
+	
+	/**
+	 * Returns a list with messages of the given webspace that were received after the given date.
+	 * @param webSpace The webspace thats messages are queried.
+	 * @param notBefore A timestamp specifying the lower bound of the reception.
+	 * @return A list with messages.
+	 */
+	public List<Message> getMessages(WebSpace webSpace, Date notBefore);
+	
+	/**
+	 * Returns the message with the given identifier.
+	 * @param webSpace The webspace thats message should be returned.
+	 * @param identifier The identifier of the message to return.
+	 * @return The message with the given identifier.
+	 */
+	public Message getMessage(WebSpace webSpace, long identifier);
 
 }
