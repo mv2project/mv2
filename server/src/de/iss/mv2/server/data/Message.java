@@ -10,6 +10,12 @@ import java.util.Date;
 public interface Message {
 	
 	/**
+	 * Returns the identifier of this message.
+	 * @return The identifier of this message.
+	 */
+	public long getIdentifier();
+	
+	/**
 	 * Returns the receiving web space.
 	 * @return The web space that received this message.
 	 */

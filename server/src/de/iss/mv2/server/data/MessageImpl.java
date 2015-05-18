@@ -24,15 +24,20 @@ public class MessageImpl implements Message{
 	 */
 	private byte[] contentData;
 	
-	
+	/**
+	 * Holds the identifier of this message.
+	 */
+	private long identifier;
 	
 	/**
 	 * Creates a new instance of {@link MessageImpl}.
+	 * @param identifier The identifier of this message.
 	 * @param webSpace The web space this message is allocated to.
 	 * @param timestamp The timestamp when this message was received.
 	 * @param contentData The content of this message.
 	 */
-	public MessageImpl(WebSpace webSpace, Date timestamp, byte[] contentData) {
+	public MessageImpl(long identifier, WebSpace webSpace, Date timestamp, byte[] contentData) {
+		this.identifier = identifier;
 		this.webSpace = webSpace;
 		this.timestamp = timestamp;
 		this.contentData = contentData;
@@ -53,6 +58,9 @@ public class MessageImpl implements Message{
 		return contentData;
 	}
 
-	
+	@Override
+	public long getIdentifier() {
+		return identifier;
+	}
 
 }

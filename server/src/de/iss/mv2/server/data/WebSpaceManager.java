@@ -63,19 +63,20 @@ public interface WebSpaceManager extends UnambiguityPovider<String> {
 	public Message storeMessage(WebSpace webSpace, byte[] content);
 	
 	/**
-	 * Returns a list with messages of the given webspace that were received after the given date.
+	 * Returns a list with the message identifiers of the given webspace that were received after the given date.
 	 * @param webSpace The webspace thats messages are queried.
 	 * @param notBefore A timestamp specifying the lower bound of the reception.
-	 * @return A list with messages.
+	 * @return A list with the identifiers of the queried messages.
 	 */
-	public List<Message> getMessages(WebSpace webSpace, Date notBefore);
+	public List<Long> getMessages(WebSpace webSpace, Date notBefore);
 	
 	/**
 	 * Returns the message with the given identifier.
 	 * @param webSpace The webspace thats message should be returned.
 	 * @param identifier The identifier of the message to return.
 	 * @return The message with the given identifier.
+	 * @throws NoSuchElementException Is thrown if there is no mail message with the given identifier.
 	 */
-	public Message getMessage(WebSpace webSpace, long identifier);
+	public Message getMessage(WebSpace webSpace, long identifier) throws NoSuchElementException;
 
 }

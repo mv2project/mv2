@@ -4,7 +4,10 @@ import java.math.BigInteger;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.bouncycastle.pkcs.PKCS10CertificationRequest;
@@ -124,10 +127,54 @@ public class WebSpaceManagerImpl implements WebSpaceManager {
 			ps.getMoreResults();
 			ResultSet rs = ps.getResultSet();
 			rs.next();
-			return new MessageImpl(webSpace, new Date(rs.getTimestamp("timestamp").getTime()), content);
+			return new MessageImpl(rs.getLong("idmessage") ,webSpace, new Date(rs.getTimestamp("timestamp").getTime()), content);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
+	
+	/**
+	 * The SQL statement to request all messages for a timestamp later than the give one.
+	 */
+	private static final String GET_MESSAGES_WITH_DATE = "SELECT idmessage FROM message WHERE receiver=? AND timestamp >= ?;";
+
+	
+	@Override
+	public List<Long> getMessages(WebSpace webSpace, Date notBefore) {
+		try{
+			PreparedStatement ps = context.getConnection().prepareStatement(GET_MESSAGES_WITH_DATE);
+			ps.setString(1, webSpace.getIdentifier());
+			ps.setTimestamp(2, new Timestamp(notBefore.getTime()));
+			ResultSet rs = ps.executeQuery();
+			List<Long> result = new ArrayList<Long>();
+			while(rs.next()){
+				result.add(rs.getLong("idmessage"));
+			}
+			return result;
+		}catch(SQLException e){
+			throw new RuntimeException(e);
+		}
+	}
+
+	/**
+	 * The SQL statement to request a message by its identifier.
+	 */
+	private static final String GET_MESSAGE_WITH_IDENTIFIER = "SELECT * FROM message WHERE idmessage=? AND receiver=?;";
+	
+	@Override
+	public Message getMessage(WebSpace webSpace, long identifier) {
+		try{
+			PreparedStatement ps = context.getConnection().prepareStatement(GET_MESSAGE_WITH_IDENTIFIER);
+			ps.setLong(1, identifier);
+			ps.setString(2, webSpace.getIdentifier());
+			ResultSet rs = ps.executeQuery();
+			if(!rs.next()) throw new NoSuchElementException("There is no mail with given identifier.");
+			return new MessageImpl(identifier, webSpace, new Date(rs.getTimestamp("timestamp").getTime()), rs.getBytes("content"));
+		}catch(SQLException ex){
+			throw new RuntimeException(ex);
+		}
+	}
+	
+	
 
 }
