@@ -1,10 +1,5 @@
 package de.iss.mv2.messaging;
 
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalAccessor;
 import java.util.Date;
 
 /**
@@ -31,24 +26,22 @@ public class MessageQueryRequestMessage extends MV2Message {
 	public void setNotBefore(Date date) {
 		String value = "";
 		if (date != null) {
-			ZonedDateTime zdt = ZonedDateTime.ofInstant(date.toInstant(),
-					ZoneId.systemDefault());
-			DateTimeFormatter dtf = DateTimeFormatter.ofPattern(
-					"yyyy-MM-dd'T'HH:mmX").withZone(ZoneOffset.UTC);
-			value = dtf.format(zdt);
+			value = "" + date.getTime();
 		}
 		setMessageField(new MessageField(DEF_MESSAGE_FIELD.NOT_BEFORE, value),
 				true);
 	}
-	
-	
-	public Date getNotBefore(){
+
+	/**
+	 * Returns the date of the earliest message to return.
+	 * 
+	 * @return The date of the earliest message to return.
+	 */
+	public Date getNotBefore() {
 		String value = getFieldStringValue(DEF_MESSAGE_FIELD.NOT_BEFORE, null);
-		if(value == null || value.isEmpty()) return null;
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern(
-				"yyyy-MM-dd'T'HH:mmX").withZone(ZoneOffset.UTC);
-		ZonedDateTime zdt = ZonedDateTime.parse(value, dtf);
-		return Date.from(zdt.toLocalDateTime().get);
+		if (value == null || value.isEmpty())
+			return null;
+		return new Date(Long.parseLong(value));
 	}
 
 }
