@@ -31,6 +31,24 @@ public class BinaryTools {
 	public static byte[] toByteArray(int number) {
 		return ByteBuffer.allocate(4).putInt(number).array();
 	}
+	
+	/**
+	 * Returns the value of the given number encoded in {@link ByteOrder#BIG_ENDIAN}-format.
+	 * @param number The number to convert.
+	 * @return A byte array containing the {@link ByteOrder#BIG_ENDIAN}-encoded value.
+	 */
+	public static byte[] toByteArray(long number){
+		return ByteBuffer.allocate(8).putLong(number).array();
+	}
+	
+	/**
+	 * Returns the long-value of the given {@link ByteOrder#BIG_ENDIAN} byte array.
+	 * @param data The byte array to convert.
+	 * @return The retrieved long value.
+	 */
+	public static long toLong(byte[] data){
+		return ByteBuffer.wrap(data).getLong();
+	}
 
 	/**
 	 * Reads the given amount of bytes from the input-stream.

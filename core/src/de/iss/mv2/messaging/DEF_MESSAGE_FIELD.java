@@ -88,7 +88,11 @@ public enum DEF_MESSAGE_FIELD {
 	/**
 	 * The type of a message field containing the lower bound of a time range.
 	 */
-	NOT_BEFORE(17);
+	NOT_BEFORE(17),
+	/**
+	 * The type of a message field containing a timestamp.
+	 */
+	TIMESTAMP(18, CONTENT_TYPE.BINARY);
 	
 	
 	

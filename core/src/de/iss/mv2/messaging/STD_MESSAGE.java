@@ -90,7 +90,19 @@ public enum STD_MESSAGE {
 	/**
 	 * The type of a message that request the clients message.
 	 */
-	MESSAGE_QUERY_REQUEST(20);
+	MESSAGE_QUERY_REQUEST(20),
+	/**
+	 * The type of a message containing the response to a {@link STD_MESSAGE#MESSAGE_DELIVERY_REQUEST} message.
+	 */
+	MESSAGE_QUERY_RESPONSE(21),
+	/**
+	 * The type of a message to request a mail message with a given identifier.
+	 */
+	MESSAGE_FETCH_REQUEST(22),
+	/**
+	 * The type of a response to a {@link STD_MESSAGE#MESSAGE_FETCH_REQUEST} containing the requested mail message.
+	 */
+	MESSAGE_FETCH_RESPONSE(23);
 	
 	/**
 	 * Holds the identifier of a message type.

@@ -43,5 +43,7 @@ public class MessageQueryRequestMessage extends MV2Message {
 			return null;
 		return new Date(Long.parseLong(value));
 	}
+	
+	
 
 }
