@@ -34,6 +34,7 @@ import de.iss.mv2.server.processors.ClientLoginRequestProcessor;
 import de.iss.mv2.server.processors.DomainNamesProcessor;
 import de.iss.mv2.server.processors.HelloMessageProcessor;
 import de.iss.mv2.server.processors.MessageDeliveryRequestProcessor;
+import de.iss.mv2.server.processors.MessageFetchProcessor;
 import de.iss.mv2.server.processors.SpaceCreationProcessor;
 
 /**
@@ -144,6 +145,9 @@ public class MV2Server {
 				spaceManager);
 		registerProcessor(mdrp);
 		registerPreProcessor(mdrp);
+		MessageFetchProcessor mfp = new MessageFetchProcessor(smi, spaceManager);
+		registerPreProcessor(mfp);
+		registerProcessor(mfp);
 	}
 
 	/**

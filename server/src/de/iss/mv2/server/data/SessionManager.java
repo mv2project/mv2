@@ -54,7 +54,9 @@ public interface SessionManager {
 	 * Gets the current identifier of the given client.
 	 * @param client The client thats identifier should be returned.
 	 * @return The clients identifier.
+	 * @deprecated Duplicate of {@link SessionManager#getLoginIdentifier(CommunicationPartner)}.
 	 */
+	@Deprecated
 	public String getIdentifier(CommunicationPartner client);
 	
 	
