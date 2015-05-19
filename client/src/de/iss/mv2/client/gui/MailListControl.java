@@ -1,7 +1,6 @@
 package de.iss.mv2.client.gui;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 
 import javax.swing.DefaultListModel;
@@ -10,6 +9,7 @@ import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
+import javax.swing.UIManager;
 
 import de.iss.mv2.client.data.MailMessage;
 import de.iss.mv2.client.data.MailStorage;
@@ -55,19 +55,18 @@ public class MailListControl extends JComponent implements MailStorageListener {
 					JList<? extends MailMessage> list, MailMessage value,
 					int index, boolean isSelected, boolean cellHasFocus) {
 				JComponent comp = new MailPreviewControl(value);
-				// comp.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK,
-				// 1, false), comp.getBorder()));
 				if (isSelected) {
 					comp.setOpaque(true);
-					comp.setBackground(Color.BLUE);
-					comp.setForeground(Color.WHITE);
+					comp.setBackground(UIManager.getDefaults().getColor(
+							"List.selectionBackground"));
+					comp.setForeground(UIManager.getDefaults().getColor(
+							"List.selectionForeground"));
 					comp.repaint();
 				}
 				return comp;
 			}
 		});
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		list.setSelectionBackground(Color.BLUE);
 		add(new JScrollPane(list), BorderLayout.CENTER);
 	}
 

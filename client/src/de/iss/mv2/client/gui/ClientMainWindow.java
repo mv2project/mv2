@@ -110,6 +110,7 @@ public class ClientMainWindow extends JFrame implements WindowListener,
 		JMenu mailMenu = new JMenu("Mails");
 		syncMail.setEnabled(false);
 		syncMail.addActionListener(this);
+		syncMail.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, tk.getMenuShortcutKeyMask()));
 		mailMenu.add(syncMail);
 		menuBar.add(mailMenu);
 
