@@ -105,6 +105,7 @@ public class InboxUpdateProcedure extends
 				requested = new MessageFetchProcedure(client, id, new KeyPair(
 						publicKey, key)).runImmediate();
 				mailStore.add(requested);
+				mailStore.markChanged();
 			} catch (ProcedureException ex) {
 				update("Failed to request the message with the identifier '"
 						+ id + "'");
