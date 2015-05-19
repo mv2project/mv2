@@ -66,6 +66,11 @@ public class MessageFetchProcedure extends
 	@Override
 	protected MailMessage doPerform(MV2Client client) throws IOException,
 			RequestException {
+		try {
+			new InitialProcedure(client).runImmediate();
+		} catch (ProcedureException e) {
+			throw new RequestException("Could not initialized the connection.", e);
+		}
 		if (!client.isLoggedIn())
 			throw new RequestException("The client is not logged in.");
 		MessageFetchRequest mfr = new MessageFetchRequest();

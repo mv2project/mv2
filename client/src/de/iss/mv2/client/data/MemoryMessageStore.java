@@ -5,7 +5,6 @@ import java.util.ArrayList;
 /**
  * A {@link MailStorage} that stores incoming mails inside the file system. 
  * @author Marcel Singer
- *
  */
 public class MemoryMessageStore extends ArrayList<MailMessage> implements MailStorage {
 
