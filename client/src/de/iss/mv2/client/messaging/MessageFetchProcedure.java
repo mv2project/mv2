@@ -99,6 +99,7 @@ public class MessageFetchProcedure extends
 		MV2Message.merge(contentMessage, clearMessage);
 		MailMessage result = new MailMessage();
 		result.setContent(contentMessage.getContent());
+		result.setTimestamp(response.getTimestamp());
 		result.setReceivers(contentMessage.getReceivers());
 		result.setSubject(contentMessage.getSubject());
 		try {

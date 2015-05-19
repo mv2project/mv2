@@ -1,6 +1,7 @@
 package de.iss.mv2.client.data;
 
 import java.security.cert.X509Certificate;
+import java.util.Date;
 
 /**
  * Represents a message that was sent by or to this client.
@@ -36,6 +37,11 @@ public class MailMessage {
 	 * Holds a value to indicate if this message had a valid signature.
 	 */
 	private boolean validSignature = false;
+	
+	/**
+	 * Holds the date when this message was received.
+	 */
+	private Date timestamp;
 
 	/**
 	 * Creates a new instance of {@link MailMessage}.
@@ -144,5 +150,20 @@ public class MailMessage {
 		return validSignature;
 	}
 	
+	/**
+	 * Sets the date when this message was received.
+	 * @param date The date when this message was received.
+	 */
+	public void setTimestamp(Date date){
+		this.timestamp = date;
+	}
+	
+	/**
+	 * Returns the date when this message was received.
+	 * @return The date when this message was received.
+	 */
+	public Date getTimestamp(){
+		return timestamp;
+	}
 	
 }
