@@ -1,7 +1,9 @@
 package de.iss.mv2.client.data;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.TreeSet;
 
 import javax.swing.SwingUtilities;
 
@@ -10,9 +12,22 @@ import javax.swing.SwingUtilities;
  * 
  * @author Marcel Singer
  */
-public class MemoryMessageStore extends ArrayList<MailMessage> implements
+public class MemoryMessageStore extends TreeSet<MailMessage> implements
 		MailStorage {
 
+	/**
+	 * Creates a new instance of {@link MemoryMessageStore}.
+	 */
+	public MemoryMessageStore(){
+		super(new Comparator<MailMessage>() {
+
+			@Override
+			public int compare(MailMessage o1, MailMessage o2) {
+				return -1 * o1.getTimestamp().compareTo(o2.getTimestamp());
+			}
+		});
+	}
+	
 	/**
 	 * The serial.
 	 */

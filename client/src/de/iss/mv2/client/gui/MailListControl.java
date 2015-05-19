@@ -2,6 +2,8 @@ package de.iss.mv2.client.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JComponent;
@@ -10,6 +12,8 @@ import javax.swing.JScrollPane;
 import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import de.iss.mv2.client.data.MailMessage;
 import de.iss.mv2.client.data.MailStorage;
@@ -21,7 +25,7 @@ import de.iss.mv2.client.data.MailStorageListener;
  * @author Marcel Singer
  *
  */
-public class MailListControl extends JComponent implements MailStorageListener {
+public class MailListControl extends JComponent implements MailStorageListener, ListSelectionListener {
 
 	/**
 	 * The serial.
@@ -38,6 +42,11 @@ public class MailListControl extends JComponent implements MailStorageListener {
 	 */
 	private final JList<MailMessage> list = new JList<MailMessage>();
 
+	/**
+	 * Holds the listeners.
+	 */
+	private final List<ListSelectionListener> listeners = new ArrayList<ListSelectionListener>();
+	
 	/**
 	 * Creates a new instance of {@link MailListControl}.
 	 * 
@@ -67,6 +76,7 @@ public class MailListControl extends JComponent implements MailStorageListener {
 			}
 		});
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		list.addListSelectionListener(this);
 		add(new JScrollPane(list), BorderLayout.CENTER);
 	}
 
@@ -80,6 +90,14 @@ public class MailListControl extends JComponent implements MailStorageListener {
 		list.setModel(model);
 	}
 
+	/**
+	 * Adds a listener to be notified when the user selects a message.
+	 * @param listener The listener to add.
+	 */
+	public void addSelectionListener(ListSelectionListener listener){
+		if(!listeners.contains(listener)) listeners.add(listener);
+	}
+	
 	@Override
 	public void storeChanged(MailStorage storage) {
 		updateList();
@@ -92,6 +110,21 @@ public class MailListControl extends JComponent implements MailStorageListener {
 	 */
 	public MailStorage getMailStorage() {
 		return mailStorage;
+	}
+	
+	/**
+	 * Returns the currently selected message.
+	 * @return The currently selected message.
+	 */
+	public MailMessage getSelected(){
+		return list.getSelectedValue();
+	}
+
+	
+	@Override
+	public void valueChanged(ListSelectionEvent e) {
+		ListSelectionEvent lse = new ListSelectionEvent(this, e.getFirstIndex(), e.getLastIndex(), e.getValueIsAdjusting());
+		for(ListSelectionListener lsl : listeners) lsl.valueChanged(lse);
 	}
 
 }

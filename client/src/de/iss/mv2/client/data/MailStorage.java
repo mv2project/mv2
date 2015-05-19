@@ -1,6 +1,6 @@
 package de.iss.mv2.client.data;
 
-import java.util.List;
+import java.util.SortedSet;
 
 /**
  * A container to store incoming mails.
@@ -8,7 +8,7 @@ import java.util.List;
  * @author Marcel Singer
  *
  */
-public interface MailStorage extends List<MailMessage> {
+public interface MailStorage extends SortedSet<MailMessage> {
 
 	/**
 	 * Returns the newest mail of this storage.

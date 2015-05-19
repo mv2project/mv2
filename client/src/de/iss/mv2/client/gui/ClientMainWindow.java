@@ -18,9 +18,12 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.KeyStroke;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreePath;
@@ -76,9 +79,19 @@ public class ClientMainWindow extends JFrame implements WindowListener,
 	private final Map<MailBoxSettings, MailListControl> mailList = new HashMap<MailBoxSettings, MailListControl>();
 	
 	/**
-	 * Holds the split pane.
+	 * Holds the split pane thats splits the mail box selector and the mail list.
 	 */
-	private final JSplitPane splitPane;
+	private final JSplitPane mailBoxListSplitPane;
+	
+	/**
+	 * Holds the split pane thats splits the {@link ClientMainWindow#mailBoxListSplitPane} and the mail view.
+	 */
+	private final JSplitPane splitPaneMailViewSplitPane;
+	
+	/**
+	 * The component to display a mail.
+	 */
+	private final MailView mailView = new MailView();
 	
 	/**
 	 * Holds the currently selected mail box.
@@ -134,16 +147,31 @@ public class ClientMainWindow extends JFrame implements WindowListener,
 		
 		
 
-		splitPane = new JSplitPane();
-		getContentPane().add(splitPane, BorderLayout.CENTER);
+		mailBoxListSplitPane = new JSplitPane();
+		mailBoxListSplitPane.setDividerLocation(0.5);
+		mailBoxListSplitPane.setResizeWeight(0.5);
+		splitPaneMailViewSplitPane = new JSplitPane();
+		splitPaneMailViewSplitPane.setDividerLocation(0.3);
+		splitPaneMailViewSplitPane.setResizeWeight(0.3);
+		splitPaneMailViewSplitPane.setLeftComponent(mailBoxListSplitPane);
+		splitPaneMailViewSplitPane.setRightComponent(mailView);
+		getContentPane().add(splitPaneMailViewSplitPane, BorderLayout.CENTER);
 
 		
 		boxSelector.addTreeSelectionListener(this);
-		splitPane.setLeftComponent(new JScrollPane(boxSelector));
-		splitPane.setRightComponent(null);
+		
+		mailBoxListSplitPane.setLeftComponent(new JScrollPane(boxSelector));
+		mailBoxListSplitPane.setRightComponent(new JPanel());
 		
 		for(MailBoxSettings mailBox : MV2ClientSettings.getRuntimeSettings().getMailBoxes()){
-			MailListControl mlc = new MailListControl(new MemoryMessageStore());
+			final MailListControl mlc = new MailListControl(new MemoryMessageStore());
+			mlc.addSelectionListener(new ListSelectionListener() {
+				
+				@Override
+				public void valueChanged(ListSelectionEvent e) {
+					mailView.setMessage(mlc.getSelected());
+				}
+			});
 			mailList.put(mailBox, mlc);
 		}
 	}
@@ -255,7 +283,7 @@ public class ClientMainWindow extends JFrame implements WindowListener,
 			if(o instanceof MailBoxSettings){
 				selectedMailBox = (MailBoxSettings) o;
 				MailListControl mlc = mailList.get(selectedMailBox);
-				splitPane.setRightComponent(mlc);
+				mailBoxListSplitPane.setRightComponent(mlc);
 				syncMail.setEnabled(true);
 				syncMail.updateUI();
 				syncMail.repaint();
