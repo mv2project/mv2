@@ -11,6 +11,8 @@ import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -19,9 +21,14 @@ import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.KeyStroke;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
+import javax.swing.tree.TreePath;
 
 import de.iss.mv2.MV2Constants;
 import de.iss.mv2.client.data.MV2ClientSettings;
+import de.iss.mv2.client.data.MailBoxSettings;
+import de.iss.mv2.client.data.MemoryMessageStore;
 import de.iss.mv2.client.data.UserPreferences;
 import de.iss.mv2.data.EncryptedExportable;
 import de.iss.mv2.io.PathBuilder;
@@ -34,7 +41,7 @@ import de.iss.mv2.logging.LoggerManager;
  *
  */
 public class ClientMainWindow extends JFrame implements WindowListener,
-		ActionListener {
+		ActionListener, TreeSelectionListener {
 
 	/**
 	 * Serial.
@@ -54,6 +61,25 @@ public class ClientMainWindow extends JFrame implements WindowListener,
 	 * The menu item to create a new mail.
 	 */
 	private JMenuItem newMailItem;
+	
+	/**
+	 * Holds the mail box selector.
+	 */
+	private MailBoxSelector boxSelector = new MailBoxSelector();
+	/**
+	 * Holds the mail lists for the mail boxes.
+	 */
+	private final Map<MailBoxSettings, MailListControl> mailList = new HashMap<MailBoxSettings, MailListControl>();
+	
+	/**
+	 * Holds the split pane.
+	 */
+	private final JSplitPane splitPane;
+	
+	/**
+	 * Holds the currently selected mail box.
+	 */
+	private MailBoxSettings selectedMailBox;
 
 	/**
 	 * Creates a new instance of {@link ClientMainWindow}.
@@ -90,12 +116,18 @@ public class ClientMainWindow extends JFrame implements WindowListener,
 		mnNewMenu.add(newMailItem);
 		mnNewMenu.add(settingsButton);
 
-		JSplitPane splitPane = new JSplitPane();
+		splitPane = new JSplitPane();
 		getContentPane().add(splitPane, BorderLayout.CENTER);
 
-		MailBoxSelector panel = new MailBoxSelector();
-		splitPane.setLeftComponent(new JScrollPane(panel));
+		
+		boxSelector.addTreeSelectionListener(this);
+		splitPane.setLeftComponent(new JScrollPane(boxSelector));
 		splitPane.setRightComponent(null);
+		
+		for(MailBoxSettings mailBox : MV2ClientSettings.getRuntimeSettings().getMailBoxes()){
+			MailListControl mlc = new MailListControl(new MemoryMessageStore());
+			mailList.put(mailBox, mlc);
+		}
 	}
 
 	@Override
@@ -164,6 +196,19 @@ public class ClientMainWindow extends JFrame implements WindowListener,
 			CertificateSigningTool cst = new CertificateSigningTool();
 			cst.setLocationRelativeTo(this);
 			cst.setVisible(true);
+		}
+	}
+
+	@Override
+	public void valueChanged(TreeSelectionEvent e) {
+		TreePath treePath = boxSelector.getSelectionPath();
+		for(Object o : treePath.getPath()){
+			if(o instanceof MailBoxSettings){
+				selectedMailBox = (MailBoxSettings) o;
+				MailListControl mlc = mailList.get(selectedMailBox);
+				splitPane.setRightComponent(mlc);
+				break;
+			}
 		}
 	}
 
