@@ -82,6 +82,11 @@ public class MV2Client implements CommunicationPartner {
 	private String[] alternativeNames = new String[0];
 
 	/**
+	 * Holds the login state of this client.
+	 */
+	private boolean isLoggedIn = false;
+	
+	/**
 	 * Creates a new client.
 	 */
 	public MV2Client() {
@@ -178,6 +183,22 @@ public class MV2Client implements CommunicationPartner {
 	public void registerProcessor(MessageProcessor processor) {
 		if (!processors.contains(processor))
 			processors.add(processor);
+	}
+	
+	/**
+	 * Returns {@code true} if this client is logged in.
+	 * @return {@code true} if this client is logged in.
+	 */
+	public boolean isLoggedIn(){
+		return isLoggedIn;
+	}
+	
+	/**
+	 * Sets if this client is logged in.
+	 * @param loggedIn {@code true} to indicate that this client is logged in.
+	 */
+	public void setLoggedIn(boolean loggedIn){
+		this.isLoggedIn = loggedIn;
 	}
 
 	/**

@@ -62,6 +62,7 @@ public class LoginProcedure extends
 	@Override
 	protected Boolean doPerform(MV2Client client) throws IOException,
 			LoginException {
+		if(client.isLoggedIn()) return true;
 		requestCertificate(client);
 		ClientLoginRequest clr = new ClientLoginRequest();
 		clr.setIdentifier(identifier);
@@ -111,6 +112,7 @@ public class LoginProcedure extends
 			return false;
 		testFailure(m);
 		testMessageType(m, STD_MESSAGE.SERVER_LOGIN_RESULT);
+		client.setLoggedIn(true);
 		return true;
 	}
 

@@ -1,5 +1,7 @@
 package de.iss.mv2.client.data;
 
+import java.security.cert.X509Certificate;
+
 /**
  * Represents a message that was sent by or to this client.
  * 
@@ -24,6 +26,16 @@ public class MailMessage {
 	 * Holds the sender of this message.
 	 */
 	private String sender;
+	
+	/**
+	 * Holds the senders certificate.
+	 */
+	private X509Certificate senderCert;
+	
+	/**
+	 * Holds a value to indicate if this message had a valid signature.
+	 */
+	private boolean validSignature = false;
 
 	/**
 	 * Creates a new instance of {@link MailMessage}.
@@ -99,5 +111,38 @@ public class MailMessage {
 	public void setSender(String sender) {
 		this.sender = sender;
 	}
+	
+	/**
+	 * Sets the senders certificate.
+	 * @param cert The certificate to set.
+	 */
+	public void setSenderCertificate(X509Certificate cert){
+		this.senderCert = cert;
+	}
+	
+	/**
+	 * Returns the senders certificate.
+	 * @return The senders certificate.
+	 */
+	public X509Certificate getSenderCertificate(){
+		return senderCert;
+	}
 
+	/**
+	 * Sets if this message was received with a valid signature.
+	 * @param valid The value to set.
+	 */
+	public void setHadValidSignature(boolean valid){
+		this.validSignature = valid;
+	}
+	
+	/**
+	 * Returns {@code true} if this message was received with a valid signature.
+	 * @return {@code true} if this message was received with a valid signature.
+	 */
+	public boolean getHadValidSignature(){
+		return validSignature;
+	}
+	
+	
 }
