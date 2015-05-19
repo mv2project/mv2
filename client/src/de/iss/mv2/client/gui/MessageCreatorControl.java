@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
 import javax.swing.DefaultComboBoxModel;
@@ -22,6 +21,7 @@ import de.iss.mv2.MV2Constants;
 import de.iss.mv2.client.data.MV2ClientSettings;
 import de.iss.mv2.client.data.MailBoxSettings;
 import de.iss.mv2.client.data.MailMessage;
+import de.iss.mv2.client.io.ClientProviderImpl;
 import de.iss.mv2.client.io.MV2Client;
 import de.iss.mv2.client.messaging.ClientCertificateRequestProcedure;
 import de.iss.mv2.client.messaging.MailSendingProcedure;
@@ -62,7 +62,7 @@ public class MessageCreatorControl extends JComponent implements ActionListener 
 	 * The drop down menu to select the senders web space.
 	 */
 	private JComboBox<MailBoxSettings> senderSelector;
-	
+
 	/**
 	 * A field containing the content text of the message.
 	 */
@@ -119,10 +119,9 @@ public class MessageCreatorControl extends JComponent implements ActionListener 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == sendButton) {
-			MailBoxSettings mbs = (MailBoxSettings) senderSelector
-					.getSelectedItem();
 			try {
-				final MV2Client client = mbs.getClient();
+				final MV2Client client = new ClientProviderImpl()
+						.connectToWebSpace(receiverField.getText());
 				ClientCertificateRequestProcedure ccrp = new ClientCertificateRequestProcedure(
 						client, receiverField.getText());
 				LoadingDialog ld = new LoadingDialog(
@@ -178,43 +177,55 @@ public class MessageCreatorControl extends JComponent implements ActionListener 
 							}
 						}));
 				ccrp.run();
-			} catch (IOException | CertificateException ex) {
+			} catch (IOException ex) {
 				DialogHelper.showActionFailedWithExceptionMessage(this, ex);
 			}
 		}
 	}
-	
+
 	/**
 	 * Sends the message.
-	 * @param receiverCert The certificate of the receiver.
+	 * 
+	 * @param receiverCert
+	 *            The certificate of the receiver.
 	 */
 	@SuppressWarnings("unchecked")
-	private void sendMessage(X509Certificate receiverCert){
-		LoadingDialog ld = new LoadingDialog(DialogHelper.getParentFrame(this), false);
+	private void sendMessage(X509Certificate receiverCert) {
+		LoadingDialog ld = new LoadingDialog(DialogHelper.getParentFrame(this),
+				false);
 		ld.setVisible(true);
 		MailMessage mm = new MailMessage();
 		mm.setContent(messageContent.getText());
 		mm.setSubject(subjectField.getText());
 		mm.setReceivers(receiverField.getText().split(";"));
-		MailSendingProcedure msp = new MailSendingProcedure(new AESWithRSACryptoSettings(), mm, MV2ClientSettings.getRuntimeSettings().getMailBoxesArray()[senderSelector.getSelectedIndex()]);
+		MailSendingProcedure msp = new MailSendingProcedure(
+				new AESWithRSACryptoSettings(),
+				mm,
+				MV2ClientSettings.getRuntimeSettings().getMailBoxesArray()[senderSelector
+						.getSelectedIndex()]);
 		msp.addProcedureListener(ld);
-		msp.addProcedureListener(new ProcedureListenerAdapter<Void>(new ProcedureResultListener<Void>() {
+		msp.addProcedureListener(new ProcedureListenerAdapter<Void>(
+				new ProcedureResultListener<Void>() {
 
-			@Override
-			public void handleProcedureException(
-					MessageProcedure<? extends Throwable, Void> procedure,
-					ProcedureException ex) {
-				ex.printStackTrace();
-				DialogHelper.showActionFailedWithExceptionMessage(MessageCreatorControl.this, ex);
-			}
+					@Override
+					public void handleProcedureException(
+							MessageProcedure<? extends Throwable, Void> procedure,
+							ProcedureException ex) {
+						ex.printStackTrace();
+						DialogHelper.showActionFailedWithExceptionMessage(
+								MessageCreatorControl.this, ex);
+					}
 
-			@Override
-			public void procedureCompleted(
-					MessageProcedure<? extends Throwable, Void> procedure,
-					Void result) {
-				DialogHelper.showSuccessMessage(MessageCreatorControl.this, "Delivery Successfull", "The mail was successfully delivered.");
-			}
-		}));
+					@Override
+					public void procedureCompleted(
+							MessageProcedure<? extends Throwable, Void> procedure,
+							Void result) {
+						DialogHelper.showSuccessMessage(
+								MessageCreatorControl.this,
+								"Delivery Successfull",
+								"The mail was successfully delivered.");
+					}
+				}));
 		msp.run();
 	}
 
