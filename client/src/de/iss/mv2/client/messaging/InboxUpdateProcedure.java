@@ -116,6 +116,7 @@ public class InboxUpdateProcedure extends
 						+ id + "'");
 			}
 		}
+		client.disconnect();
 		return null;
 	}
 
