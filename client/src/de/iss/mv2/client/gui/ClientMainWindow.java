@@ -30,6 +30,10 @@ import de.iss.mv2.client.data.MV2ClientSettings;
 import de.iss.mv2.client.data.MailBoxSettings;
 import de.iss.mv2.client.data.MemoryMessageStore;
 import de.iss.mv2.client.data.UserPreferences;
+import de.iss.mv2.client.messaging.InboxUpdateProcedure;
+import de.iss.mv2.client.messaging.MessageProcedure;
+import de.iss.mv2.client.messaging.ProcedureException;
+import de.iss.mv2.client.messaging.ProcedureListener;
 import de.iss.mv2.data.EncryptedExportable;
 import de.iss.mv2.io.PathBuilder;
 import de.iss.mv2.logging.LoggerManager;
@@ -80,6 +84,11 @@ public class ClientMainWindow extends JFrame implements WindowListener,
 	 * Holds the currently selected mail box.
 	 */
 	private MailBoxSettings selectedMailBox;
+	
+	/**
+	 * The menu item to synchronize the current mail box.
+	 */
+	private final JMenuItem syncMail = new JMenuItem("Synchronize Account...");
 
 	/**
 	 * Creates a new instance of {@link ClientMainWindow}.
@@ -97,6 +106,12 @@ public class ClientMainWindow extends JFrame implements WindowListener,
 		JMenu mnNewMenu = new JMenu("MV2");
 		menuBar.add(mnNewMenu);
 		Toolkit tk = Toolkit.getDefaultToolkit();
+		
+		JMenu mailMenu = new JMenu("Mails");
+		syncMail.setEnabled(false);
+		syncMail.addActionListener(this);
+		mailMenu.add(syncMail);
+		menuBar.add(mailMenu);
 
 		JMenu toolsMenu = new JMenu("Tools");
 		certSigningToolItem = new JMenuItem("Certificate Signing Tool");
@@ -115,6 +130,8 @@ public class ClientMainWindow extends JFrame implements WindowListener,
 				tk.getMenuShortcutKeyMask()));
 		mnNewMenu.add(newMailItem);
 		mnNewMenu.add(settingsButton);
+		
+		
 
 		splitPane = new JSplitPane();
 		getContentPane().add(splitPane, BorderLayout.CENTER);
@@ -173,6 +190,7 @@ public class ClientMainWindow extends JFrame implements WindowListener,
 	public void windowDeactivated(WindowEvent e) {
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == newMailItem) {
@@ -197,6 +215,36 @@ public class ClientMainWindow extends JFrame implements WindowListener,
 			cst.setLocationRelativeTo(this);
 			cst.setVisible(true);
 		}
+		if(e.getSource() == syncMail){
+			LoadingDialog ld = new LoadingDialog(this, false);
+			ld.pack();
+			ld.setVisible(true);
+			InboxUpdateProcedure iup = new InboxUpdateProcedure(selectedMailBox, mailList.get(selectedMailBox).getMailStorage());
+			iup.addProcedureListener(ld);
+			iup.addProcedureListener(new ProcedureListener<Void>() {
+				
+				@Override
+				public void procedureCompleted(
+						MessageProcedure<? extends Throwable, Void> procedure, Void result) {
+					
+				}
+				
+				@Override
+				public void handleProcedureException(
+						MessageProcedure<? extends Throwable, Void> procedure,
+						ProcedureException ex) {
+					ex.printStackTrace();
+				}
+				
+				@Override
+				public void procedureStateChanged(
+						MessageProcedure<? extends Throwable, Void> procedure,
+						String state, int progress) {
+					
+				}
+			});
+			iup.run();
+		}
 	}
 
 	@Override
@@ -207,9 +255,13 @@ public class ClientMainWindow extends JFrame implements WindowListener,
 				selectedMailBox = (MailBoxSettings) o;
 				MailListControl mlc = mailList.get(selectedMailBox);
 				splitPane.setRightComponent(mlc);
-				break;
+				syncMail.setEnabled(true);
+				syncMail.updateUI();
+				syncMail.repaint();
+				return;
 			}
 		}
+		syncMail.setEnabled(false);
 	}
 
 }

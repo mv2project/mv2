@@ -79,7 +79,7 @@ public class MessageQueryProcessor extends AbstractProcessor {
 		}
 		Date notBefore = mqr.getNotBefore();
 		if (notBefore == null)
-			notBefore = new Date(Long.MIN_VALUE);
+			notBefore = new Date(0);
 		List<Long> messages = webSpaceManager.getMessages(webSpace, notBefore);
 		long[] messageIdentifiers = new long[messages.size()];
 		for (int i = 0; i < messageIdentifiers.length; i++)

@@ -69,5 +69,12 @@ public class MailListControl extends JComponent implements MailStorageListener {
 		updateList();
 	}
 	
+	/**
+	 * Returns the currently displayed {@link MailStorage}.
+	 * @return The currently displayed mail storage.
+	 */
+	public MailStorage getMailStorage(){
+		return mailStorage;
+	}
 	
 }

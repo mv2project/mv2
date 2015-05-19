@@ -136,7 +136,7 @@ public class WebSpaceManagerImpl implements WebSpaceManager {
 	/**
 	 * The SQL statement to request all messages for a timestamp later than the give one.
 	 */
-	private static final String GET_MESSAGES_WITH_DATE = "SELECT idmessage FROM message WHERE receiver=? AND timestamp >= ?;";
+	private static final String GET_MESSAGES_WITH_DATE = "SELECT idmessage FROM message WHERE receiver=? AND timestamp > ?;";
 
 	
 	@Override

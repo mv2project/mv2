@@ -64,6 +64,7 @@ public class InboxUpdateProcedure extends
 		try {
 			new InitialProcedure(client).runImmediate();
 		} catch (ProcedureException e) {
+			client.disconnect();
 			throw new RuntimeException("Could not initialize the connection.",
 					e);
 		}
@@ -78,6 +79,7 @@ public class InboxUpdateProcedure extends
 					.runImmediate();
 		} catch (OperatorCreationException | IllegalStateException
 				| ProcedureException | PKCSException | CertificateException e) {
+			client.disconnect();
 			throw new RequestException("Could not login.", e);
 		}
 		if (!loggedIn)
@@ -92,6 +94,7 @@ public class InboxUpdateProcedure extends
 			newIdentifiers = new MessageQueryProcedure(client, notBefore)
 					.runImmediate();
 		} catch (ProcedureException e) {
+			client.disconnect();
 			throw new RequestException("Could not query new messages.", e);
 		}
 		long id;
@@ -107,6 +110,8 @@ public class InboxUpdateProcedure extends
 				mailStore.add(requested);
 				mailStore.markChanged();
 			} catch (ProcedureException ex) {
+				ex.printStackTrace();
+				client.disconnect();
 				update("Failed to request the message with the identifier '"
 						+ id + "'");
 			}

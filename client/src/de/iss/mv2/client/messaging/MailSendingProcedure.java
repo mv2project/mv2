@@ -128,7 +128,7 @@ public class MailSendingProcedure extends
 			cryptorSettings.getKeyGenerator().setFixedIV(null);
 			cryptorSettings.getKeyGenerator().setFixedKey(null);
 			em = new EncryptedMessage(cryptorSettings, cert.getPublicKey(),
-					STD_MESSAGE.MESSAGE_DELIVERY_REQUEST);
+					STD_MESSAGE.CONTENT_MESSAGE);
 			MV2Message.merge(em, contentMessage);
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			em.serialize(baos);

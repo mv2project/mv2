@@ -83,7 +83,7 @@ public class LoginProcedure extends
 			if (testPhrase == null)
 				throw new LoginException("The test phrase is missing.");
 			RSAInputStream ciperIn = new RSAInputStream(
-					new ByteArrayInputStream(testHash), privateKey);
+					new ByteArrayInputStream(testPhrase), privateKey); // was testHash
 			testPhraseClear = BinaryTools.readAll(ciperIn);
 			ciperIn.close();
 			byte[] myHash = digest.digest(testPhraseClear);
@@ -165,8 +165,9 @@ public class LoginProcedure extends
 			LoginException {
 		if (client.getServerCertificate() == null) {
 			client.send(new MV2Message(STD_MESSAGE.CERT_REQUEST));
+			client.handleNext();
 		}
-		client.handleNext();
+		
 		if (client.getServerCertificate() == null)
 			throw new LoginException("Could not get the servers certificate.");
 	}

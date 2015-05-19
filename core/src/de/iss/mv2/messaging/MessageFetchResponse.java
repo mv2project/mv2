@@ -52,7 +52,7 @@ public class MessageFetchResponse extends MV2Message {
 	 */
 	public Date getTimestamp(){
 		byte[] cont = getFieldDataArrayValue(DEF_MESSAGE_FIELD.TIMESTAMP, null);
-		if(cont == null || cont.length != 2) return null;
+		if(cont == null || cont.length == 0) return null;
 		return new Date(BinaryTools.toLong(cont));
 	}
 

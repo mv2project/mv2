@@ -22,14 +22,14 @@ public class ClientLoginDataProcessor implements MessagePreProcessor, MessagePro
 	/**
 	 * The session manager to use.
 	 */
-	private SessionManager sessionManager;
+	private final SessionManager sessionManager;
 	
 	/**
 	 * Creates a new instance of {@link ClientLoginDataProcessor}.
 	 * @param sessionManager An instance of {@link SessionManager} to manage the session states of the requesting clients.
 	 */
 	public ClientLoginDataProcessor(SessionManager sessionManager) {
-		
+		this.sessionManager = sessionManager;
 	}
 
 	@Override

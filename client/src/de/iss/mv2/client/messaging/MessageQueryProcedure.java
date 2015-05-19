@@ -50,10 +50,13 @@ public class MessageQueryProcedure extends MessageProcedure<RequestException, Li
 		if(m.getMessageIdentifier() == STD_MESSAGE.UNABLE_TO_PROCESS.getIdentifier()){
 			throw new RequestException("The server responsed with: " + m.getFieldStringValue(DEF_MESSAGE_FIELD.CAUSE, ""));
 		}
-		if(m.getMessageIdentifier() != STD_MESSAGE.MESSAGE_FETCH_RESPONSE.getIdentifier()) throw new RequestException("The server did not answert with the expected message.");
+		if(m.getMessageIdentifier() != STD_MESSAGE.MESSAGE_QUERY_RESPONSE.getIdentifier()) throw new RequestException("The server did not answer with the expected message.");
 		MessageQueryResponseMessage response = new MessageQueryResponseMessage();
 		MV2Message.merge(response, m);
-		return new ArrayList<Long>(response.getMessageIdentifier());
+		long[] identifiers = response.getMessageIdentifiers();
+		List<Long> result = new ArrayList<Long>();
+		for(Long l : identifiers) result.add(l);
+		return result;
 	}
 
 	@Override
