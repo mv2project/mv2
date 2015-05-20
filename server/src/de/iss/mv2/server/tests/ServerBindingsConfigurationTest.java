@@ -29,7 +29,7 @@ public class ServerBindingsConfigurationTest {
 	 */
 	@Before
 	public void testGetSetBinding() {
-		config.addBinding("localhost", "localhost.cert");
+		config.addBinding("localhost", "localhost.cert", "localhost.key");
 		Set<String> bindings = config.getBindings();
 		assertEquals(1, bindings.size());
 		assertEquals("localhost", bindings.iterator().next());

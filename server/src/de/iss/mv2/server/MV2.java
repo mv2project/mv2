@@ -1,27 +1,16 @@
 package de.iss.mv2.server;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.security.KeyPair;
 import java.security.PrivateKey;
-import java.security.SecureRandom;
 import java.security.Security;
 import java.security.cert.X509Certificate;
 import java.util.Scanner;
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.bouncycastle.pkcs.PKCS10CertificationRequest;
 
-import de.iss.mv2.data.LocalCertificateManager;
-import de.iss.mv2.io.VirtualConsoleReader;
 import de.iss.mv2.security.AESWithRSACryptoSettings;
-import de.iss.mv2.security.CertificateSigner;
-import de.iss.mv2.security.CertificateSigningRequest;
 import de.iss.mv2.security.MessageCryptorSettings;
 import de.iss.mv2.security.PEMFileIO;
-import de.iss.mv2.security.RSAOutputStream;
 import de.iss.mv2.server.io.MV2Server;
 
 /**
@@ -84,10 +73,6 @@ public class MV2 {
 			while (!canceled) {
 				System.out.print("> ");
 				line = sc.nextLine();
-				if (line.equalsIgnoreCase("certassist")) {
-					createDebugCert();
-					continue;
-				}
 				if (line.equalsIgnoreCase("exit")) {
 					canceled = true;
 					server.stopServer();
@@ -100,94 +85,6 @@ public class MV2 {
 			e.printStackTrace();
 		}
 
-	}
-
-	/**
-	 * Creates a debugging certificate.
-	 * 
-	 * @throws Exception
-	 *             Is thrown if any exception occurs.
-	 */
-	private static void createDebugCert() throws Exception {
-		String keyPath = VirtualConsoleReader.readLine("Private-Key-File: ");
-		File f = new File(keyPath);
-		if (!f.exists())
-			f.createNewFile();
-		String certPath = VirtualConsoleReader.readLine("Cert-File: ");
-		f = new File(certPath);
-		if (!f.exists())
-			f.createNewFile();
-		createDebugCert(keyPath, certPath);
-	}
-
-	/**
-	 * Creates a debugging certificate.
-	 * 
-	 * @param keyPath
-	 *            The path to store the created key.
-	 * @param certPath
-	 *            The path to store the created certificate.
-	 * @throws Exception
-	 *             Is thrown if any exception occurs.
-	 */
-	private static void createDebugCert(String keyPath, String certPath)
-			throws Exception {
-		PEMFileIO pemIO = new PEMFileIO();
-		InputStream in;
-
-		System.out.println("Generating client rsa-keys...");
-		KeyPair debugKeyPair = RSAOutputStream.getRandomRSAKey(4096);
-		String password = VirtualConsoleReader.readPassword(System.in,
-				System.out, "Client-Key-Password: ");
-		OutputStream out = new FileOutputStream(new File(keyPath));
-		pemIO.writePKCS8EncryptedPrivateKey(out, debugKeyPair.getPrivate(),
-				password);
-		out.flush();
-		out.close();
-		String country = VirtualConsoleReader.readLine("Country [C]: ");
-		String state = VirtualConsoleReader.readLine("State [S]: ");
-		String city = VirtualConsoleReader.readLine("City [L]: ");
-		String commonName = VirtualConsoleReader.readLine("Common Name [CN]: ");
-		String organisation = VirtualConsoleReader
-				.readLine("Organisation [O]: ");
-		String organisationUnit = VirtualConsoleReader
-				.readLine("Organisation Unit [OU]: ");
-
-		System.out
-				.println("\nGenerating client certificate-signing-request...");
-		CertificateSigningRequest csr = new CertificateSigningRequest();
-		csr.init(commonName, country, state, city, organisation,
-				organisationUnit);
-		PKCS10CertificationRequest req = csr.generatePKCS10(debugKeyPair);
-		pemIO.writeCertificateSigningRequest(System.out, req);
-		System.out.println();
-		System.out.println();
-
-		in = pemIO.getClass().getClassLoader()
-				.getResourceAsStream("MV2CA.cert");
-		X509Certificate caCert = pemIO.readCertificate(in);
-		in.close();
-		password = VirtualConsoleReader.readPassword(System.in, System.out,
-				"CA-Password: ");
-		in = pemIO.getClass().getClassLoader()
-				.getResourceAsStream("ca.key2.pem");
-		KeyPair caKeyPair = pemIO.readEncryptedKeyFile(in, password);
-		password = null;
-		in.close();
-		boolean allowResign = VirtualConsoleReader
-				.readBoolean("Allow resigning (yes/no): ");
-		CertificateSigner signer = new CertificateSigner(caCert,
-				new LocalCertificateManager(caCert), new SecureRandom());
-		signer.setValidity(365);
-		System.out.println("\nSigning certificate request...");
-		X509Certificate issued = signer.sign(caKeyPair.getPrivate(), req,
-				allowResign);
-		pemIO.writeCertificate(System.out, issued);
-		out = new FileOutputStream(new File(certPath));
-		pemIO.writeCertificate(out, issued);
-		out.flush();
-		out.close();
-		System.out.println("Certificate exported to '" + certPath + "'.");
 	}
 
 }
