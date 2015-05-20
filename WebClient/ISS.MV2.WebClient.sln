@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebClient", "WebClient\WebC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebClient.Web", "WebClient.Web\WebClient.Web.csproj", "{2775C5C4-6AC5-4A41-94E4-4200A2513265}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MV2Core", "MV2CorePortable\MV2Core.csproj", "{D92103E8-1C88-42C7-AE0D-15B148FC250B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{2775C5C4-6AC5-4A41-94E4-4200A2513265}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2775C5C4-6AC5-4A41-94E4-4200A2513265}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2775C5C4-6AC5-4A41-94E4-4200A2513265}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D92103E8-1C88-42C7-AE0D-15B148FC250B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D92103E8-1C88-42C7-AE0D-15B148FC250B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D92103E8-1C88-42C7-AE0D-15B148FC250B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D92103E8-1C88-42C7-AE0D-15B148FC250B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
