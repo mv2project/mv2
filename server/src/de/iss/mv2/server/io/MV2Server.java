@@ -277,52 +277,67 @@ public class MV2Server {
 		@Override
 		public void run() {
 			super.run();
-			Socket client;
-			String binding;
-			ClientThread clientThread;
-			MV2Message helloMessage;
-			HelloMessageProcessor helloProcessor = new HelloMessageProcessor();
+
+			final HelloMessageProcessor helloProcessor = new HelloMessageProcessor();
 			while (!isCanceled) {
 				try {
-					client = socket.accept();
-					MessageParser mp = new MessageParser(
-							client.getInputStream());
-					helloMessage = mp.readNext();
-					binding = helloProcessor.getHostName(helloProcessor
-							.prepare(helloMessage));
-					if (binding == null) {
-						client.close();
-						continue;
-					}
-					if (!bindings.hasBidnding(binding)) {
-						try {
-							DomainNamesResponse resp = new DomainNamesResponse();
-							resp.setAvailableDomainNames(bindings
-									.getAvailableAddressesArray());
-							resp.serialize(client.getOutputStream());
-							client.getOutputStream().flush();
-							client.close();
-							LoggerManager.getCurrentLogger()
-									.push(LogEntryLevel.WARNING,
-											"Connection",
-											"There was no binding for "
-													+ binding + ".");
-							continue;
-						} catch (IOException ex) {
-							ex.printStackTrace();
-						}
-					}
-					LoggerManager.getCurrentLogger().push(
-							LogEntryLevel.INFORMATION,
-							"Connection",
-							"New client on binding " + binding + ": "
-									+ client.getRemoteSocketAddress());
+					final Socket client = socket.accept();
+					client.setSoTimeout(1000);
+					new Thread(new Runnable() {
 
-					clientThread = new ClientThread(client, binding,
-							settings.doClone(), getKeyPair(binding));
-					clientThread.addClientListener(this);
-					clientThread.start();
-					clients.add(clientThread);
+						@Override
+						public void run() {
+							try {
+								MessageParser mp = new MessageParser(client
+										.getInputStream());
+								MV2Message helloMessage = mp.readNext();
+								String binding = helloProcessor
+										.getHostName(helloProcessor
+												.prepare(helloMessage));
+								if (binding == null) {
+									client.close();
+									return;
+								}
+								if (!bindings.hasBidnding(binding)) {
+									try {
+										DomainNamesResponse resp = new DomainNamesResponse();
+										resp.setAvailableDomainNames(bindings
+												.getAvailableAddressesArray());
+										resp.serialize(client.getOutputStream());
+										client.getOutputStream().flush();
+										client.close();
+										LoggerManager.getCurrentLogger().push(
+												LogEntryLevel.WARNING,
+												"Connection",
+												"There was no binding for "
+														+ binding + ".");
+										return;
+									} catch (IOException ex) {
+										ex.printStackTrace();
+									}
+								}
+								LoggerManager
+										.getCurrentLogger()
+										.push(LogEntryLevel.INFORMATION,
+												"Connection",
+												"New client on binding "
+														+ binding
+														+ ": "
+														+ client.getRemoteSocketAddress());
+
+								ClientThread clientThread = new ClientThread(
+										client, binding, settings.doClone(),
+										getKeyPair(binding));
+								clientThread
+										.addClientListener(ServerThread.this);
+								clientThread.start();
+								clients.add(clientThread);
+							} catch (IOException ex) {
+
+							}
+						}
+					}).run();
+
 				} catch (SocketTimeoutException ex) {
 
 				} catch (IOException e) {

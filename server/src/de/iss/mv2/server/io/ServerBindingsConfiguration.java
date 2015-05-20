@@ -20,6 +20,7 @@ import java.util.Set;
 import org.bouncycastle.operator.OperatorCreationException;
 import org.bouncycastle.pkcs.PKCSException;
 
+import de.iss.mv2.io.PathBuilder;
 import de.iss.mv2.security.PEMFileIO;
 import de.iss.mv2.server.ServerBinding;
 import de.iss.mv2.server.ServerBindings;
@@ -43,6 +44,17 @@ public class ServerBindingsConfiguration {
 	public ServerBindingsConfiguration() {
 
 	}
+	
+	/**
+	 * Returns an exemplary {@link ServerBindingsConfiguration}.
+	 * @return An exemplary {@link ServerBindingsConfiguration}.
+	 */
+	public static ServerBindingsConfiguration createExample(){
+		ServerBindingsConfiguration sbc = new ServerBindingsConfiguration();
+		sbc.addBinding("binding1.com", "binding1.cert.der", "binding1.key.der");
+		sbc.addBinding("binding2.org", "binding2.cert.der", "binding2.key.der");
+		return sbc;
+	}
 
 	/**
 	 * Tries to read all certificates and keys and returns the server bindings.
@@ -60,10 +72,11 @@ public class ServerBindingsConfiguration {
 		PEMFileIO pemIO = new PEMFileIO();
 		X509Certificate cert;
 		PrivateKey key;
+		PathBuilder pb = new PathBuilder(ConfigFileLocator.getConfigFileLocation());
 		ServerBindings serverBindings = new ServerBindings();
 		for(String binding : getBindings()){
-			certFile = new File(getCertificatePath(binding));
-			keyFile = new File(getKeyPath(binding));
+			certFile = pb.getChildFile(getCertificatePath(binding));
+			keyFile = pb.getChildFile(getKeyPath(binding));
 			in = new FileInputStream(certFile);
 			cert = pemIO.readCertificate(in);
 			in.close();

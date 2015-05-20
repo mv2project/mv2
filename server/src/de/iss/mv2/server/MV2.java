@@ -1,17 +1,32 @@
 package de.iss.mv2.server;
 
+import java.io.Console;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.security.PrivateKey;
 import java.security.Security;
 import java.security.cert.X509Certificate;
+import java.util.List;
 import java.util.Scanner;
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.bouncycastle.operator.OperatorCreationException;
+import org.bouncycastle.pkcs.PKCSException;
 
+import de.iss.mv2.io.CommandLineInterpreter;
+import de.iss.mv2.io.PathBuilder;
 import de.iss.mv2.security.AESWithRSACryptoSettings;
+import de.iss.mv2.security.KeyStrengthUmlimiter;
 import de.iss.mv2.security.MessageCryptorSettings;
 import de.iss.mv2.security.PEMFileIO;
+import de.iss.mv2.server.io.ConfigFileLocator;
 import de.iss.mv2.server.io.MV2Server;
+import de.iss.mv2.server.io.ServerBindingsConfiguration;
+import de.iss.mv2.tests.TestConstants;
 
 /**
  * The main class.
@@ -19,6 +34,7 @@ import de.iss.mv2.server.io.MV2Server;
  * @author Marcel Singer
  * 
  */
+@SuppressWarnings("deprecation")
 public class MV2 {
 
 	/**
@@ -27,45 +43,158 @@ public class MV2 {
 	 * @param args
 	 *            The command line arguments.
 	 */
-
 	public static void main(String[] args) {
+		try {
+			Security.addProvider(new BouncyCastleProvider());
+			CommandLineInterpreter cli = new CommandLineInterpreter(args, false);
+			if (cli.hasOption(ServerConstants.UNLIMIT_KEY_STRENGTH_OPTION)) {
+				try {
+					KeyStrengthUmlimiter.removeCryptographyRestrictions();
+				} catch (Exception ex) {
+
+				}
+			}
+			if (cli.hasOption(ServerConstants.CREATE_EXAMPLE_CONFIGURATION_OPTION)) {
+				createBasicConfiguration(cli);
+				return;
+			}
+			if (cli.hasOption(ServerConstants.RECRYPT_KEY_FILE_OPTION)) {
+				recryptKey(cli);
+				return;
+			}
+			startServer(cli);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Changes the encryption passphrase of a key file.
+	 * 
+	 * @param cli
+	 *            The command line interpreter.
+	 */
+	private static void recryptKey(CommandLineInterpreter cli) {
+		List<String> extras = cli
+				.getExtras(ServerConstants.RECRYPT_KEY_FILE_OPTION);
+		if (extras.size() == 0) {
+			System.err
+					.println("The path to the key file to recrypt is missing.");
+			return;
+		}
+		File f = new File(extras.get(0));
+		if (!f.exists()) {
+			System.err.println("There is no key file at the given path: '"
+					+ f.getAbsolutePath() + "'");
+			return;
+		}
+		Console cons = System.console();
+		String original = new String(cons.readPassword("%s",
+				"Current passphrase:"));
+		PEMFileIO pemIO = new PEMFileIO();
+		PrivateKey key = null;
+		InputStream in = null;
+		try {
+			in = new FileInputStream(f);
+			key = pemIO.readEncryptedPrivateKey(in, original);
+			if (key == null)
+				throw new IOException();
+		} catch (IOException | OperatorCreationException | PKCSException e) {
+			System.err
+					.println("Could not read the given key file! Maybe the passphrase is invalid...");
+			return;
+		}
+		String newPassphrase = new String(cons.readPassword("%s",
+				"New passphrase:"));
+		String newPassphraseRepeat = new String(cons.readPassword("%s",
+				"New passphrase (repeat):"));
+		if (!newPassphrase.equals(newPassphraseRepeat)) {
+			System.err
+					.println("The passphrase and its repitition do not match.");
+			return;
+		}
+		OutputStream out = null;
+		try {
+			out = new FileOutputStream(f);
+			pemIO.writePKCS8EncryptedPrivateKey(out, key, newPassphrase);
+			out.close();
+			out.flush();
+		} catch (IOException | OperatorCreationException e) {
+			System.err.println("Could not write the new key file!");
+			return;
+		}
+		System.out.println("Completed!");
+	}
+
+	/**
+	 * Creates a basic configuration to be adjusted by the user.
+	 * 
+	 * @param cli
+	 *            The command line interpreter.
+	 * @throws IOException
+	 *             If an I/O error occurs.
+	 */
+	private static void createBasicConfiguration(CommandLineInterpreter cli)
+			throws IOException {
+		System.out.println("Creating basic configuration...");
+		PathBuilder pb = new PathBuilder(
+				ConfigFileLocator.getConfigFileLocation());
+		File f = pb
+				.getChildFile(ServerConstants.BINDINGS_CONFIGURATION_FILE_NAME);
+		if (!f.exists()) {
+			System.out
+					.println("- BindingConfiguration (needs to be adjusted): "
+							+ ServerConstants.BINDINGS_CONFIGURATION_FILE_NAME);
+			f.createNewFile();
+			ServerBindingsConfiguration sbc = ServerBindingsConfiguration
+					.createExample();
+			sbc.write(f);
+			System.out
+					.println("\t--> written to '" + f.getAbsolutePath() + "'");
+		}
+	}
+
+	/**
+	 * Starts the server.
+	 * 
+	 * @param cli
+	 *            The command line interpreter.
+	 */
+	private static void startServer(CommandLineInterpreter cli) {
 		Scanner sc = new Scanner(System.in);
-		System.out.print(System.getProperty("java.runtime.name") + " - ");
-		System.out.println(System.getProperty("java.runtime.version"));
+		System.out
+				.print(ServerConstants.MV2_SERVER_IMPLEMENTATION_NAME + " - ");
+		System.out.println(ServerConstants.MV2_SERVER_IMPLEMENTATION_VERSION);
 		try {
 
-			Security.addProvider(new BouncyCastleProvider());
-
-			PEMFileIO pemIO = new PEMFileIO();
-			InputStream in;
-
 			MessageCryptorSettings mcs = new AESWithRSACryptoSettings();
+			ServerBindings bindings = null;
+			PathBuilder pathBuilder = new PathBuilder(
+					ConfigFileLocator.getConfigFileLocation());
+			File bindingsConfigFile = pathBuilder
+					.getChildFile(ServerConstants.BINDINGS_CONFIGURATION_FILE_NAME);
+			if (!bindingsConfigFile.exists()) {
+				System.err
+						.println("The configuration for the server bingins was not found --> using localhost.");
+				bindings = getLocalBindings();
+			} else {
+				ServerBindingsConfiguration bindingsConfig = new ServerBindingsConfiguration();
+				bindingsConfig.read(bindingsConfigFile);
+				if (!cli.hasOption(ServerConstants.KEY_PASSPHRASE_OPTION)
+						|| cli.getExtras(ServerConstants.KEY_PASSPHRASE_OPTION)
+								.size() == 0) {
+					System.err
+							.println("The passphrase needed to decrypt the private keys was not supplied. Missing: -"
+									+ ServerConstants.KEY_PASSPHRASE_OPTION
+									+ " passphrase");
+					sc.close();
+					return;
+				}
+				bindings = bindingsConfig.toServerBindings(cli.getExtras(
+						ServerConstants.KEY_PASSPHRASE_OPTION).get(0));
+			}
 
-			in = mcs.getClass().getClassLoader()
-					.getResourceAsStream("localhost.cert.der");
-			X509Certificate serverCert = pemIO.readCertificate(in);
-			in.close();
-			String serverKeyPW = "test123";
-			in = mcs.getClass().getClassLoader()
-					.getResourceAsStream("localhost.key.der");
-			PrivateKey serverKey = pemIO.readEncryptedPrivateKey(in,
-					serverKeyPW);
-			in.close();
-
-			ServerBindings sb = new ServerBindings();
-			sb.addBinding(new ServerBinding("localhost", serverCert, serverKey));
-			in = mcs.getClass().getClassLoader()
-					.getResourceAsStream("imac.fritz.box.cert.der");
-			serverCert = pemIO.readCertificate(in);
-			in.close();
-			in = mcs.getClass().getClassLoader()
-					.getResourceAsStream("imac.fritz.box.key.der");
-			serverKey = pemIO.readEncryptedPrivateKey(in, serverKeyPW);
-			in.close();
-			serverKeyPW = null;
-			sb.addBinding(new ServerBinding("imac.fritz.box", serverCert,
-					serverKey));
-			MV2Server server = new MV2Server(sb, mcs, 9898);
+			MV2Server server = new MV2Server(bindings, mcs, 9898);
 			server.start();
 
 			String line;
@@ -85,6 +214,29 @@ public class MV2 {
 			e.printStackTrace();
 		}
 
+	}
+
+	/**
+	 * Returns the default local bindings.
+	 * 
+	 * @return The default local bindings.
+	 * @throws Exception
+	 *             If anything goes wrong.
+	 */
+	private static ServerBindings getLocalBindings() throws Exception {
+		InputStream in = MV2.class.getClassLoader().getResourceAsStream(
+				TestConstants.DEBUG_CERT_RSC_NAME);
+		PEMFileIO pemIO = new PEMFileIO();
+		X509Certificate cert = pemIO.readCertificate(in);
+		in.close();
+		in = MV2.class.getClassLoader().getResourceAsStream(
+				TestConstants.DEBUG_KEY_RSC_NAME);
+		PrivateKey key = pemIO.readEncryptedPrivateKey(in,
+				TestConstants.DEBUG_KEY_PASSPHRASE);
+		in.close();
+		ServerBindings bindings = new ServerBindings();
+		bindings.addBinding(new ServerBinding("localhost", cert, key));
+		return bindings;
 	}
 
 }

@@ -60,6 +60,7 @@ public class BinaryTools {
 	 */
 	public static byte[] readBytes(InputStream in, int length)
 			throws IOException, EOFException {
+		if(length < 0) throw new IOException("The length must not be negative.");
 		int read;
 		byte[] result = new byte[length];
 		for (int i = 0; i < result.length; i++) {

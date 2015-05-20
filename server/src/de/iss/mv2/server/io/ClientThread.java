@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.iss.mv2.io.CommunicationPartner;
+import de.iss.mv2.logging.LogEntryLevel;
+import de.iss.mv2.logging.LoggerManager;
 import de.iss.mv2.messaging.EncryptedMessage;
 import de.iss.mv2.messaging.MV2Message;
 import de.iss.mv2.messaging.MessageParser;
@@ -64,7 +66,7 @@ public class ClientThread extends Thread implements CommunicationPartner {
 	 * to.
 	 */
 	private String identifier;
-	
+
 	/**
 	 * The test phrase of the login procedure.
 	 */
@@ -191,6 +193,7 @@ public class ClientThread extends Thread implements CommunicationPartner {
 	public void run() {
 		super.run();
 		MV2Message received;
+		int timeouts = 0;
 		while (!isCanceled) {
 			try {
 				received = parser.readNext();
@@ -198,9 +201,17 @@ public class ClientThread extends Thread implements CommunicationPartner {
 					received = pp.prepare(received);
 				}
 				reportMessage(received);
+				timeouts = 0;
 			} catch (SocketTimeoutException ex) {
-
-			}catch (EOFException e) {
+				System.out.println(timeouts);
+				timeouts++;
+				if (timeouts > 3) {
+					LoggerManager.getCurrentLogger().push(
+							LogEntryLevel.EXCEPTION, "Server",
+							"The current client timed out.");
+					cancel();
+				}
+			} catch (EOFException e) {
 				cancel();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -233,8 +244,11 @@ public class ClientThread extends Thread implements CommunicationPartner {
 	}
 
 	/**
-	 * Returns {@code true} if this client is currently performing a login procedure.
-	 * @return {@code true} if this client is currently performing a login procedure.
+	 * Returns {@code true} if this client is currently performing a login
+	 * procedure.
+	 * 
+	 * @return {@code true} if this client is currently performing a login
+	 *         procedure.
 	 */
 	public boolean hasActiveLoginProcedure() {
 		return hasActiveLoginProcedure;
@@ -242,7 +256,10 @@ public class ClientThread extends Thread implements CommunicationPartner {
 
 	/**
 	 * Sets if this client is currently performing a login procedure.
-	 * @param hasActiveLoginProcedure {@code true} if this client is currently performing a login procedure.
+	 * 
+	 * @param hasActiveLoginProcedure
+	 *            {@code true} if this client is currently performing a login
+	 *            procedure.
 	 */
 	public void setHasActiveLoginProcedure(boolean hasActiveLoginProcedure) {
 		this.hasActiveLoginProcedure = hasActiveLoginProcedure;
@@ -250,6 +267,7 @@ public class ClientThread extends Thread implements CommunicationPartner {
 
 	/**
 	 * Returns the identifier of the web space this client is connected to.
+	 * 
 	 * @return The identifier of the web space this client is connected to.
 	 */
 	public String getIdentifier() {
@@ -258,7 +276,9 @@ public class ClientThread extends Thread implements CommunicationPartner {
 
 	/**
 	 * Sets the identifier of the web space this client is connected to.
-	 * @param identifier The identifier to set.
+	 * 
+	 * @param identifier
+	 *            The identifier to set.
 	 */
 	public void setIdentifier(String identifier) {
 		this.identifier = identifier;
@@ -266,6 +286,7 @@ public class ClientThread extends Thread implements CommunicationPartner {
 
 	/**
 	 * Returns if the client is authenticated.
+	 * 
 	 * @return {@code true} if this client is authenticated.
 	 */
 	public boolean isAuthenticated() {
@@ -274,7 +295,9 @@ public class ClientThread extends Thread implements CommunicationPartner {
 
 	/**
 	 * Sets if the client is authenticated.
-	 * @param isAuthenticated {@code true} if this client is authenticated.
+	 * 
+	 * @param isAuthenticated
+	 *            {@code true} if this client is authenticated.
 	 */
 	public void setAuthenticated(boolean isAuthenticated) {
 		this.isAuthenticated = isAuthenticated;
@@ -282,17 +305,20 @@ public class ClientThread extends Thread implements CommunicationPartner {
 
 	/**
 	 * Returns the login test phrase.
+	 * 
 	 * @return The login test phrase.
 	 */
-	public byte[] getLoginTestPhrase(){
+	public byte[] getLoginTestPhrase() {
 		return loginTestPhrase;
 	}
-	
+
 	/**
 	 * Sets the login test phrase of this client.
-	 * @param testPhrase The test phrase to set.
+	 * 
+	 * @param testPhrase
+	 *            The test phrase to set.
 	 */
-	public void setLoginTestPhrase(byte[] testPhrase){
+	public void setLoginTestPhrase(byte[] testPhrase) {
 		this.loginTestPhrase = testPhrase;
 	}
 }
