@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 
 namespace ISS.MV2.Core.IO {
     public sealed class BinaryTools {
@@ -18,6 +19,39 @@ namespace ISS.MV2.Core.IO {
             byte[] arr = BitConverter.GetBytes(number);
             if (BitConverter.IsLittleEndian) Array.Reverse(arr);
             return arr;
+        }
+
+        public static int ReadInt(Stream stream) {
+            byte[] data = Read(stream, 4);
+            if (BitConverter.IsLittleEndian) Array.Reverse(data);
+            return BitConverter.ToInt32(data, 0);
+        }
+
+        public static byte[] Read(Stream stream, int amount) {
+            byte[] buffer = new byte[amount];
+            stream.Read(buffer, 0, buffer.Length);
+            return buffer;
+        }
+
+        public static Stream ReadBuffer(Stream stream, int amount) {
+            MemoryStream result = new MemoryStream();
+            int read;
+            for (int i = 0; i < amount; i++) {
+                read = stream.ReadByte();
+                if (read == -1) throw new EndOfStreamException();
+                result.WriteByte((byte) read);
+            }
+            result.Position = 0;
+            return result;
+        }
+
+        public static byte[] ReadAll(Stream stream) {
+            IList<byte> result = new List<byte>();
+            int read;
+            while ((read = stream.ReadByte()) != -1) {
+                result.Add((byte)read);
+            }
+            return result.ToArray();
         }
 
 

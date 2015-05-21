@@ -37,6 +37,11 @@
     <Compile Include="IO\BinaryTools.cs" />
     <Compile Include="IO\StreamExtension.cs" />
     <Compile Include="Messaging\CommunicationElement.cs" />
+    <Compile Include="Messaging\ContentEncodingField.cs" />
+    <Compile Include="Messaging\DEF_MESSAGE.cs" />
+    <Compile Include="Messaging\DEF_MESSAGE_FIELD.cs" />
+    <Compile Include="Messaging\MessageField.cs" />
+    <Compile Include="Messaging\MV2Message.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\AESStream.cs" />
   </ItemGroup>

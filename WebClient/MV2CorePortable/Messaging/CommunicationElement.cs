@@ -40,17 +40,23 @@ namespace ISS.MV2.Core.Messaging {
         /// </summary>
         /// <param name="outputStream">The stream to write to.</param>
         /// <param name="encoding">The encoding to use.</param>
-        protected abstract void doSerialize(Stream outputStream, Encoding encoding);
+        protected abstract void DoSerialize(Stream outputStream, Encoding encoding);
 
-        public void serialize(Stream outputStream) {
+        public virtual void Serialize(Stream outputStream) {
             using (MemoryStream buffer = new MemoryStream()) {
-                doSerialize(buffer, encoding);
+                DoSerialize(buffer, encoding);
                 int length = (int)buffer.Length;
                 outputStream.Write(BinaryTools.ToByteArray(_elementIdentifier));
                 outputStream.Write(BinaryTools.ToByteArray(length));
                 buffer.WriteTo(outputStream);
                 outputStream.Flush();
             }
+        }
+
+        protected abstract void DoDeserialize(Stream inputStream, Encoding encoding);
+
+        public virtual void Deserialize(Stream inputStream) {
+            DoDeserialize(inputStream, Encoding);
         }
 
     }

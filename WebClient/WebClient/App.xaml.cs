@@ -10,7 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 
-namespace WebClient {
+namespace ISS.MV2.WebClient {
     public partial class App : Application {
 
         public App() {
@@ -23,6 +23,10 @@ namespace WebClient {
 
         private void Application_Startup(object sender, StartupEventArgs e) {
             this.RootVisual = new MainPage();
+            ISS.MV2.WebClient.IO.ClientSocket cs = new IO.ClientSocket();
+            cs.Connect("shome1.selfhost.eu");
+           
+
         }
 
         private void Application_Exit(object sender, EventArgs e) {
