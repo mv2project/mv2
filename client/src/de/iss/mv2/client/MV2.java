@@ -6,11 +6,15 @@ import javax.swing.UIManager;
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
+import de.iss.mv2.io.CommandLineInterpreter;
+import de.iss.mv2.security.KeyStrengthUmlimiter;
+
 /**
  * The main entry class of the MV2Client.
  * @author Marcel Singer
  *
  */
+@SuppressWarnings("deprecation")
 public class MV2 {
 
 /**
@@ -19,6 +23,10 @@ public class MV2 {
  */
 	public static void main(String[] args){
 		try {
+			CommandLineInterpreter cli = new CommandLineInterpreter(args, false);
+			if(cli.hasOption(ClientConstants.UNLIMITED_KEY_STRENGTH_OPTION)){
+				KeyStrengthUmlimiter.removeCryptographyRestrictions();
+			}
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception ex) {
 
