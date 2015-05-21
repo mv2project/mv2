@@ -102,7 +102,15 @@ public enum STD_MESSAGE {
 	/**
 	 * The type of a response to a {@link STD_MESSAGE#MESSAGE_FETCH_REQUEST} containing the requested mail message.
 	 */
-	MESSAGE_FETCH_RESPONSE(23);
+	MESSAGE_FETCH_RESPONSE(23),
+	/**
+	 * The type of a message thats request to store the clients private key on the server.
+	 */
+	KEY_PUT_REQUEST(24),
+	/**
+	 * The type of a response to a {@link STD_MESSAGE#KEY_PUT_REQUEST} message.
+	 */
+	KEY_PUT_RESPONSE(25);
 	
 	/**
 	 * Holds the identifier of a message type.
