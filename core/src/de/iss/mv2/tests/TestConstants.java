@@ -35,4 +35,9 @@ public interface TestConstants {
 	 */
 	public static final String DEBUG_KEY_PASSPHRASE = "test123";
 	
+	/**
+	 * A string containing random characters.
+	 */
+	public static final String SOME_STRING = "fjklkdgjolajgjiopuä9ru 92u9)§891";
+	
 }
