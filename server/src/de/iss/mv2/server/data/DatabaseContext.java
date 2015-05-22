@@ -6,33 +6,16 @@ import java.sql.SQLException;
 
 import de.iss.mv2.sql.SQLContext;
 import de.iss.mv2.sql.SequentialSQLContext;
+import de.iss.mv2.tests.TestConstants;
 
 /**
  * Provides a {@link SQLContext} to connect to the servers database.
  * @author Marcel Singer
  *
  */
-public class DatabaseContext extends SequentialSQLContext {
+public class DatabaseContext extends SequentialSQLContext implements TestConstants {
 
-	/**
-	 * The host of the database intended to use for testing purposes.
-	 */
-	private static final String TEST_HOST = "shome1.selfhost.eu";
 	
-	/**
-	 * Test user to connect to the database sever intended for testing purposes.
-	 */
-	private static final String TEST_USER = "mv2user";
-	/**
-	 * Password of the test user.
-	 */
-	private static final String TEST_PW = "test123kss!";
-	
-	/**
-	 * The port of the test host.
-	 */
-	private static final int TEST_PORT = 5432;
-
 	/**
 	 * Holds the database context to use during the current execution.
 	 */
@@ -59,7 +42,7 @@ public class DatabaseContext extends SequentialSQLContext {
 	 * @param host The address of the host.
 	 * @param port The port of the host.
 	 * @param databse The database to connect to.
-	 * @param username The userame to use.
+	 * @param username The username to use.
 	 * @param password The password to use.
 	 * @return An open connection to the specified host.
 	 * @throws RuntimeException If the connection can not be created.
@@ -93,7 +76,12 @@ public class DatabaseContext extends SequentialSQLContext {
 	public Connection getConnection() {
 		Connection con = super.getConnection();
 		try {
-			if (con.isClosed()) {
+			if (con == null || con.isClosed() || !con.isValid(3)) {
+				try{
+					if(con != null) con.close();
+				}catch(SQLException e){
+					
+				}
 				con = createConnection();
 				setConnection(con);
 			}

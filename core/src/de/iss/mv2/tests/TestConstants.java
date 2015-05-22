@@ -40,4 +40,24 @@ public interface TestConstants {
 	 */
 	public static final String SOME_STRING = "fjklkdgjolajgjiopuä9ru 92u9)§891";
 	
+	/**
+	 * The host of the database intended to use for testing purposes.
+	 */
+	public static final String TEST_HOST = "shome1.selfhost.eu";
+	
+	/**
+	 * Test user to connect to the database sever intended for testing purposes.
+	 */
+	public static final String TEST_USER = "mv2user";
+	/**
+	 * Password of the test user.
+	 */
+	public static final String TEST_PW = "test123kss!";
+	
+	/**
+	 * The port of the test host.
+	 */
+	public static final int TEST_PORT = 5432;
+
+	
 }
