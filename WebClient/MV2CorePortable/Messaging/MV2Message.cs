@@ -96,6 +96,11 @@ namespace ISS.MV2.Core.Messaging {
             }
         }
 
+        public static void Merge(MV2Message destination, MV2Message origin){
+            foreach(MessageField mf in origin.CleanedFields){
+                destination.SetMessageField(mf, true);
+            }
+        }
 
     }
 }
