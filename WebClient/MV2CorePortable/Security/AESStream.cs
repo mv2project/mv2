@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.IO;
-using Org.BouncyCastle.Crypto.IO;
 
 namespace ISS.MV2.Core.Security {
     //public class AESStream : CipherStream{
