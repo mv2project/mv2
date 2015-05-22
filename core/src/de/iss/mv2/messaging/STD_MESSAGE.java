@@ -104,13 +104,21 @@ public enum STD_MESSAGE {
 	 */
 	MESSAGE_FETCH_RESPONSE(23),
 	/**
-	 * The type of a message thats request to store the clients private key on the server.
+	 * The type of a message that request to store the clients private key on the server.
 	 */
 	KEY_PUT_REQUEST(24),
 	/**
 	 * The type of a response to a {@link STD_MESSAGE#KEY_PUT_REQUEST} message.
 	 */
-	KEY_PUT_RESPONSE(25);
+	KEY_PUT_RESPONSE(25),
+	/**
+	 * The type of a message that requests the clients private key.
+	 */
+	KEY_REQUEST(26),
+	/**
+	 * The type of a response to a {@link STD_MESSAGE#KEY_REQUEST} message.
+	 */
+	KEY_RESPONSE(27);
 	
 	/**
 	 * Holds the identifier of a message type.
