@@ -290,6 +290,7 @@ public class MV2Server {
 			while (!isCanceled) {
 				try {
 					final Socket client = socket.accept();
+					System.out.println("New socket connection...");
 					client.setSoTimeout(1000);
 					new Thread(new Runnable() {
 
@@ -299,9 +300,11 @@ public class MV2Server {
 								MessageParser mp = new MessageParser(client
 										.getInputStream());
 								MV2Message helloMessage = mp.readNext();
+								System.out.println(helloMessage);
 								String binding = helloProcessor
 										.getHostName(helloProcessor
 												.prepare(helloMessage));
+								System.out.println("Client binding: " + binding);
 								if (binding == null) {
 									client.close();
 									return;
