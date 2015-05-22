@@ -155,12 +155,14 @@ public class MV2 {
 					.println("\t--> written to '" + f.getAbsolutePath() + "'");
 		}
 		f = pb.getChildFile(ServerConstants.SERVER_CONFIGURATION_FILE_NAME);
-		if(!f.exists()){
-			System.out.println("- ServerConfiguration (needs to be adjusted): " + ServerConstants.SERVER_CONFIGURATION_FILE_NAME);
+		if (!f.exists()) {
+			System.out.println("- ServerConfiguration (needs to be adjusted): "
+					+ ServerConstants.SERVER_CONFIGURATION_FILE_NAME);
 			f.createNewFile();
 			ServerConfig sc = ServerConfig.createExample();
 			sc.store(f);
-			System.out.println("\t--> written to '" + f.getAbsolutePath() + "'");
+			System.out
+					.println("\t--> written to '" + f.getAbsolutePath() + "'");
 		}
 	}
 
@@ -176,14 +178,16 @@ public class MV2 {
 				.print(ServerConstants.MV2_SERVER_IMPLEMENTATION_NAME + " - ");
 		System.out.println(ServerConstants.MV2_SERVER_IMPLEMENTATION_VERSION);
 		try {
-			
+
 			MessageCryptorSettings mcs = new AESWithRSACryptoSettings();
 			ServerBindings bindings = null;
 			PathBuilder pathBuilder = new PathBuilder(
 					ConfigFileLocator.getConfigFileLocation());
-			File serverConfigFile = pathBuilder.getChildFile(ServerConstants.SERVER_CONFIGURATION_FILE_NAME);
-			if(!serverConfigFile.exists()){
-				System.err.println("The server configuration file was not found. Terminating the execution...");
+			File serverConfigFile = pathBuilder
+					.getChildFile(ServerConstants.SERVER_CONFIGURATION_FILE_NAME);
+			if (!serverConfigFile.exists()) {
+				System.err
+						.println("The server configuration file was not found. Terminating the execution...");
 				System.exit(0);
 			}
 			ServerConfig serverConfig = new ServerConfig();
@@ -196,20 +200,28 @@ public class MV2 {
 						.println("The configuration of the server bindings was not found --> using localhost.");
 				bindings = getLocalBindings();
 			} else {
+				String pkPassphrase;
 				ServerBindingsConfiguration bindingsConfig = new ServerBindingsConfiguration();
 				bindingsConfig.read(bindingsConfigFile);
 				if (!cli.hasOption(ServerConstants.KEY_PASSPHRASE_OPTION)
 						|| cli.getExtras(ServerConstants.KEY_PASSPHRASE_OPTION)
 								.size() == 0) {
-					System.err
-							.println("The passphrase needed to decrypt the private keys was not supplied. Missing: -"
-									+ ServerConstants.KEY_PASSPHRASE_OPTION
-									+ " passphrase");
-					sc.close();
-					return;
+					if (serverConfig.getPrivateKeyPassword() != null) {
+						pkPassphrase = serverConfig.getPrivateKeyPassword();
+					} else {
+						System.err
+								.println("The passphrase needed to decrypt the private keys was not supplied. Missing: -"
+										+ ServerConstants.KEY_PASSPHRASE_OPTION
+										+ " passphrase");
+						sc.close();
+						return;
+					}
+				} else {
+					pkPassphrase = cli.getExtras(ServerConstants.KEY_PASSPHRASE_OPTION).get(0);
 				}
-				bindings = bindingsConfig.toServerBindings(cli.getExtras(
-						ServerConstants.KEY_PASSPHRASE_OPTION).get(0));
+				bindings = bindingsConfig.toServerBindings(pkPassphrase);
+				pkPassphrase = null;
+				System.gc();
 			}
 
 			MV2Server server = new MV2Server(bindings, mcs, 9898);

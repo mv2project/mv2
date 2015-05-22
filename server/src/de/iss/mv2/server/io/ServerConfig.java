@@ -41,6 +41,11 @@ public class ServerConfig extends Properties {
 	 * The key for the database users password property.
 	 */
 	public static final String DB_PASSWORD = "DB_PASSWORD";
+	
+	/**
+	 * The key for the private key password property.
+	 */
+	public static final String PK_PASSWORD = "PK_PASSWORD";
 
 	/**
 	 * The serial.
@@ -178,6 +183,24 @@ public class ServerConfig extends Properties {
 	public String getDatabaseUsersPassword() {
 		return getProperty(DB_PASSWORD);
 	}
+	
+	/**
+	 * Sets the password that was used to encrypt the private keys.
+	 * @param password The password that was used to encrypt the private keys.
+	 * @throws IllegalArgumentException Is thrown if the given password is {@code null}.
+	 */
+	public void setPrivateKeyPassword(String password){
+		if(password == null) throw new IllegalArgumentException("The password must not be null.");
+		setProperty(PK_PASSWORD, password);
+	}
+	
+	/**
+	 * Returns the password that was used to encrypt the private keys.
+	 * @return The password that was used to encrypt the private keys or {@code null} if there is none. 
+	 */
+	public String getPrivateKeyPassword(){
+		return getProperty(PK_PASSWORD);
+	}
 
 	/**
 	 * Loads the configuration from the specified file.
@@ -228,6 +251,7 @@ public class ServerConfig extends Properties {
 		sc.setDatabasePort(815);
 		sc.setDatabaseUser("testUser");
 		sc.setDatabaseUsersPassword("testUsersPW");
+		sc.setPrivateKeyPassword("privateKeyPassword");
 		return sc;
 	}
 
