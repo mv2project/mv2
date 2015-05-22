@@ -122,11 +122,11 @@ public class EncryptedMessage extends MV2Message {
 			cryptoStream.flush();
 			cryptoStream.close();
 			MessageField symAlgorithmName = new MessageField(
-					DEF_MESSAGE_FIELD.SYMETRIC_ALGORITHM,
+					DEF_MESSAGE_FIELD.SYMMETRIC_ALGORITHM,
 					settings.getSymmetricAlgorithmName());
 			symAlgorithmName.setEncoding(ENCODING);
 			MessageField asymAlgorithmName = new MessageField(
-					DEF_MESSAGE_FIELD.ASYMETRIC_ALGORITHM,
+					DEF_MESSAGE_FIELD.ASYMMETRIC_ALGORITHM,
 					settings.getAsymmetricAlgorithmName());
 			asymAlgorithmName.setEncoding(ENCODING);
 			ByteArrayOutputStream keyOut = new ByteArrayOutputStream();
@@ -174,8 +174,8 @@ public class EncryptedMessage extends MV2Message {
 				mf.completeDeserialize(ENCODING);
 				setMessageField(mf, true);
 			}
-			MessageField symNameField = getFieldOrThrow(DEF_MESSAGE_FIELD.SYMETRIC_ALGORITHM);
-			MessageField asymNameField = getFieldOrThrow(DEF_MESSAGE_FIELD.ASYMETRIC_ALGORITHM);
+			MessageField symNameField = getFieldOrThrow(DEF_MESSAGE_FIELD.SYMMETRIC_ALGORITHM);
+			MessageField asymNameField = getFieldOrThrow(DEF_MESSAGE_FIELD.ASYMMETRIC_ALGORITHM);
 			this.symmetricAlgorithm = symNameField.getContent();
 			if (!symNameField.getContent().equals(
 					settings.getSymmetricAlgorithmName())
@@ -294,7 +294,7 @@ public class EncryptedMessage extends MV2Message {
 		sb.append("[ ENCRYPTED ] " + super.toString());
 		Encoder enc = Base64.getEncoder();
 		sb.append("\t"
-				+ new MessageField(DEF_MESSAGE_FIELD.SYMETRIC_ALGORITHM,
+				+ new MessageField(DEF_MESSAGE_FIELD.SYMMETRIC_ALGORITHM,
 						getUsedSymmetricAlgorithm()) + "\n");
 		sb.append("\t[i] USED_KEY: " + enc.encodeToString(getUsedSymmetricKey())
 				+ "\n");
