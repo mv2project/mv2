@@ -29,7 +29,9 @@ namespace ISS.MV2.WebClient {
 
                 MV2Client client = new MV2Client();
                 client.Connect("shome1.selfhost.eu");
-                client.Send(new HelloMessage());
+                HelloMessage hm = new HelloMessage() { HostName = "shome1.selfhost.eu" };
+
+                client.Send(hm);
             })).Start();
 
         }

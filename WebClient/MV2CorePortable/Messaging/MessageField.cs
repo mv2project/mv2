@@ -39,9 +39,8 @@ namespace ISS.MV2.Core.Messaging {
                 outputStream.Flush();
                 return;
             }
-            StreamWriter streamWriter = new StreamWriter(outputStream, encoding);
-            streamWriter.Write(Content);
-            streamWriter.Flush();
+            outputStream.Write(encoding.GetBytes(Content));
+            outputStream.Flush();
         }
 
 
