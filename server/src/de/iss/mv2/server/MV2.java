@@ -23,9 +23,11 @@ import de.iss.mv2.security.AESWithRSACryptoSettings;
 import de.iss.mv2.security.KeyStrengthUmlimiter;
 import de.iss.mv2.security.MessageCryptorSettings;
 import de.iss.mv2.security.PEMFileIO;
+import de.iss.mv2.server.data.DatabaseContext;
 import de.iss.mv2.server.io.ConfigFileLocator;
 import de.iss.mv2.server.io.MV2Server;
 import de.iss.mv2.server.io.ServerBindingsConfiguration;
+import de.iss.mv2.server.io.ServerConfig;
 import de.iss.mv2.tests.TestConstants;
 
 /**
@@ -152,6 +154,14 @@ public class MV2 {
 			System.out
 					.println("\t--> written to '" + f.getAbsolutePath() + "'");
 		}
+		f = pb.getChildFile(ServerConstants.SERVER_CONFIGURATION_FILE_NAME);
+		if(!f.exists()){
+			System.out.println("- ServerConfiguration (needs to be adjusted): " + ServerConstants.SERVER_CONFIGURATION_FILE_NAME);
+			f.createNewFile();
+			ServerConfig sc = ServerConfig.createExample();
+			sc.store(f);
+			System.out.println("\t--> written to '" + f.getAbsolutePath() + "'");
+		}
 	}
 
 	/**
@@ -166,16 +176,24 @@ public class MV2 {
 				.print(ServerConstants.MV2_SERVER_IMPLEMENTATION_NAME + " - ");
 		System.out.println(ServerConstants.MV2_SERVER_IMPLEMENTATION_VERSION);
 		try {
-
+			
 			MessageCryptorSettings mcs = new AESWithRSACryptoSettings();
 			ServerBindings bindings = null;
 			PathBuilder pathBuilder = new PathBuilder(
 					ConfigFileLocator.getConfigFileLocation());
+			File serverConfigFile = pathBuilder.getChildFile(ServerConstants.SERVER_CONFIGURATION_FILE_NAME);
+			if(!serverConfigFile.exists()){
+				System.err.println("The server configuration file was not found. Terminating the execution...");
+				System.exit(0);
+			}
+			ServerConfig serverConfig = new ServerConfig();
+			serverConfig.load(serverConfigFile);
+			DatabaseContext.setContext(serverConfig.toDatabaseContext());
 			File bindingsConfigFile = pathBuilder
 					.getChildFile(ServerConstants.BINDINGS_CONFIGURATION_FILE_NAME);
 			if (!bindingsConfigFile.exists()) {
 				System.err
-						.println("The configuration for the server bingins was not found --> using localhost.");
+						.println("The configuration of the server bindings was not found --> using localhost.");
 				bindings = getLocalBindings();
 			} else {
 				ServerBindingsConfiguration bindingsConfig = new ServerBindingsConfiguration();
