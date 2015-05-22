@@ -32,11 +32,11 @@ public enum DEF_MESSAGE_FIELD {
 	/**
 	 * A message field containing the name of the symmetric algorithm.
 	 */
-	SYMETRIC_ALGORITHM(5),
+	SYMMETRIC_ALGORITHM(5),
 	/**
 	 * A message field containing the name of the asymmetric algorithm.
 	 */
-	ASYMETRIC_ALGORITHM(6),
+	ASYMMETRIC_ALGORITHM(6),
 	/**
 	 * A message field containing the symmetric encryption key and IV.
 	 * @deprecated Duplicate of {@link DEF_MESSAGE_FIELD#ENCRYPTION_KEY}.
