@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -172,6 +173,47 @@ public class WebSpaceManagerImpl implements WebSpaceManager {
 			return new MessageImpl(identifier, webSpace, new Date(rs.getTimestamp("timestamp").getTime()), rs.getBytes("content"));
 		}catch(SQLException ex){
 			throw new RuntimeException(ex);
+		}
+	}
+
+	/**
+	 * The SQL statement to store the private key of a web space.
+	 */
+	private static final String STORE_KEY = "UPDATE webspace SET keypassphrase=?, key=? WEHERE identifier=?;";
+	
+	@Override
+	public void setPrivateKey(WebSpace webSpace, byte[] passphrase,
+			byte[] privateKey) {
+		try{
+			PreparedStatement ps = context.getConnection().prepareStatement(STORE_KEY);
+			ps.setBytes(1, passphrase);
+			ps.setBytes(2, privateKey);
+			ps.setString(3, webSpace.getIdentifier());
+			ps.executeUpdate();
+		}catch(SQLException ex){
+			throw new RuntimeException(ex);
+		}
+	}
+
+	/**
+	 * The SQL statement to request the private key of a web space.
+	 */
+	private static final String GET_KEY = "SELECT key, keypassphrase FROM webspace WHERE identifier=?;";
+	
+	@Override
+	public byte[] getPrivateKey(WebSpace webSpace, byte[] passphrase)
+			throws NoSuchElementException, IllegalArgumentException {
+		try{
+			PreparedStatement ps = context.getConnection().prepareStatement(GET_KEY);
+			ps.setString(1, webSpace.getIdentifier());
+			ResultSet rs = ps.executeQuery();
+			if(!rs.next()) throw new RuntimeException("Can't find an entry for the given webspace.");
+			byte[] phrase = rs.getBytes("keypassphrase");
+			byte[] key = rs.getBytes("key");
+			if(!Arrays.equals(phrase, passphrase)) throw new IllegalArgumentException("The given passphrase is invalid.");
+			return key;
+		}catch(SQLException ex){
+			throw new IllegalArgumentException(ex);
 		}
 	}
 	

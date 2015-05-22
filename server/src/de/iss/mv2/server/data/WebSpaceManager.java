@@ -78,5 +78,23 @@ public interface WebSpaceManager extends UnambiguityPovider<String> {
 	 * @throws NoSuchElementException Is thrown if there is no mail message with the given identifier.
 	 */
 	public Message getMessage(WebSpace webSpace, long identifier) throws NoSuchElementException;
+	
+	/**
+	 * Stores the given webspace's encrypted private key.
+	 * @param webSpace The webspace thats private key should be stored.
+	 * @param passphrase The passphrase needed to request the private key.
+	 * @param privateKey The encrypted private key to store.
+	 */
+	public void setPrivateKey(WebSpace webSpace, byte[] passphrase, byte[] privateKey);
+	
+	/**
+	 * Returns the given webspace's encrypted private key.
+	 * @param webSpace The webspace thats private key should be returned.
+	 * @param passphrase The passphrase needed to request the private key.
+	 * @throws NoSuchElementException Is thrown if there is no stored private key for the given webspace.
+	 * @throws IllegalArgumentException If the given passphrase is invalid.
+	 * @return The private key of the given webspace.
+	 */
+	public byte[] getPrivateKey(WebSpace webSpace, byte[] passphrase) throws NoSuchElementException, IllegalArgumentException;
 
 }
