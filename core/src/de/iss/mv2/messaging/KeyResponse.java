@@ -5,12 +5,12 @@ package de.iss.mv2.messaging;
  * @author Marcel Singer
  *
  */
-public class KeyReponse extends MV2Message {
+public class KeyResponse extends MV2Message {
 
 	/**
-	 * Creates a new instance of {@link KeyReponse}.
+	 * Creates a new instance of {@link KeyResponse}.
 	 */
-	public KeyReponse() {
+	public KeyResponse() {
 		super(STD_MESSAGE.KEY_RESPONSE);
 		
 	}
