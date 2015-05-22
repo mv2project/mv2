@@ -210,6 +210,7 @@ public class WebSpaceManagerImpl implements WebSpaceManager {
 			if(!rs.next()) throw new RuntimeException("Can't find an entry for the given webspace.");
 			byte[] phrase = rs.getBytes("keypassphrase");
 			byte[] key = rs.getBytes("key");
+			if(phrase == null || key == null) throw new NoSuchElementException();
 			if(!Arrays.equals(phrase, passphrase)) throw new IllegalArgumentException("The given passphrase is invalid.");
 			return key;
 		}catch(SQLException ex){

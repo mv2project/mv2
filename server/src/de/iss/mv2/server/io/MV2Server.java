@@ -33,6 +33,8 @@ import de.iss.mv2.server.processors.ClientLoginDataProcessor;
 import de.iss.mv2.server.processors.ClientLoginRequestProcessor;
 import de.iss.mv2.server.processors.DomainNamesProcessor;
 import de.iss.mv2.server.processors.HelloMessageProcessor;
+import de.iss.mv2.server.processors.KeyPutRequestProcessor;
+import de.iss.mv2.server.processors.KeyRequestProcessor;
 import de.iss.mv2.server.processors.MessageDeliveryRequestProcessor;
 import de.iss.mv2.server.processors.MessageFetchProcessor;
 import de.iss.mv2.server.processors.MessageQueryProcessor;
@@ -152,6 +154,12 @@ public class MV2Server {
 		MessageQueryProcessor mqp = new MessageQueryProcessor(smi, spaceManager);
 		registerPreProcessor(mqp);
 		registerProcessor(mqp);
+		KeyPutRequestProcessor kpr = new KeyPutRequestProcessor(smi, spaceManager);
+		registerPreProcessor(kpr);
+		registerProcessor(kpr);
+		KeyRequestProcessor krp = new KeyRequestProcessor(smi, spaceManager);
+		registerPreProcessor(krp);
+		registerProcessor(krp);
 	}
 
 	/**
