@@ -9,67 +9,121 @@ import de.iss.mv2.sql.SequentialSQLContext;
 
 /**
  * Provides a {@link SQLContext} to connect to the servers database.
+ * 
  * @author Marcel Singer
  *
  */
 public class DatabaseContext extends SequentialSQLContext {
 
 	/**
-	 * The host of the database intended to use for testing purposes.
+	 * Holds the address of the database host.
 	 */
-	private static final String TEST_HOST = "shome1.selfhost.eu";
-	
+	private final String host;
+
 	/**
-	 * Test user to connect to the database sever intended for testing purposes.
+	 * Holds the name of the database.
 	 */
-	private static final String TEST_USER = "mv2user";
+	private final String database;
+
 	/**
-	 * Password of the test user.
+	 * Holds the user of the database.
 	 */
-	private static final String TEST_PW = "test123kss!";
-	
+	private final String user;
+
 	/**
-	 * The port of the test host.
+	 * Holds the password of the database.
 	 */
-	private static final int TEST_PORT = 5432;
+	private final String password;
+
+	/**
+	 * Holds the port of the database.
+	 */
+	private final int port;
 
 	/**
 	 * Holds the database context to use during the current execution.
 	 */
-	private static final DatabaseContext instance = new DatabaseContext();
+	private static volatile DatabaseContext instance;
 
 	/**
-	 * Creates a new instance of {@link DatabaseContext} using the test database.
+	 * Creates a new database context with the given connection parameters.
+	 * 
+	 * @param host
+	 *            The address of the database host.
+	 * @param port
+	 *            The port of database.
+	 * @param database
+	 *            The database name to connect to.
+	 * @param user
+	 *            The user to use for the connection.
+	 * @param password
+	 *            The users password.
 	 */
-	private DatabaseContext() {
-		super(createConnection());
-
+	public DatabaseContext(String host, int port, String database, String user,
+			String password) {
+		super(createConnection(host, port, database, user, password));
+		this.host = host;
+		this.port = port;
+		this.database = database;
+		this.user = user;
+		this.password = password;
 	}
 
 	/**
 	 * Returns the database context to use during the current execution.
+	 * 
 	 * @return The database context to use during the current execution.
+	 * @throws IllegalStateException
+	 *             Is thrown if the default context was not set before.
 	 */
-	public static DatabaseContext getContext() {
+	public static synchronized DatabaseContext getContext()
+			throws IllegalStateException {
+		if (instance == null)
+			throw new IllegalStateException("The default context was not set.");
 		return instance;
 	}
 
 	/**
+	 * Sets the default context to use.
+	 * 
+	 * @param context
+	 *            The context to set.
+	 */
+	public static synchronized void setContext(DatabaseContext context) {
+		if (instance != null) {
+			try {
+				instance.getConnection().close();
+			} catch (SQLException ex) {
+
+			}
+		}
+		instance = context;
+	}
+
+	/**
 	 * Creates a SQL connection to the specified PostgreSQL host.
-	 * @param host The address of the host.
-	 * @param port The port of the host.
-	 * @param databse The database to connect to.
-	 * @param username The userame to use.
-	 * @param password The password to use.
+	 * 
+	 * @param host
+	 *            The address of the host.
+	 * @param port
+	 *            The port of the host.
+	 * @param database
+	 *            The database to connect to.
+	 * @param username
+	 *            The username to use.
+	 * @param password
+	 *            The password to use.
 	 * @return An open connection to the specified host.
-	 * @throws RuntimeException If the connection can not be created.
+	 * @throws RuntimeException
+	 *             If the connection can not be created.
 	 */
 	private static Connection createConnection(String host, int port,
-			String databse, String username, String password) throws RuntimeException {
+			String database, String username, String password)
+			throws RuntimeException {
 		try {
 			Class.forName("org.postgresql.Driver");
 			String connectionString = "jdbc:postgresql://" + host + ":" + port
-					+ "/" + databse + "?user=" + username + "&password="
+					+ "/" + database + "?user=" + username + "&password="
 					+ password;
 			Connection con = DriverManager.getConnection(connectionString);
 			return con;
@@ -81,19 +135,26 @@ public class DatabaseContext extends SequentialSQLContext {
 
 	/**
 	 * Creates a SQL connection to the host intended for testing purposes.
+	 * 
 	 * @return An open connection to the test host.
-	 * @throws RuntimeException If the connection can not be created.
+	 * @throws RuntimeException
+	 *             If the connection can not be created.
 	 */
-	private static Connection createConnection() throws RuntimeException{
-		return createConnection(TEST_HOST, TEST_PORT, DynamicSQLSettings
-				.getInstance().getDatabaseName(), TEST_USER, TEST_PW);
+	private Connection createConnection() throws RuntimeException {
+		return createConnection(host, port, database, user, password);
 	}
 
 	@Override
 	public Connection getConnection() {
 		Connection con = super.getConnection();
 		try {
-			if (con.isClosed()) {
+			if (con == null || con.isClosed() || !con.isValid(3)) {
+				try {
+					if (con != null)
+						con.close();
+				} catch (SQLException e) {
+
+				}
 				con = createConnection();
 				setConnection(con);
 			}

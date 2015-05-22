@@ -15,6 +15,11 @@ public interface ServerConstants extends MV2Constants {
 	public static final String BINDINGS_CONFIGURATION_FILE_NAME = "bindings.config";
 	
 	/**
+	 * The name of the server configuration file.
+	 */
+	public static final String SERVER_CONFIGURATION_FILE_NAME = "server.config";
+	
+	/**
 	 * The command line option to create an example configuration.
 	 */
 	public static final String CREATE_EXAMPLE_CONFIGURATION_OPTION = "c";
