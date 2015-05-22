@@ -11,7 +11,7 @@ import de.iss.mv2.security.CryptoException;
 import de.iss.mv2.security.MessageCryptorSettings;
 
 /**
- * A parser for parsing receiver {@link MV2Message}s.
+ * A parser for parsing received {@link MV2Message}s.
  * @author Marcel Singer
  *
  */
