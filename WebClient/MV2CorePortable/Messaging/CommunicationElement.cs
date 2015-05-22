@@ -45,7 +45,7 @@ namespace ISS.MV2.Core.Messaging {
         public virtual void Serialize(Stream outputStream) {
             using (MemoryStream buffer = new MemoryStream()) {
                 DoSerialize(buffer, encoding);
-                int length = (int)buffer.Length;
+                int length = (int)buffer.Position;
                 outputStream.Write(BinaryTools.ToByteArray(_elementIdentifier));
                 outputStream.Write(BinaryTools.ToByteArray(length));
                 buffer.WriteTo(outputStream);

@@ -77,7 +77,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="IO\AlreadyConnectedException.cs" />
     <Compile Include="IO\ClientSocket.cs" />
+    <Compile Include="IO\MV2Client.cs" />
     <Compile Include="IO\SendBuffer.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -97,6 +99,12 @@
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="Properties\AppManifest.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MV2CorePortable\MV2Core.csproj">
+      <Project>{d92103e8-1c88-42c7-ae0d-15b148fc250b}</Project>
+      <Name>MV2Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

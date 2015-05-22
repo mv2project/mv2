@@ -13,7 +13,7 @@ using System.IO;
 using System.Threading;
 
 namespace ISS.MV2.WebClient.IO {
-    public class ClientSocket : Stream  {
+    public class ClientSocket : Stream {
 
         private Socket socket;
 
@@ -28,7 +28,10 @@ namespace ISS.MV2.WebClient.IO {
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         }
 
+        private AutoResetEvent connect_event = new AutoResetEvent(false);
+
         public void Connect(string address) {
+
             lock (async_lock) {
                 if (connecting || connected) return;
                 connected = true;
@@ -38,14 +41,18 @@ namespace ISS.MV2.WebClient.IO {
                 };
                 args.Completed += Connect_Completed;
                 socket.ConnectAsync(args);
+
             }
+            connect_event.WaitOne();
         }
 
         private void Connect_Completed(object sender, SocketAsyncEventArgs e) {
             lock (async_lock) {
                 connecting = false;
                 connected = (e.SocketError == SocketError.Success);
+                connect_event.Set();
             }
+
         }
 
 
@@ -62,7 +69,7 @@ namespace ISS.MV2.WebClient.IO {
         }
 
         public override void Flush() {
-            
+
         }
 
         public override long Length {
@@ -93,11 +100,11 @@ namespace ISS.MV2.WebClient.IO {
             return bytesRead;
         }
 
-       private void read_Completed(object sender, SocketAsyncEventArgs e) {
-           lock (read_lock) {
-               bytesRead = e.BytesTransferred;
-               read_event.Set();
-           }
+        private void read_Completed(object sender, SocketAsyncEventArgs e) {
+            lock (read_lock) {
+                bytesRead = e.BytesTransferred;
+                read_event.Set();
+            }
         }
 
         public override long Seek(long offset, SeekOrigin origin) {
@@ -121,10 +128,10 @@ namespace ISS.MV2.WebClient.IO {
             write_event.WaitOne();
         }
 
-       private void write_Completed(object sender, SocketAsyncEventArgs e) {
-           lock (write_lock) {
-               write_event.Set();
-           }
+        private void write_Completed(object sender, SocketAsyncEventArgs e) {
+            lock (write_lock) {
+                write_event.Set();
+            }
         }
     }
 }

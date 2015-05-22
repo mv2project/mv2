@@ -55,7 +55,8 @@ namespace ISS.MV2.Core.Messaging {
         }
 
         protected override void DoSerialize(System.IO.Stream outputStream, Encoding encoding) {
-            foreach (MessageField mf in CleanedFields) {
+            CleanUp();
+            foreach (MessageField mf in Fields) {
                 mf.Encoding = Encoding;
                 mf.Serialize(outputStream);
             }

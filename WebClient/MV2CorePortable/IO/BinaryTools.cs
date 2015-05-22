@@ -21,6 +21,11 @@ namespace ISS.MV2.Core.IO {
             return arr;
         }
 
+        public static UInt32 ReverseBytes(UInt32 value) {
+            return (value & 0x000000FFU) << 24 | (value & 0x0000FF00U) << 8 |
+                   (value & 0x00FF0000U) >> 8 | (value & 0xFF000000U) >> 24;
+        }
+
         public static int ReadInt(Stream stream) {
             byte[] data = Read(stream, 4);
             if (BitConverter.IsLittleEndian) Array.Reverse(data);

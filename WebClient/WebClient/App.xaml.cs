@@ -9,6 +9,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
+using ISS.MV2.Core.Messaging;
+using ISS.MV2.WebClient.IO;
 
 namespace ISS.MV2.WebClient {
     public partial class App : Application {
@@ -23,9 +25,12 @@ namespace ISS.MV2.WebClient {
 
         private void Application_Startup(object sender, StartupEventArgs e) {
             this.RootVisual = new MainPage();
-            ISS.MV2.WebClient.IO.ClientSocket cs = new IO.ClientSocket();
-            cs.Connect("shome1.selfhost.eu");
-           
+            new System.Threading.Thread(new System.Threading.ThreadStart(() => {
+
+                MV2Client client = new MV2Client();
+                client.Connect("shome1.selfhost.eu");
+                client.Send(new HelloMessage());
+            })).Start();
 
         }
 

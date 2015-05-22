@@ -44,6 +44,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Messaging\DEF_MESSAGE_FIELD.cs" />
+    <Compile Include="Messaging\HelloMessage.cs" />
     <Compile Include="Messaging\MessageField.cs">
       <SubType>Code</SubType>
     </Compile>
