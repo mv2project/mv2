@@ -70,14 +70,14 @@ public class MessageParser {
 			message = new MV2Message(identifier);
 		} else {
 			if (!settings.getKeyGenerator().hasFixedKeyAndIV()) {
+				if (settings == null)
+					throw new CryptoException(
+							"The settings object needed for decryption was not set.");
 				if (asymmetricKey == null)
 					throw new CryptoException(
 							"The key needed for decryption was not set.");
-
 			}
-			if (settings == null)
-				throw new CryptoException(
-						"The settings needed for decryption was not set.");
+			
 			message = new EncryptedMessage(settings, asymmetricKey);
 		}
 		message.deserialize(messageStream);
