@@ -61,7 +61,7 @@ public class AESKeyGenerator implements SymmetricKeyGenerator{
 	@Override
 	public byte[] getRandomKey() {
 		if(fixedKey != null) return fixedKey;
-		return getRandomKey(16);
+		return getRandomKey(32);
 	}
 
 

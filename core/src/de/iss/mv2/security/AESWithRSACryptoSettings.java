@@ -27,7 +27,7 @@ public class AESWithRSACryptoSettings implements MessageCryptorSettings {
 	/**
 	 * Stores the strength of the key to generate in bytes.
 	 */
-	private int desiredSymetricKeySize = 16;
+	private int desiredSymmetricKeySize = 32;
 
 	/**
 	 * Creates a new instance of {@link AESWithRSACryptoSettings}.
@@ -41,7 +41,7 @@ public class AESWithRSACryptoSettings implements MessageCryptorSettings {
 	 * @param desiredSize The size of the symmetric key in bytes.
 	 */
 	public void setDesiredSymetricKeySize(int desiredSize) {
-		this.desiredSymetricKeySize = desiredSize;
+		this.desiredSymmetricKeySize = desiredSize;
 	}
 
 	@Override
@@ -77,7 +77,7 @@ public class AESWithRSACryptoSettings implements MessageCryptorSettings {
 
 	@Override
 	public int getDesiredSymmetricKeySize() {
-		return desiredSymetricKeySize;
+		return desiredSymmetricKeySize;
 	}
 
 	@Override
@@ -129,7 +129,7 @@ public class AESWithRSACryptoSettings implements MessageCryptorSettings {
 	@Override
 	public MessageCryptorSettings doClone() {
 		AESWithRSACryptoSettings cl = new AESWithRSACryptoSettings();
-		cl.desiredSymetricKeySize = this.desiredSymetricKeySize;
+		cl.desiredSymmetricKeySize = this.desiredSymmetricKeySize;
 		cl.keyGen = this.keyGen.doClone();
 		return cl;
 	}
