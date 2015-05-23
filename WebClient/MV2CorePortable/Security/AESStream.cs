@@ -16,7 +16,7 @@ namespace ISS.MV2.Security {
 
 
         public AESStream(Stream baseStream, byte[] key, byte[] iv) : base(baseStream, GetDecryptionCipher(key, iv), GetEncryptionCiper(key, iv)){
-           
+            
         }
 
         private static PaddedBufferedBlockCipher GetDecryptionCipher(byte[] key, byte[] iv) {

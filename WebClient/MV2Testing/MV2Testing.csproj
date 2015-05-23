@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="AESTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RSATest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MV2CorePortable\MV2Core.csproj">
