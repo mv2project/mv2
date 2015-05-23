@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using ISS.MV2.Core.IO;
+using ISS.MV2.IO;
 using System.IO;
 
-namespace ISS.MV2.Core.Messaging {
+namespace ISS.MV2.Messaging {
     public class MessageField : CommunicationElement {
 
         private string content;

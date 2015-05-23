@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using System.Text;
 
-namespace ISS.MV2.Core.Messaging {
+namespace ISS.MV2.Messaging {
     public class DEF_MESSAGE {
 
         private int identifier = -1;

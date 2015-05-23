@@ -8,10 +8,10 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
-using ISS.MV2.Core.Messaging;
+using ISS.MV2.Messaging;
 
 
-namespace ISS.MV2.WebClient.IO {
+namespace ISS.MV2.IO {
     public class MV2Client {
 
         private ClientSocket connection;

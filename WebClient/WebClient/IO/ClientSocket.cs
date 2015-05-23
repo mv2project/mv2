@@ -12,7 +12,7 @@ using System.Net.Sockets;
 using System.IO;
 using System.Threading;
 
-namespace ISS.MV2.WebClient.IO {
+namespace ISS.MV2.IO {
     public class ClientSocket : Stream {
 
         private Socket socket;

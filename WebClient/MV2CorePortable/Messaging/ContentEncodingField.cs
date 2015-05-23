@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using System.Text;
 
-namespace ISS.MV2.Core.Messaging {
+namespace ISS.MV2.Messaging {
     public class ContentEncodingField : MessageField {
 
         public ContentEncodingField(Encoding encoding)

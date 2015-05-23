@@ -8,7 +8,7 @@
     <ProjectGuid>{D92103E8-1C88-42C7-AE0D-15B148FC250B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ISS.MV2.Core</RootNamespace>
+    <RootNamespace>ISS.MV2</RootNamespace>
     <AssemblyName>MV2Core</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>

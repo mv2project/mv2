@@ -9,10 +9,12 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
-using ISS.MV2.Core.Messaging;
-using ISS.MV2.WebClient.IO;
+using ISS.MV2.Messaging;
+using ISS.MV2.IO;
+using ISS.MV2.Security;
+using System.IO;
 
-namespace ISS.MV2.WebClient {
+namespace ISS.MV2 {
     public partial class App : Application {
 
         public App() {
