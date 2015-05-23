@@ -107,8 +107,7 @@ public class WebSpaceSetup extends Observable {
 		client.send(message);
 		message = client.handleNext();
 
-		if (message.getMessageIdentifier() != STD_MESSAGE.DOMAIN_NAMES_RESPONSE
-				.getIdentifier()) {
+		if (client.getAlternativeNames() == null || client.getAlternativeNames().length == 0) {
 			message = new DomainNamesRequest();
 			client.send(message);
 			client.handleNext();

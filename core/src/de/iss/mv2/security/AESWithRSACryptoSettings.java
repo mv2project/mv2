@@ -109,21 +109,21 @@ public class AESWithRSACryptoSettings implements MessageCryptorSettings {
 	/**
 	 * Constant defining the symmetric algorithm used by this settings.
 	 */
-	private static final String SYMETRIC_ALGORITHM_NAME = "AES/CBC/PKCS5";
+	private static final String SYMMETRIC_ALGORITHM_NAME = "AES/CBC/PKCS5";
 	@Override
 	public String getSymmetricAlgorithmName() {
-		return SYMETRIC_ALGORITHM_NAME;
+		return SYMMETRIC_ALGORITHM_NAME;
 	}
 
 	/**
 	 * Constant defining the asymmetric algorithm used byte this settings.
 	 */
-	private static final String ASYMENTRIC_ALGORITHM_NAME = "RSA/ECB/PKCS1";
+	private static final String ASYMMETRIC_ALGORITHM_NAME = "RSA/ECB/PKCS1";
 	
 	
 	@Override
 	public String getAsymmetricAlgorithmName() {
-		return ASYMENTRIC_ALGORITHM_NAME;
+		return ASYMMETRIC_ALGORITHM_NAME;
 	}
 
 	@Override

@@ -15,6 +15,7 @@ import de.iss.mv2.data.CertificateManager;
 import de.iss.mv2.logging.LogEntryLevel;
 import de.iss.mv2.logging.LoggerManager;
 import de.iss.mv2.messaging.DomainNamesResponse;
+import de.iss.mv2.messaging.HelloMessage;
 import de.iss.mv2.messaging.MV2Message;
 import de.iss.mv2.messaging.MessageParser;
 import de.iss.mv2.messaging.MessagePreProcessor;
@@ -326,6 +327,8 @@ public class MV2Server {
 									} catch (IOException ex) {
 										ex.printStackTrace();
 									}
+								}else{
+									new HelloMessage().serialize(client.getOutputStream());
 								}
 								LoggerManager
 										.getCurrentLogger()

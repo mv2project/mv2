@@ -253,6 +253,7 @@ public class MV2Client implements CommunicationPartner {
 		HelloMessage helloMessage = new HelloMessage();
 		helloMessage.setHostName(host);
 		send(helloMessage);
+		handleNext();
 	}
 
 	@Override
