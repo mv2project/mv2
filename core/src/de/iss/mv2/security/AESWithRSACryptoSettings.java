@@ -20,9 +20,9 @@ import javax.crypto.NoSuchPaddingException;
 public class AESWithRSACryptoSettings implements MessageCryptorSettings {
 
 	/**
-	 * The {@link SymetricKeyGenerator} for generating the symmetic keys.
+	 * The {@link SymmetricKeyGenerator} for generating the symmetic keys.
 	 */
-	private SymetricKeyGenerator keyGen = new AESKeyGenerator();
+	private SymmetricKeyGenerator keyGen = new AESKeyGenerator();
 	
 	/**
 	 * Stores the strength of the key to generate in bytes.
@@ -45,7 +45,7 @@ public class AESWithRSACryptoSettings implements MessageCryptorSettings {
 	}
 
 	@Override
-	public SymetricKeyGenerator getKeyGenerator() {
+	public SymmetricKeyGenerator getKeyGenerator() {
 		return keyGen;
 	}
 

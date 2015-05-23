@@ -3,7 +3,7 @@ package de.iss.mv2.server.processors;
 import de.iss.mv2.messaging.EncryptedMessage;
 import de.iss.mv2.messaging.MV2Message;
 import de.iss.mv2.messaging.MessagePreProcessor;
-import de.iss.mv2.security.SymetricKeyGenerator;
+import de.iss.mv2.security.SymmetricKeyGenerator;
 import de.iss.mv2.server.io.ClientThread;
 
 /**
@@ -34,7 +34,7 @@ public class EncryptedMessagePreProcessor implements MessagePreProcessor {
 		if(message == null) return message;
 		if(EncryptedMessage.class.isAssignableFrom(message.getClass())){
 			EncryptedMessage enc = (EncryptedMessage) message;
-			SymetricKeyGenerator keyGen = client.getParser().getCryptorSettings().getKeyGenerator();
+			SymmetricKeyGenerator keyGen = client.getParser().getCryptorSettings().getKeyGenerator();
 			keyGen.setFixedIV(enc.getUsedSymmetricIV());
 			keyGen.setFixedKey(enc.getUsedSymmetricKey());
 		}

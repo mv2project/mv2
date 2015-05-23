@@ -19,7 +19,7 @@ import java.util.Base64.Encoder;
 
 import de.iss.mv2.security.CryptoException;
 import de.iss.mv2.security.MessageCryptorSettings;
-import de.iss.mv2.security.SymetricKeyGenerator;
+import de.iss.mv2.security.SymmetricKeyGenerator;
 
 /**
  * Represents an encrypted message.
@@ -108,7 +108,7 @@ public class EncryptedMessage extends MV2Message {
 	@Override
 	protected void doSerialize(OutputStream out, Charset encoding)
 			throws IOException {
-		SymetricKeyGenerator keyGen = settings.getKeyGenerator();
+		SymmetricKeyGenerator keyGen = settings.getKeyGenerator();
 		byte[] key = keyGen.getRandomKey(settings.getDesiredSymmetricKeySize());
 		byte[] iv = keyGen.getRandomIV();
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -194,7 +194,7 @@ public class EncryptedMessage extends MV2Message {
 
 			key = Arrays.copyOfRange(keyData, ivLength, keyData.length);
 		} else {
-			SymetricKeyGenerator keyGen = settings.getKeyGenerator();
+			SymmetricKeyGenerator keyGen = settings.getKeyGenerator();
 			iv = keyGen.getRandomIV();
 			key = keyGen.getRandomKey();
 		}

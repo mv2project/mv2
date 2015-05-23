@@ -28,7 +28,7 @@ import de.iss.mv2.security.CertificateLoader;
 import de.iss.mv2.security.CertificateVerificationException;
 import de.iss.mv2.security.CertificateVerifier;
 import de.iss.mv2.security.MessageCryptorSettings;
-import de.iss.mv2.security.SymetricKeyGenerator;
+import de.iss.mv2.security.SymmetricKeyGenerator;
 
 /**
  * A client to connect to a MV2-Server.
@@ -268,7 +268,7 @@ public class MV2Client implements CommunicationPartner {
 			out.flush();
 			if (!parser.getCryptorSettings().getKeyGenerator()
 					.hasFixedKeyAndIV()) {
-				SymetricKeyGenerator keyGen = parser.getCryptorSettings()
+				SymmetricKeyGenerator keyGen = parser.getCryptorSettings()
 						.getKeyGenerator();
 				byte[] keyS = enc.getUsedSymmetricKey();
 				byte[] ivS = enc.getUsedSymmetricIV();
