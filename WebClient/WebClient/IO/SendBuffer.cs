@@ -9,7 +9,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 
-namespace ISS.MV2.WebClient.IO {
+namespace ISS.MV2.IO {
     public class SendBuffer {
 
 

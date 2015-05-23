@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+
 using System.Text;
 using System.IO;
 
-namespace ISS.MV2.Core.IO {
+namespace ISS.MV2.IO {
 
     /// <summary>
     /// Provides extension methods for a Stream object.
@@ -18,6 +18,16 @@ namespace ISS.MV2.Core.IO {
        /// <param name="data">The array with the data to write.</param>
        public static void Write(this Stream stream, byte[] data) {
            stream.Write(data, 0, data.Length);
+       }
+
+       public static byte[] ReadFull(this Stream stream, byte[] buffer) {
+           int read;
+           for (int i = 0; i < buffer.Length; i++) {
+               read = stream.ReadByte();
+               if (read == -1) throw new EndOfStreamException();
+               buffer[i] = (byte)read;
+           }
+           return buffer;
        }
 
     }

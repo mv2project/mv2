@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
-namespace ISS.MV2.Core.IO {
+namespace ISS.MV2.IO {
     public sealed class BinaryTools {
 
         private BinaryTools(){

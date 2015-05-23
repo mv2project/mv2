@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+
 using System.Text;
 using System.IO;
-using ISS.MV2.Core.IO;
+using ISS.MV2.IO;
 
-namespace ISS.MV2.Core.Messaging {
+namespace ISS.MV2.Messaging {
     public class MV2Message : CommunicationElement {
 
         private readonly IDictionary<int, MessageField> fields = new Dictionary<int, MessageField>();

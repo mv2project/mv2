@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+
 using System.Text;
 
-namespace ISS.MV2.Core.Messaging {
+namespace ISS.MV2.Messaging {
     public class HelloMessage : MV2Message {
 
         public string HostName {

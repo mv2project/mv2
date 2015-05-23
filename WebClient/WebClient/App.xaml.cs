@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+
 using System.Net;
 using System.Windows;
 using System.Windows.Controls;
@@ -9,10 +9,12 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
-using ISS.MV2.Core.Messaging;
-using ISS.MV2.WebClient.IO;
+using ISS.MV2.Messaging;
+using ISS.MV2.IO;
+using ISS.MV2.Security;
+using System.IO;
 
-namespace ISS.MV2.WebClient {
+namespace ISS.MV2 {
     public partial class App : Application {
 
         public App() {
@@ -29,7 +31,9 @@ namespace ISS.MV2.WebClient {
 
                 MV2Client client = new MV2Client();
                 client.Connect("shome1.selfhost.eu");
-                client.Send(new HelloMessage());
+                HelloMessage hm = new HelloMessage() { HostName = "shome1.selfhost.eu" };
+
+                client.Send(hm);
             })).Start();
 
         }
