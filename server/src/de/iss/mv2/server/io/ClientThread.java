@@ -19,7 +19,7 @@ import de.iss.mv2.messaging.MV2Message;
 import de.iss.mv2.messaging.MessageParser;
 import de.iss.mv2.messaging.MessagePreProcessor;
 import de.iss.mv2.security.MessageCryptorSettings;
-import de.iss.mv2.security.SymetricKeyGenerator;
+import de.iss.mv2.security.SymmetricKeyGenerator;
 import de.iss.mv2.server.processors.EncryptedMessagePreProcessor;
 
 /**
@@ -168,7 +168,7 @@ public class ClientThread extends Thread implements CommunicationPartner {
 			out.flush();
 			if (!parser.getCryptorSettings().getKeyGenerator()
 					.hasFixedKeyAndIV()) {
-				SymetricKeyGenerator keyGen = parser.getCryptorSettings()
+				SymmetricKeyGenerator keyGen = parser.getCryptorSettings()
 						.getKeyGenerator();
 				byte[] keyS = enc.getUsedSymmetricKey();
 				byte[] ivS = enc.getUsedSymmetricIV();

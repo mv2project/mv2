@@ -7,7 +7,7 @@ import java.security.SecureRandom;
  * @author Marcel Singer
  *
  */
-public class AESKeyGenerator implements SymetricKeyGenerator{
+public class AESKeyGenerator implements SymmetricKeyGenerator{
 
 	/**
 	 * A field to hold a fixed key.
@@ -67,7 +67,7 @@ public class AESKeyGenerator implements SymetricKeyGenerator{
 
 
 	@Override
-	public SymetricKeyGenerator doClone() {
+	public SymmetricKeyGenerator doClone() {
 		AESKeyGenerator cl = new AESKeyGenerator();
 		return cl;
 	}

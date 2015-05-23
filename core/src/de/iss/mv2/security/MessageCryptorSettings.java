@@ -19,7 +19,7 @@ public interface MessageCryptorSettings extends
 	 * Returns the key generator to be used.
 	 * @return The key generator.
 	 */
-	public SymetricKeyGenerator getKeyGenerator();
+	public SymmetricKeyGenerator getKeyGenerator();
 
 	/**
 	 * Creates an output stream for encrypted data output. The stream must be fully initialized.

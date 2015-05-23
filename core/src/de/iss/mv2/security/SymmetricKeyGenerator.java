@@ -6,7 +6,7 @@ package de.iss.mv2.security;
  * @author Marcel Singer
  *
  */
-public interface SymetricKeyGenerator extends Cloneable<SymetricKeyGenerator> {
+public interface SymmetricKeyGenerator extends Cloneable<SymmetricKeyGenerator> {
 
 	/**
 	 * Returns a random key using the default size.<br />
@@ -29,13 +29,13 @@ public interface SymetricKeyGenerator extends Cloneable<SymetricKeyGenerator> {
 	public byte[] getRandomIV();
 	
 	/**
-	 * Sets the fixed key to return for all subsequent calls of {@link SymetricKeyGenerator#getRandomKey()}.
+	 * Sets the fixed key to return for all subsequent calls of {@link SymmetricKeyGenerator#getRandomKey()}.
 	 * @param key The key to set.
 	 */
 	public void setFixedKey(byte[] key);
 	
 	/**
-	 * Sets the fixed IV to return for all subsequent calls of {@link SymetricKeyGenerator#getRandomIV()}.
+	 * Sets the fixed IV to return for all subsequent calls of {@link SymmetricKeyGenerator#getRandomIV()}.
 	 * @param iv
 	 */
 	public void setFixedIV(byte[] iv);
