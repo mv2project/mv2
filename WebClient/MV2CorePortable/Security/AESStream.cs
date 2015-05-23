@@ -11,7 +11,7 @@ using Org.BouncyCastle.Security;
 using Org.BouncyCastle.Crypto.Modes;
 
 namespace ISS.MV2.Security {
-    public class AESStream : CipherStream {
+    public class AESStream : CipherStream2 {
 
 
 

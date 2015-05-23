@@ -11,7 +11,7 @@ namespace ISS.MV2.Security {
 
         public byte[] GetRandomKey() {
             if (fixedKey != null) return fixedKey;
-            return GetRandomKey(16);
+            return GetRandomKey(32);
         }
 
         public byte[] GetRandomKey(int length) {

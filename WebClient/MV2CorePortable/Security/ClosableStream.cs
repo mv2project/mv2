@@ -16,6 +16,7 @@ namespace ISS.MV2.Security {
 
         public ClosableStream(Stream stream, CloseDelegate closer) {
             this.stream = stream;
+            this.closer = closer;
         }
 
 

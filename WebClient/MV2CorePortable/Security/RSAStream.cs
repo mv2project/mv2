@@ -15,7 +15,7 @@ using System.IO;
 
 
 namespace ISS.MV2.Security {
-    public class RSAStream : CipherStream {
+    public class RSAStream : CipherStream2 {
 
         public RSAStream(Stream baseStream, AsymmetricKeyParameter keyParameter)
             : base(baseStream, GetDecryptionCipher(keyParameter), GetEncryptionCiper(keyParameter)) {
@@ -48,6 +48,8 @@ namespace ISS.MV2.Security {
         public override void Write(byte[] buffer, int offset, int count) {
             base.Write(buffer, offset, count);
         }
+
+      
 
     }
 }

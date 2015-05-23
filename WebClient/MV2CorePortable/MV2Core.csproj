@@ -54,6 +54,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\AESKeyGenerator.cs" />
     <Compile Include="Security\AESStream.cs" />
+    <Compile Include="Security\AESWithRSACryptoSettings.cs" />
+    <Compile Include="Security\CipherStream.cs" />
     <Compile Include="Security\ClosableStream.cs" />
     <Compile Include="Security\IMessageCryptorSettings.cs" />
     <Compile Include="Security\ISymmetricKeyGenerator.cs" />

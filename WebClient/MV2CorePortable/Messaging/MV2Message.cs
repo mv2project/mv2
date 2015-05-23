@@ -86,7 +86,7 @@ namespace ISS.MV2.Messaging {
                     mf.Deserialize(buffer);
                     fields[mf.FieldType.Identifier] = mf;
                 }
-            } catch (EndOfStreamException ex) {
+            } catch (EndOfStreamException) {
 
             }
             Encoding encoding = System.Text.Encoding.GetEncoding(GetFieldStringValue(DEF_MESSAGE_FIELD.CONTENT_ENCODING, System.Text.Encoding.UTF8.WebName));
