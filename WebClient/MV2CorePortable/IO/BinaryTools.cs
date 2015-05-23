@@ -33,22 +33,22 @@ namespace ISS.MV2.IO {
         }
 
         public static byte[] Read(Stream stream, int amount) {
-            byte[] buffer = new byte[amount];
-            stream.Read(buffer, 0, buffer.Length);
-            return buffer;
+            return ((MemoryStream)ReadBuffer(stream, amount)).ToArray();
         }
 
         public static Stream ReadBuffer(Stream stream, int amount) {
-            MemoryStream result = new MemoryStream();
+            MemoryStream buffer = new MemoryStream();
             int read;
             for (int i = 0; i < amount; i++) {
                 read = stream.ReadByte();
                 if (read == -1) throw new EndOfStreamException();
-                result.WriteByte((byte) read);
+                buffer.WriteByte((byte)read);
             }
-            result.Position = 0;
-            return result;
+            buffer.Position = 0;
+            return buffer;
         }
+
+      
 
         public static byte[] ReadAll(Stream stream) {
             IList<byte> result = new List<byte>();

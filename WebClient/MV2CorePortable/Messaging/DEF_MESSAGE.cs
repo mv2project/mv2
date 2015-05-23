@@ -48,7 +48,21 @@ namespace ISS.MV2.Messaging {
             this.identifier = identifier;
         }
 
+        public static DEF_MESSAGE Find(int identifier) {
+            foreach (DEF_MESSAGE m in WELL_KNOWN_MESSAGES) {
+                if (m.Identifier == identifier) return m;
+            }
+            return new DEF_MESSAGE(identifier);
+        }
 
+        public override bool Equals(object obj) {
+            if (obj != null) {
+                if (typeof(DEF_MESSAGE).IsAssignableFrom(obj.GetType())) {
+                    return (((DEF_MESSAGE)obj).Identifier == identifier);
+                }
+            }
+            return base.Equals(obj);
+        }
 
     }
 }

@@ -9,7 +9,7 @@ namespace ISS.MV2.Security {
         byte[] GetRandomKey();
         byte[] GetRandomKey(int length);
 
-        byte[] getRandomIV(int length);
+        byte[] GetRandomIV();
 
         void SetFixedIV(byte[] iv);
 

@@ -19,7 +19,7 @@ namespace ISS.MV2.Security {
             return AESStream.GetRandomKey(length * 8);
         }
 
-        public byte[] getRandomIV(int length) {
+        public byte[] GetRandomIV() {
             if (fixedIV != null) return fixedIV;
             return AESStream.GetRandomIV();
         }

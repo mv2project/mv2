@@ -23,6 +23,8 @@ namespace ISS.MV2.Messaging {
             }
         }
 
+        public virtual DEF_MESSAGE MessageType{ get{ return DEF_MESSAGE.Find(ElementIdentifier); }}
+
         public MV2Message(DEF_MESSAGE messageType)
             : base(messageType.Identifier) {
 
@@ -71,6 +73,16 @@ namespace ISS.MV2.Messaging {
             fields.Clear();
         }
 
+        protected MessageField GetFieldOrNull(DEF_MESSAGE_FIELD fieldType) {
+            if (!fields.ContainsKey(fieldType.Identifier)) return null;
+            return fields[fieldType.Identifier];
+        }
+
+        protected MessageField GetFieldOrThrow(DEF_MESSAGE_FIELD fieldType) {
+            if (!fields.ContainsKey(fieldType.Identifier)) throw new KeyNotFoundException();
+            return fields[fieldType.Identifier];
+        }
+
         public override void Deserialize(System.IO.Stream inputStream) {
             base.Deserialize(inputStream);
             ClearFields();
@@ -89,7 +101,12 @@ namespace ISS.MV2.Messaging {
             } catch (EndOfStreamException) {
 
             }
-            Encoding encoding = System.Text.Encoding.GetEncoding(GetFieldStringValue(DEF_MESSAGE_FIELD.CONTENT_ENCODING, System.Text.Encoding.UTF8.WebName));
+            MessageField encodingField = GetFieldOrNull(DEF_MESSAGE_FIELD.CONTENT_ENCODING);
+            Encoding encoding = System.Text.Encoding.UTF8;
+            if (encodingField != null) {
+                encodingField.CompleteDeserialize(System.Text.Encoding.GetEncoding("us-ascii"));
+                encoding = System.Text.Encoding.GetEncoding(encodingField.Content.ToLower());
+            }
             this.Encoding = encoding;
             foreach (MessageField mf in fields.Values) {
                 mf.Encoding = this.Encoding;

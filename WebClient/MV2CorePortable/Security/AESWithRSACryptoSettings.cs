@@ -42,12 +42,15 @@ namespace ISS.MV2.Security {
            
         }
 
+        private const string SYMMETRIC_ALGORITHM_NAME = "AES/CBC/PKCS5";
+        private const string ASYMMETRIC_ALGORITHM_NAME = "RSA/ECB/PKCS1";
+
         public string SymmetricAlgorithmName {
-            get { throw new NotImplementedException(); }
+            get { return SYMMETRIC_ALGORITHM_NAME; }
         }
 
         public string AsymmetricAlgorithmName {
-            get { throw new NotImplementedException(); }
+            get { return ASYMMETRIC_ALGORITHM_NAME; }
         }
     }
 }

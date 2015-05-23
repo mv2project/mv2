@@ -44,10 +44,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Messaging\DEF_MESSAGE_FIELD.cs" />
+    <Compile Include="Messaging\EncryptedMessage.cs" />
     <Compile Include="Messaging\HelloMessage.cs" />
     <Compile Include="Messaging\MessageField.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Messaging\MessageParser.cs" />
     <Compile Include="Messaging\MV2Message.cs">
       <SubType>Code</SubType>
     </Compile>
