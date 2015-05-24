@@ -24,9 +24,18 @@ namespace ISS.MV2.IO {
             return arr;
         }
 
-        public static UInt32 ReverseBytes(UInt32 value) {
-            return (value & 0x000000FFU) << 24 | (value & 0x0000FF00U) << 8 |
-                   (value & 0x00FF0000U) >> 8 | (value & 0xFF000000U) >> 24;
+        public static byte[] ToByteArray(long number) {
+            byte[] arr = BitConverter.GetBytes(number);
+            if (BitConverter.IsLittleEndian) Array.Reverse(arr);
+            return arr;
+        }
+
+        public static long ReadLong(byte[] data) {
+            if (data.Length != 8) throw new ArgumentException("The data is expected to have a length of exact eight bytes.", "data");
+            byte[] dataC = new byte[8];
+            Array.Copy(data, dataC, data.Length);
+            if (BitConverter.IsLittleEndian) Array.Reverse(dataC);
+            return BitConverter.ToInt64(dataC, 0);
         }
 
         public static int ReadInt(Stream stream) {
