@@ -118,6 +118,8 @@ namespace ISS.MV2.IO {
 
         private readonly object write_lock = new object();
         private AutoResetEvent write_event = new AutoResetEvent(false);
+
+        private int readCount = 0;
         public override void Write(byte[] buffer, int offset, int count) {
             SocketAsyncEventArgs e = new SocketAsyncEventArgs();
             e.SetBuffer(buffer, offset, count);
@@ -125,11 +127,15 @@ namespace ISS.MV2.IO {
             lock (write_lock) {
                 socket.SendAsync(e);
             }
+            System.Diagnostics.Debug.WriteLine("Waiting " + readCount);
             write_event.WaitOne();
+            System.Diagnostics.Debug.WriteLine("Completed " + readCount);
+            readCount++;
         }
 
         private void write_Completed(object sender, SocketAsyncEventArgs e) {
             lock (write_lock) {
+                System.Diagnostics.Debug.WriteLine("Releasing " + readCount);
                 write_event.Set();
             }
         }

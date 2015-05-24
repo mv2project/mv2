@@ -53,7 +53,7 @@ namespace ISS.MV2.Messaging {
             this.privateKey = null;
         }
 
-        private static readonly Encoding ENCODING = Encoding.GetEncoding("us-ascii");
+        private static readonly Encoding ENCODING = new ISS.MV2.Text.ASCII();
 
         protected override void DoSerialize(System.IO.Stream outputStream, Encoding encoding) {
             ISymmetricKeyGenerator keyGen = settings.KeyGenerator;

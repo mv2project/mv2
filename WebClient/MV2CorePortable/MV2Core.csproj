@@ -62,6 +62,7 @@
     <Compile Include="Security\IMessageCryptorSettings.cs" />
     <Compile Include="Security\ISymmetricKeyGenerator.cs" />
     <Compile Include="Security\RSAStream.cs" />
+    <Compile Include="Text\ASCII.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="crypto">
