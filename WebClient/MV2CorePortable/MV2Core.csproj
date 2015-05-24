@@ -39,6 +39,7 @@
     <Compile Include="Messaging\CertificateResponseMessage.cs" />
     <Compile Include="Messaging\ClientCertificateRequest.cs" />
     <Compile Include="Messaging\ClientCertificateResponse.cs" />
+    <Compile Include="Messaging\ClientLoginData.cs" />
     <Compile Include="Messaging\CommunicationElement.cs" />
     <Compile Include="Messaging\ContentEncodingField.cs">
       <SubType>Code</SubType>
