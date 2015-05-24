@@ -17,8 +17,10 @@ namespace ISS.MV2.IO {
         private ClientSocket connection;
         private MessageParser parser;
 
+
+
         public MV2Client() {
-        
+            
         }
 
         public void Connect(string host) {

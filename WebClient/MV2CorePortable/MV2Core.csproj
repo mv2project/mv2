@@ -36,6 +36,7 @@
   <ItemGroup>
     <Compile Include="IO\BinaryTools.cs" />
     <Compile Include="IO\StreamExtension.cs" />
+    <Compile Include="Messaging\CertificateResponseMessage.cs" />
     <Compile Include="Messaging\CommunicationElement.cs" />
     <Compile Include="Messaging\ContentEncodingField.cs">
       <SubType>Code</SubType>
@@ -44,6 +45,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Messaging\DEF_MESSAGE_FIELD.cs" />
+    <Compile Include="Messaging\DomainNamesResponse.cs" />
     <Compile Include="Messaging\EncryptedMessage.cs" />
     <Compile Include="Messaging\HelloMessage.cs" />
     <Compile Include="Messaging\MessageField.cs">
@@ -61,6 +63,7 @@
     <Compile Include="Security\ClosableStream.cs" />
     <Compile Include="Security\IMessageCryptorSettings.cs" />
     <Compile Include="Security\ISymmetricKeyGenerator.cs" />
+    <Compile Include="Security\PEMFileIO.cs" />
     <Compile Include="Security\RSAStream.cs" />
     <Compile Include="Text\ASCII.cs" />
   </ItemGroup>
