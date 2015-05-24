@@ -40,10 +40,12 @@
     <Compile Include="Messaging\ClientCertificateRequest.cs" />
     <Compile Include="Messaging\ClientCertificateResponse.cs" />
     <Compile Include="Messaging\ClientLoginData.cs" />
+    <Compile Include="Messaging\ClientLoginRequest.cs" />
     <Compile Include="Messaging\CommunicationElement.cs" />
     <Compile Include="Messaging\ContentEncodingField.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Messaging\ContentMessage.cs" />
     <Compile Include="Messaging\DEF_MESSAGE.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -65,9 +67,11 @@
     <Compile Include="Security\CipherStream.cs" />
     <Compile Include="Security\ClosableStream.cs" />
     <Compile Include="Security\IMessageCryptorSettings.cs" />
+    <Compile Include="Security\ISignatureProvider.cs" />
     <Compile Include="Security\ISymmetricKeyGenerator.cs" />
     <Compile Include="Security\PEMFileIO.cs" />
     <Compile Include="Security\RSAStream.cs" />
+    <Compile Include="Security\SHA256WithRSASignatureProvider.cs" />
     <Compile Include="Text\ASCII.cs" />
   </ItemGroup>
   <ItemGroup>

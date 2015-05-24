@@ -11,6 +11,8 @@ namespace ISS.MV2.IO {
     /// </summary>
    public static class StreamExtension {
 
+       public delegate void BinIterationDelegate(byte data);
+
        /// <summary>
        /// Writes a bytes of the given array to the stream.
        /// </summary>
@@ -28,6 +30,13 @@ namespace ISS.MV2.IO {
                buffer[i] = (byte)read;
            }
            return buffer;
+       }
+
+       public static void Iterate(this Stream stream, BinIterationDelegate binDelegate) {
+           int read;
+           while ((read = stream.ReadByte()) != -1) {
+               binDelegate((byte)read);
+           }
        }
 
     }

@@ -8,9 +8,9 @@ using Org.BouncyCastle.Crypto;
 namespace ISS.MV2.Security {
     public interface ISignatureProvider {
 
-        public byte[] Sign(Stream data, AsymmetricKeyParameter privateKey);
+        byte[] Sign(Stream data, AsymmetricKeyParameter privateKey);
 
-        public bool Validate(Stream data, byte[] signature, AsymmetricKeyParameter publicKey);
+        bool Validate(Stream data, byte[] signature, AsymmetricKeyParameter publicKey);
 
     }
 }

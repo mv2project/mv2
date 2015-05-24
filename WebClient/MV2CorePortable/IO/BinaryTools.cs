@@ -7,7 +7,10 @@ using System.IO;
 namespace ISS.MV2.IO {
     public sealed class BinaryTools {
 
-        private BinaryTools(){
+        
+
+
+        private BinaryTools() {
         }
 
         /// <summary>
@@ -48,7 +51,7 @@ namespace ISS.MV2.IO {
             return buffer;
         }
 
-      
+
 
         public static byte[] ReadAll(Stream stream) {
             IList<byte> result = new List<byte>();
@@ -59,6 +62,9 @@ namespace ISS.MV2.IO {
             return result.ToArray();
         }
 
+        public void Iterate(Stream stream, StreamExtension.BinIterationDelegate iterationDelegate) {
+            stream.Iterate(iterationDelegate);
+        }
 
 
     }
