@@ -61,6 +61,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Messaging\MessageParser.cs" />
+    <Compile Include="Messaging\MessageQueryRequest.cs" />
+    <Compile Include="Messaging\MessageQueryResponse.cs" />
     <Compile Include="Messaging\MV2Message.cs">
       <SubType>Code</SubType>
     </Compile>
