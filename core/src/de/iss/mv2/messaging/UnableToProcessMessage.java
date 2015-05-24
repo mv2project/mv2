@@ -7,10 +7,7 @@ package de.iss.mv2.messaging;
  */
 public class UnableToProcessMessage extends MV2Message {
 
-	/**
-	 * Holds the cause for this message.
-	 */
-	private String cause = "The message could not be processed.";
+	
 	
 	/**
 	 * Creates a new instance of {@link UnableToProcessMessage}.
@@ -24,7 +21,6 @@ public class UnableToProcessMessage extends MV2Message {
 	 * @param cause The cause to set.
 	 */
 	public void setCause(String cause){
-		this.cause = cause;
 		setMessageField(new MessageField(DEF_MESSAGE_FIELD.CAUSE, cause), true);
 	}
 	
@@ -33,14 +29,9 @@ public class UnableToProcessMessage extends MV2Message {
 	 * @return The cause for this message.
 	 */
 	public String getCause(){
-		return cause;
+		return getFieldStringValue(DEF_MESSAGE_FIELD.CAUSE, "");
 	}
 	
 	
-	@Override
-	protected void doCleanUp() {
-		super.doCleanUp();
-		setMessageField(new MessageField(DEF_MESSAGE_FIELD.CAUSE, cause), true);
-	}
 
 }
