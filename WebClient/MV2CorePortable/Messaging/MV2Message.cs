@@ -45,6 +45,13 @@ namespace ISS.MV2.Messaging {
             fields[messageField.FieldType.Identifier] = messageField;
         }
 
+        public void SetMessageField(DEF_MESSAGE_FIELD fieldType, string value) {
+            SetMessageField(new MessageField(fieldType, value), true);
+        }
+
+        public void SetMessageField(DEF_MESSAGE_FIELD fieldType, byte[] value) {
+            SetMessageField(new MessageField(fieldType, value), true);
+        }
 
         public string GetFieldStringValue(DEF_MESSAGE_FIELD fieldType, string defaultValue) {
             if (!fields.ContainsKey(fieldType.Identifier)) return defaultValue;
