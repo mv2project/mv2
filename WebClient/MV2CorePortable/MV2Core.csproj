@@ -76,10 +76,13 @@
     <Compile Include="Security\CipherStream.cs" />
     <Compile Include="Security\ClosableStream.cs" />
     <Compile Include="Security\IMessageCryptorSettings.cs" />
+    <Compile Include="Security\IMessageDigest.cs" />
     <Compile Include="Security\ISignatureProvider.cs" />
     <Compile Include="Security\ISymmetricKeyGenerator.cs" />
+    <Compile Include="Security\PassphraseInflator.cs" />
     <Compile Include="Security\PEMFileIO.cs" />
     <Compile Include="Security\RSAStream.cs" />
+    <Compile Include="Security\SHA256.cs" />
     <Compile Include="Security\SHA256WithRSASignatureProvider.cs" />
     <Compile Include="Text\ASCII.cs" />
   </ItemGroup>
