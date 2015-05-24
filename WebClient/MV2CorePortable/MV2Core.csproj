@@ -34,6 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="DateTimeTools.cs" />
     <Compile Include="IO\BinaryTools.cs" />
     <Compile Include="IO\StreamExtension.cs" />
     <Compile Include="Messaging\CertificateResponseMessage.cs" />

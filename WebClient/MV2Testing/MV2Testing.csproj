@@ -62,6 +62,7 @@
     <Compile Include="RSATest.cs" />
     <Compile Include="MessageParserTest.cs" />
     <Compile Include="TestContentMessage.cs" />
+    <Compile Include="ToolsTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MV2CorePortable\MV2Core.csproj">
