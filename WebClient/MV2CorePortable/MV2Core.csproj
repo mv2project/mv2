@@ -54,6 +54,8 @@
     <Compile Include="Messaging\DomainNamesResponse.cs" />
     <Compile Include="Messaging\EncryptedMessage.cs" />
     <Compile Include="Messaging\HelloMessage.cs" />
+    <Compile Include="Messaging\MessageDeliveryRequest.cs" />
+    <Compile Include="Messaging\MessageFetchRequest.cs" />
     <Compile Include="Messaging\MessageField.cs">
       <SubType>Code</SubType>
     </Compile>
