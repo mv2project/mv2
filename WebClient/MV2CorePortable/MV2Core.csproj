@@ -34,25 +34,41 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="DateTimeTools.cs" />
     <Compile Include="IO\BinaryTools.cs" />
     <Compile Include="IO\StreamExtension.cs" />
+    <Compile Include="Messaging\CertificateResponseMessage.cs" />
+    <Compile Include="Messaging\ClientCertificateRequest.cs" />
+    <Compile Include="Messaging\ClientCertificateResponse.cs" />
+    <Compile Include="Messaging\ClientLoginData.cs" />
+    <Compile Include="Messaging\ClientLoginRequest.cs" />
     <Compile Include="Messaging\CommunicationElement.cs" />
     <Compile Include="Messaging\ContentEncodingField.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Messaging\ContentMessage.cs" />
     <Compile Include="Messaging\DEF_MESSAGE.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Messaging\DEF_MESSAGE_FIELD.cs" />
+    <Compile Include="Messaging\DomainNamesResponse.cs" />
     <Compile Include="Messaging\EncryptedMessage.cs" />
     <Compile Include="Messaging\HelloMessage.cs" />
+    <Compile Include="Messaging\KeyRequest.cs" />
+    <Compile Include="Messaging\KeyResponse.cs" />
+    <Compile Include="Messaging\MessageDeliveryRequest.cs" />
+    <Compile Include="Messaging\MessageFetchRequest.cs" />
+    <Compile Include="Messaging\MessageFetchResponse.cs" />
     <Compile Include="Messaging\MessageField.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Messaging\MessageParser.cs" />
+    <Compile Include="Messaging\MessageQueryRequest.cs" />
+    <Compile Include="Messaging\MessageQueryResponse.cs" />
     <Compile Include="Messaging\MV2Message.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Messaging\UnableToProcessMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\AESKeyGenerator.cs" />
     <Compile Include="Security\AESStream.cs" />
@@ -60,8 +76,15 @@
     <Compile Include="Security\CipherStream.cs" />
     <Compile Include="Security\ClosableStream.cs" />
     <Compile Include="Security\IMessageCryptorSettings.cs" />
+    <Compile Include="Security\IMessageDigest.cs" />
+    <Compile Include="Security\ISignatureProvider.cs" />
     <Compile Include="Security\ISymmetricKeyGenerator.cs" />
+    <Compile Include="Security\PassphraseInflator.cs" />
+    <Compile Include="Security\PEMFileIO.cs" />
     <Compile Include="Security\RSAStream.cs" />
+    <Compile Include="Security\SHA256.cs" />
+    <Compile Include="Security\SHA256WithRSASignatureProvider.cs" />
+    <Compile Include="Text\ASCII.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="crypto">

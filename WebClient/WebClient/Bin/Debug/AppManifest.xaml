@@ -1,0 +1,7 @@
+﻿<Deployment xmlns="http://schemas.microsoft.com/client/2007/deployment" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" EntryPointAssembly="WebClient" EntryPointType="ISS.MV2.App" RuntimeVersion="5.0.61118.0">
+  <Deployment.Parts>
+    <AssemblyPart x:Name="WebClient" Source="WebClient.dll" />
+    <AssemblyPart x:Name="crypto" Source="crypto.dll" />
+    <AssemblyPart x:Name="MV2Core" Source="MV2Core.dll" />
+  </Deployment.Parts>
+</Deployment>

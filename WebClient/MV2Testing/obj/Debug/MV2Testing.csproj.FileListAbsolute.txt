@@ -1,0 +1,11 @@
+F:\MV2\Git\WebClient\MV2Testing\obj\Debug\MV2Testing.csprojResolveAssemblyReference.cache
+F:\MV2\Git\WebClient\MV2Testing\bin\Debug\MV2Testing.dll
+F:\MV2\Git\WebClient\MV2Testing\bin\Debug\MV2Testing.pdb
+F:\MV2\Git\WebClient\MV2Testing\bin\Debug\crypto.dll
+F:\MV2\Git\WebClient\MV2Testing\bin\Debug\MV2Core.dll
+F:\MV2\Git\WebClient\MV2Testing\bin\Debug\MV2Core.pdb
+F:\MV2\Git\WebClient\MV2Testing\bin\Debug\crypto.xml
+F:\MV2\Git\WebClient\MV2Testing\obj\Debug\MV2Testing.dll
+F:\MV2\Git\WebClient\MV2Testing\obj\Debug\MV2Testing.pdb
+F:\MV2\Git\WebClient\MV2Testing\bin\Debug\System.Net.dll
+F:\MV2\Git\WebClient\MV2Testing\bin\Debug\System.Net.xml

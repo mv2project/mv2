@@ -45,6 +45,13 @@ namespace ISS.MV2.Messaging {
             fields[messageField.FieldType.Identifier] = messageField;
         }
 
+        public void SetMessageField(DEF_MESSAGE_FIELD fieldType, string value) {
+            SetMessageField(new MessageField(fieldType, value), true);
+        }
+
+        public void SetMessageField(DEF_MESSAGE_FIELD fieldType, byte[] value) {
+            SetMessageField(new MessageField(fieldType, value), true);
+        }
 
         public string GetFieldStringValue(DEF_MESSAGE_FIELD fieldType, string defaultValue) {
             if (!fields.ContainsKey(fieldType.Identifier)) return defaultValue;
@@ -104,7 +111,7 @@ namespace ISS.MV2.Messaging {
             MessageField encodingField = GetFieldOrNull(DEF_MESSAGE_FIELD.CONTENT_ENCODING);
             Encoding encoding = System.Text.Encoding.UTF8;
             if (encodingField != null) {
-                encodingField.CompleteDeserialize(System.Text.Encoding.GetEncoding("us-ascii"));
+                encodingField.CompleteDeserialize(new ISS.MV2.Text.ASCII());
                 encoding = System.Text.Encoding.GetEncoding(encodingField.Content.ToLower());
             }
             this.Encoding = encoding;
@@ -120,5 +127,16 @@ namespace ISS.MV2.Messaging {
             }
         }
 
+        public override string ToString() {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(MessageType);
+            sb.AppendLine();
+            foreach (MessageField mf in Fields) {
+                sb.Append("\t");
+                sb.Append(mf);
+                sb.AppendLine();
+            }
+            return sb.ToString();
+        }
     }
 }

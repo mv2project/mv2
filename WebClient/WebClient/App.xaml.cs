@@ -27,13 +27,13 @@ namespace ISS.MV2 {
 
         private void Application_Startup(object sender, StartupEventArgs e) {
             this.RootVisual = new MainPage();
-            new System.Threading.Thread(new System.Threading.ThreadStart(() => {
+            new ISS.MV2.Text.ASCII();
 
+
+            new System.Threading.Thread(new System.Threading.ThreadStart(() => {
                 MV2Client client = new MV2Client();
                 client.Connect("shome1.selfhost.eu");
-                HelloMessage hm = new HelloMessage() { HostName = "shome1.selfhost.eu" };
-
-                client.Send(hm);
+                MV2Message message = client.HandleNext();
             })).Start();
 
         }

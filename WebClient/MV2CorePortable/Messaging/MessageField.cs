@@ -81,7 +81,17 @@ namespace ISS.MV2.Messaging {
             Content = sb.ToString();
         }
 
-
+        public override string ToString() {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(FieldType);
+            sb.Append(": ");
+            if (FieldType.IsBinary) {
+                sb.Append(Convert.ToBase64String(BinaryContent));
+            } else {
+                sb.Append(Content);
+            }
+            return sb.ToString();
+        }
 
     }
 }
