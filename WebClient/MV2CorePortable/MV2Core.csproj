@@ -43,6 +43,7 @@
     <Compile Include="Messaging\ClientLoginData.cs" />
     <Compile Include="Messaging\ClientLoginRequest.cs" />
     <Compile Include="Messaging\CommunicationElement.cs" />
+    <Compile Include="IO\CommunicationPartner.cs" />
     <Compile Include="Messaging\ContentEncodingField.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -54,6 +55,7 @@
     <Compile Include="Messaging\DomainNamesResponse.cs" />
     <Compile Include="Messaging\EncryptedMessage.cs" />
     <Compile Include="Messaging\HelloMessage.cs" />
+    <Compile Include="Messaging\IMessagePreProcessor.cs" />
     <Compile Include="Messaging\KeyRequest.cs" />
     <Compile Include="Messaging\KeyResponse.cs" />
     <Compile Include="Messaging\MessageDeliveryRequest.cs" />
@@ -63,6 +65,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Messaging\MessageParser.cs" />
+    <Compile Include="Messaging\IMessageProcessor.cs" />
+    <Compile Include="Messaging\AbstractMessageProcessor.cs" />
     <Compile Include="Messaging\MessageQueryRequest.cs" />
     <Compile Include="Messaging\MessageQueryResponse.cs" />
     <Compile Include="Messaging\MV2Message.cs">
