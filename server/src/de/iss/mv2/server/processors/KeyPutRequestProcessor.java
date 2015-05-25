@@ -52,7 +52,7 @@ public class KeyPutRequestProcessor extends AbstractProcessor {
 		if(message == null) return false;
 		if(!(message instanceof KeyPutRequest)) return false;
 		KeyPutRequest kpr = (KeyPutRequest) message;
-		if(sessionManager.isAuthenticated(client)) {
+		if(!sessionManager.isAuthenticated(client)) {
 			fail(client, "Not authenticated.");
 			return true;
 		}
