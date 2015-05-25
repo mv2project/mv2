@@ -95,12 +95,19 @@ namespace ISS.MV2.IO {
         }
 
         public void Send(MV2Message message) {
+            bool isEncrypted = false;
             if (Certificate != null && message.MessageType != DEF_MESSAGE.ENCRYPTED_MESSAGE) {
                 EncryptedMessage encrypted = new EncryptedMessage(parser.Settings, Certificate.GetPublicKey(), message.MessageType);
                 MV2Message.Merge(encrypted, message);
                 message = encrypted;
+                isEncrypted = true;
             }
             message.Serialize(connection);
+            if (isEncrypted && !parser.Settings.KeyGenerator.HasFixedKeyAndIV) {
+                EncryptedMessage encrypted = (EncryptedMessage)message;
+                parser.Settings.KeyGenerator.SetFixedIV(encrypted.UsedSymmetricIV);
+                parser.Settings.KeyGenerator.SetFixedKey(encrypted.UsedSymmetricKey);
+            }
         }
     }
 }

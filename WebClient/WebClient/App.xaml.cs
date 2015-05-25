@@ -27,15 +27,6 @@ namespace ISS.MV2 {
 
         private void Application_Startup(object sender, StartupEventArgs e) {
             this.RootVisual = new MainPage();
-            new ISS.MV2.Text.ASCII();
-
-
-            new System.Threading.Thread(new System.Threading.ThreadStart(() => {
-                MV2Client client = new MV2Client();
-                client.Connect("shome1.selfhost.eu");
-                MV2Message message = client.HandleNext();
-            })).Start();
-
         }
 
         private void Application_Exit(object sender, EventArgs e) {
