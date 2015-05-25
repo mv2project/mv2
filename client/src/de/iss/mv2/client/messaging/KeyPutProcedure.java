@@ -98,7 +98,7 @@ public class KeyPutProcedure extends MessageProcedure<RequestException, Void> {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		AESOutputStream aesOut = null;
 		try {
-			aesOut = new AESOutputStream(aesOut, primary, Arrays.copyOf(primary, 16));
+			aesOut = new AESOutputStream(baos, primary, Arrays.copyOf(primary, 16));
 		} catch (InvalidKeyException | NoSuchAlgorithmException
 				| NoSuchPaddingException | InvalidAlgorithmParameterException e) {
 			throw new RequestException("Can't initialize the key encryption.", e);
