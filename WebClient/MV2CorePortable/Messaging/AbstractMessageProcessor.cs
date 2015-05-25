@@ -6,7 +6,7 @@ using ISS.MV2.IO;
 
 namespace ISS.MV2.Messaging {
 
-    public class AbstractMessageProcessor : IMessageProcessor, IMessagePreProcessor {
+    public abstract class AbstractMessageProcessor : IMessageProcessor, IMessagePreProcessor {
 
         private bool filterNullMessage;
 

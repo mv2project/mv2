@@ -10,7 +10,7 @@ namespace ISS.MV2.Messaging {
 
         public long Identifier {
             get {
-                return BinaryTools.ReadLong(GetFieldDataValue(DEF_MESSAGE_FIELD.CONTENT_BINARY, BinaryTools.ToByteArray(0l)));
+                return BinaryTools.ReadLong(GetFieldDataValue(DEF_MESSAGE_FIELD.CONTENT_BINARY, BinaryTools.ToByteArray((long)0)));
             }
             set {
                 SetMessageField(DEF_MESSAGE_FIELD.CONTENT_BINARY, BinaryTools.ToByteArray(value));

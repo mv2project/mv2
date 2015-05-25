@@ -15,5 +15,21 @@ namespace ISS.MV2 {
         public MainPage() {
             InitializeComponent();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e) {
+
+            var procdure = new ISS.MV2.Threading.WaitProcedure(new ISS.MV2.Threading.WindowsDispatcher(this));
+            procdure.Updated += procdure_Updated;
+            procdure.Completed += procdure_Completed;
+            procdure.Execute();
+        }
+
+        void procdure_Completed(ISS.MV2.Threading.MessageProcedure<object, object> sender, object result) {
+            progressBar.Value = 0;
+        }
+
+        void procdure_Updated(ISS.MV2.Threading.MessageProcedure<object, object> sender, string state, int progress) {
+            progressBar.Value = progress;
+        }
     }
 }

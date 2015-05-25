@@ -67,6 +67,9 @@
     <Compile Include="Messaging\MessageParser.cs" />
     <Compile Include="Messaging\IMessageProcessor.cs" />
     <Compile Include="Messaging\AbstractMessageProcessor.cs" />
+    <Compile Include="Threading\EventInvokationDelegate.cs" />
+    <Compile Include="Threading\IEventDispatcher.cs" />
+    <Compile Include="Threading\MessageProcedure.cs" />
     <Compile Include="Messaging\MessageQueryRequest.cs" />
     <Compile Include="Messaging\MessageQueryResponse.cs" />
     <Compile Include="Messaging\MV2Message.cs">
@@ -89,6 +92,7 @@
     <Compile Include="Security\SHA256.cs" />
     <Compile Include="Security\SHA256WithRSASignatureProvider.cs" />
     <Compile Include="Text\ASCII.cs" />
+    <Compile Include="Threading\Void.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="crypto">
