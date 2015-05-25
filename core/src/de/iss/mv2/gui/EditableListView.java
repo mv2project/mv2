@@ -167,5 +167,13 @@ public class EditableListView<T> extends JComponent implements ActionListener, L
 			l.valueChanged(lse);
 		}
 	}
+	
+	/**
+	 * Returns the currently selected index.
+	 * @return The currently selected index or -1 if no selection was made.
+	 */
+	public int getSelectedIndex(){
+		return list.getSelectedIndex();
+	}
 
 }

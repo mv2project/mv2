@@ -179,7 +179,7 @@ public class WebSpaceManagerImpl implements WebSpaceManager {
 	/**
 	 * The SQL statement to store the private key of a web space.
 	 */
-	private static final String STORE_KEY = "UPDATE webspace SET keypassphrase=?, key=? WEHERE identifier=?;";
+	private static final String STORE_KEY = "UPDATE webspace SET keypassphrase=?, key=? WHERE identifier=?;";
 	
 	@Override
 	public void setPrivateKey(WebSpace webSpace, byte[] passphrase,

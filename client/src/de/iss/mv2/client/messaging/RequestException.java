@@ -29,5 +29,13 @@ public class RequestException extends Exception {
 	public RequestException(String message, Throwable innerException){
 		super(message, innerException);
 	}
+	
+	/**
+	 * Creates a new instance of {@link RequestException} with the given cause.
+	 * @param innerException The inner exception that caused this one.
+	 */
+	public RequestException(Throwable innerException){
+		super(innerException);
+	}
 
 }
