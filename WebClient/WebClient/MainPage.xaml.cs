@@ -9,6 +9,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
+using Void = ISS.MV2.Threading.Void;
 
 namespace ISS.MV2 {
     public partial class MainPage : UserControl {
@@ -24,11 +25,11 @@ namespace ISS.MV2 {
             procdure.Execute();
         }
 
-        void procdure_Completed(ISS.MV2.Threading.MessageProcedure<object, object> sender, object result) {
+        void procdure_Completed(ISS.MV2.Threading.MessageProcedure<Void, Void> sender, Void result) {
             progressBar.Value = 0;
         }
 
-        void procdure_Updated(ISS.MV2.Threading.MessageProcedure<object, object> sender, string state, int progress) {
+        void procdure_Updated(ISS.MV2.Threading.MessageProcedure<Void, Void> sender, string state, int progress) {
             progressBar.Value = progress;
         }
     }

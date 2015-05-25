@@ -1,6 +1,6 @@
-﻿<xapCache source="F:\MV2\Git\WebClient\WebClient\Bin\Debug\WebClient.xap" wasSigned="False" certificateThumbprint="" TimeStampUrl="" lastWriteTime="25.05.2015 02:40:53">
-  <file source="F:\MV2\Git\WebClient\WebClient\obj\Debug\WebClient.dll" archivePath="WebClient.dll" lastWriteTime="25.05.2015 02:40:52" />
+﻿<xapCache source="F:\MV2\Git\WebClient\WebClient\Bin\Debug\WebClient.xap" wasSigned="False" certificateThumbprint="" TimeStampUrl="" lastWriteTime="25.05.2015 17:26:37">
+  <file source="F:\MV2\Git\WebClient\WebClient\obj\Debug\WebClient.dll" archivePath="WebClient.dll" lastWriteTime="25.05.2015 17:26:36" />
   <file source="F:\MV2\Git\WebClient\packages\Portable.BouncyCastle.1.7.0.2\lib\portable-net4+sl5+wp8+win8+wpa81+MonoTouch10+MonoAndroid10+xamarinmac20+xamarinios10\crypto.dll" archivePath="crypto.dll" lastWriteTime="20.05.2015 20:56:45" />
-  <file source="F:\MV2\Git\WebClient\MV2CorePortable\bin\Debug\MV2Core.dll" archivePath="MV2Core.dll" lastWriteTime="25.05.2015 02:38:28" />
+  <file source="F:\MV2\Git\WebClient\MV2CorePortable\bin\Debug\MV2Core.dll" archivePath="MV2Core.dll" lastWriteTime="25.05.2015 17:26:35" />
   <file source="F:\MV2\Git\WebClient\WebClient\Bin\Debug\AppManifest.xaml" archivePath="AppManifest.xaml" lastWriteTime="25.05.2015 02:38:28" />
 </xapCache>

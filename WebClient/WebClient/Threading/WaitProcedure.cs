@@ -19,7 +19,7 @@ namespace ISS.MV2.Threading {
             : base(dispatcher, Void.Instance) {
         }
 
-        protected override object DoProcedure(object parameter) {
+        protected override Void DoProcedure(Void parameter) {
             
             for (int i = 0; i < 100; i++) {
                 DateTime start = DateTime.Now;

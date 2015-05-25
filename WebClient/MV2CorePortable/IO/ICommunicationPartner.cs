@@ -6,9 +6,11 @@ using ISS.MV2.Messaging;
 
 
 namespace ISS.MV2.IO {
-    public interface CommunicationPartner {
+    public interface ICommunicationPartner {
 
         void Send(MV2Message message);
+
+        MV2Message HandleNext();
 
     }
 }

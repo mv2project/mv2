@@ -43,7 +43,7 @@
     <Compile Include="Messaging\ClientLoginData.cs" />
     <Compile Include="Messaging\ClientLoginRequest.cs" />
     <Compile Include="Messaging\CommunicationElement.cs" />
-    <Compile Include="IO\CommunicationPartner.cs" />
+    <Compile Include="IO\ICommunicationPartner.cs" />
     <Compile Include="Messaging\ContentEncodingField.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -53,7 +53,9 @@
     </Compile>
     <Compile Include="Messaging\DEF_MESSAGE_FIELD.cs" />
     <Compile Include="Messaging\DomainNamesResponse.cs" />
+    <Compile Include="Messaging\DomainNamesResponsePreProcessor.cs" />
     <Compile Include="Messaging\EncryptedMessage.cs" />
+    <Compile Include="Messaging\CertificateResponsePreProcessor.cs" />
     <Compile Include="Messaging\HelloMessage.cs" />
     <Compile Include="Messaging\IMessagePreProcessor.cs" />
     <Compile Include="Messaging\KeyRequest.cs" />

@@ -8,7 +8,7 @@ using ISS.MV2.IO;
 namespace ISS.MV2.Messaging {
     public interface IMessagePreProcessor {
 
-        MV2Message Prepare(CommunicationPartner sender, MV2Message message);
+        MV2Message Prepare(ICommunicationPartner sender, MV2Message message);
 
     }
 }
