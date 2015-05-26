@@ -30,6 +30,8 @@ namespace ISS.MV2.Messaging {
             
         }
 
-
+        public override Security.IMessageCryptorSettings CryptorSettings {
+            get { return new Security.AESWithRSACryptoSettings(); }
+        }
     }
 }

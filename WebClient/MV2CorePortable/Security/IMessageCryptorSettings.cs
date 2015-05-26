@@ -16,7 +16,7 @@ namespace ISS.MV2.Security {
        [Obsolete("Does the exact same thing like IMessageCryptorSettings.GetSymmetricEncryptionStream().")]
        ClosableStream GetSymmetricDecryptionStream(Stream baseStream, byte[] key, byte[] iv);
 
-       int DesiredSymmetricKesSize { get; }
+       int DesiredSymmetricKeySize { get; }
 
         ClosableStream GetAsymmetricDecryptionStream(Stream baseStream, AsymmetricKeyParameter privateKey);
         ClosableStream GetAsymmetricEncryptionStream(Stream baseStream, AsymmetricKeyParameter publicKey);

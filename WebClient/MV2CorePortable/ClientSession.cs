@@ -5,7 +5,7 @@ using System.Text;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.X509;
 using ISS.MV2.IO;
-
+using ISS.MV2.Security;
 
 namespace ISS.MV2 {
     public abstract class ClientSession {
@@ -18,6 +18,8 @@ namespace ISS.MV2 {
         public char[] Passphrase { get; set; }
 
         public abstract ICommunicationPartner CreateClient();
+
+        public abstract IMessageCryptorSettings CryptorSettings { get; }
 
     }
 }

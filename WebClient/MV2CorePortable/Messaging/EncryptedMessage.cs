@@ -57,7 +57,7 @@ namespace ISS.MV2.Messaging {
 
         protected override void DoSerialize(System.IO.Stream outputStream, Encoding encoding) {
             ISymmetricKeyGenerator keyGen = settings.KeyGenerator;
-            byte[] key = keyGen.GetRandomKey(settings.DesiredSymmetricKesSize);
+            byte[] key = keyGen.GetRandomKey(settings.DesiredSymmetricKeySize);
             byte[] iv = keyGen.GetRandomIV();
             using (MemoryStream ms = new MemoryStream()) {
                 if (!keyGen.HasFixedKeyAndIV) {

@@ -35,8 +35,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="ClientSession.cs" />
+    <Compile Include="DetailedContentMessage.cs" />
     <Compile Include="DateTimeTools.cs" />
     <Compile Include="IO\BinaryTools.cs" />
+    <Compile Include="IO\IAuthenticatedClientProvider.cs" />
     <Compile Include="IO\StreamExtension.cs" />
     <Compile Include="Messaging\CertificateResponseMessage.cs" />
     <Compile Include="Messaging\ClientCertificateRequest.cs" />
@@ -80,6 +82,7 @@
     <Compile Include="Threading\LoginProcedure.cs" />
     <Compile Include="Threading\EventInvokationDelegate.cs" />
     <Compile Include="Threading\IEventDispatcher.cs" />
+    <Compile Include="Threading\MessageFetchProcedure.cs" />
     <Compile Include="Threading\MessageProcedure.cs" />
     <Compile Include="Messaging\MessageQueryRequest.cs" />
     <Compile Include="Messaging\MessageQueryResponse.cs" />
@@ -103,6 +106,7 @@
     <Compile Include="Security\SHA256.cs" />
     <Compile Include="Security\SHA256WithRSASignatureProvider.cs" />
     <Compile Include="Text\ASCII.cs" />
+    <Compile Include="Threading\MessageQueryProcedure.cs" />
     <Compile Include="Threading\Void.cs" />
   </ItemGroup>
   <ItemGroup>

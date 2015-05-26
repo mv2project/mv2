@@ -9,7 +9,7 @@ using System.IO;
 using System.Threading;
 
 namespace ISS.MV2.Threading {
-    public class LoginProcedure : MessageProcedure<ClientSession, bool> {
+    public class LoginProcedure : MessageProcedure<ClientSession, bool>, IAuthenticatedClientProvider {
 
         public LoginProcedure(IEventDispatcher disptacher, ClientSession clientSession)
             : base(disptacher, clientSession) {
@@ -24,6 +24,8 @@ namespace ISS.MV2.Threading {
             Update("Logging in...");
             return Login(client, session);
         }
+
+        private ICommunicationPartner usedClient;
 
 
         public bool Login(ICommunicationPartner client, ClientSession session) {
@@ -47,6 +49,7 @@ namespace ISS.MV2.Threading {
             MV2Message loginResult = client.HandleNext();
             if (loginResult.MessageType == DEF_MESSAGE.UNABLE_TO_RPOCESS && loginResult.GetFieldStringValue(DEF_MESSAGE_FIELD.CAUSE, "").Equals("Invalid login data.")) return false;
             loginResult = AssertTypeAndConvert(loginResult, new MV2Message(DEF_MESSAGE.SERVER_LOGIN_RESULT));
+            usedClient = client;
             return true;
         }
 
@@ -82,6 +85,11 @@ namespace ISS.MV2.Threading {
             }
             session.ClientPrivateKey = privateKey;
             Update("Received the private key.");
+        }
+
+        public ICommunicationPartner GetAuthenticatedClient() {
+            if (usedClient == null) ExecuteImmediate();
+            return usedClient;
         }
     }
 }

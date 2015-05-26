@@ -24,7 +24,7 @@ namespace ISS.MV2.Security {
             return GetSymmetricEncryptionStream(baseStream, key, iv);
         }
 
-        public int DesiredSymmetricKesSize {
+        public int DesiredSymmetricKeySize {
             get { return desiredSymmetricKeySize; }
             set { desiredSymmetricKeySize = value; }
         }
