@@ -155,7 +155,8 @@ public class MV2Server {
 		MessageQueryProcessor mqp = new MessageQueryProcessor(smi, spaceManager);
 		registerPreProcessor(mqp);
 		registerProcessor(mqp);
-		KeyPutRequestProcessor kpr = new KeyPutRequestProcessor(smi, spaceManager);
+		KeyPutRequestProcessor kpr = new KeyPutRequestProcessor(smi,
+				spaceManager);
 		registerPreProcessor(kpr);
 		registerProcessor(kpr);
 		KeyRequestProcessor krp = new KeyRequestProcessor(spaceManager);
@@ -305,7 +306,8 @@ public class MV2Server {
 								String binding = helloProcessor
 										.getHostName(helloProcessor
 												.prepare(helloMessage));
-								System.out.println("Client binding: " + binding);
+								System.out
+										.println("Client binding: " + binding);
 								if (binding == null) {
 									client.close();
 									return;
@@ -327,8 +329,9 @@ public class MV2Server {
 									} catch (IOException ex) {
 										ex.printStackTrace();
 									}
-								}else{
-									new HelloMessage().serialize(client.getOutputStream());
+								} else {
+									new HelloMessage().serialize(client
+											.getOutputStream());
 								}
 								LoggerManager
 										.getCurrentLogger()
@@ -347,13 +350,14 @@ public class MV2Server {
 								clientThread.start();
 								clients.add(clientThread);
 							} catch (IOException ex) {
-
+								ex.printStackTrace();
 							}
 						}
 					}).run();
 
 				} catch (SocketTimeoutException ex) {
-
+					if (!ex.getMessage().startsWith("Accept timed out"))
+						ex.printStackTrace();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

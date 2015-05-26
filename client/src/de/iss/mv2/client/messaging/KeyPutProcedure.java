@@ -106,7 +106,7 @@ public class KeyPutProcedure extends MessageProcedure<RequestException, Void> {
 		aesOut.write(privateKey.getEncoded());
 		aesOut.flush();
 		aesOut.close();
-		kpr.setPassphrase(baos.toByteArray());
+		kpr.setPrivateKey(baos.toByteArray());
 		update("Sending the encrypted privat key.");
 		client.send(kpr);
 		MV2Message response = client.handleNext();

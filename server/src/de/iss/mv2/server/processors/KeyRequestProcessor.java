@@ -66,6 +66,7 @@ public class KeyRequestProcessor extends AbstractProcessor {
 			key = webSpaceManager.getPrivateKey(webSpace, passphrase);
 		} catch (IllegalArgumentException ex) {
 			fail(client, "Invalid passphrase.");
+			return true;
 		} catch (NoSuchElementException ex) {
 			fail(client, "Key not found.");
 			return true;

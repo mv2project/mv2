@@ -42,7 +42,7 @@ public interface ServerConstants extends MV2Constants {
 	/**
 	 * The version of the current MV2 server implementation.
 	 */
-	public static final String MV2_SERVER_IMPLEMENTATION_VERSION = "0.1 Beta and Debug";
+	public static final String MV2_SERVER_IMPLEMENTATION_VERSION = "0.2 Beta and Debug";
 	
 	/**
 	 * The command line option to unlimit the key strength limitation.

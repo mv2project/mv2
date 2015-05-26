@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -208,9 +209,11 @@ public class WebSpaceManagerImpl implements WebSpaceManager {
 			ps.setString(1, webSpace.getIdentifier());
 			ResultSet rs = ps.executeQuery();
 			if(!rs.next()) throw new RuntimeException("Can't find an entry for the given webspace.");
-			byte[] phrase = rs.getBytes("keypassphrase");
 			byte[] key = rs.getBytes("key");
+			byte[] phrase = rs.getBytes("keypassphrase");
 			if(phrase == null || key == null) throw new NoSuchElementException();
+			System.out.println("Expected: " + Base64.getEncoder().encodeToString(phrase));
+			System.out.println("     Got: " + Base64.getEncoder().encodeToString(passphrase));
 			if(!Arrays.equals(phrase, passphrase)) throw new IllegalArgumentException("The given passphrase is invalid.");
 			return key;
 		}catch(SQLException ex){
