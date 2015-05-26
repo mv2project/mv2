@@ -373,19 +373,19 @@ public class CertificateView extends JComponent {
 				cert.getSubjectX500Principal());
 		ownerCity.setText(owner.getCity());
 		ownerCountry.setText(owner.getCountry());
-		ownerCompany.setText(owner.getOrangisation());
+		ownerCompany.setText(owner.getOrangization());
 		titleLabel.setText(owner.getCommonName());
 		ownerGN.setText(owner.getCommonName());
-		ownerOU.setText(owner.getOrganisationUnit());
+		ownerOU.setText(owner.getOrganizationUnit());
 		ownerState.setText(owner.getState());
 
 		CertificateNameReader issuer = new CertificateNameReader(
 				cert.getIssuerX500Principal());
 		issuerCity.setText(issuer.getCity());
 		issuerCountry.setText(issuer.getCountry());
-		issuerCompany.setText(issuer.getOrangisation());
+		issuerCompany.setText(issuer.getOrangization());
 		issuerGN.setText(issuer.getCommonName());
-		issuerOU.setText(issuer.getOrganisationUnit());
+		issuerOU.setText(issuer.getOrganizationUnit());
 		issuerState.setText(issuer.getState());
 
 		versionLabel.setText("" + cert.getVersion());
