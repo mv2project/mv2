@@ -22,9 +22,9 @@ public class CertificateNameReader {
 	private final Map<String, String> values = new HashMap<String, String>();
 
 	/**
-	 * A constant holding the identifier of the organisation part.
+	 * A constant holding the identifier of the organization part.
 	 */
-	public static final String ORGANISATION = "O";
+	public static final String ORGANIZATION = "O";
 	/**
 	 * A constant holding the identifier of the state part.
 	 */
@@ -34,9 +34,9 @@ public class CertificateNameReader {
 	 */
 	public static final String COUNTRY = "C";
 	/**
-	 * A constant holding the identifier of the organisation unit part.
+	 * A constant holding the identifier of the organization unit part.
 	 */
-	public static final String ORGANISATION_UNIT = "OU";
+	public static final String ORGANIZATION_UNIT = "OU";
 	/**
 	 * A constant holding the identifier of the common name part.
 	 */
@@ -112,21 +112,21 @@ public class CertificateNameReader {
 	}
 
 	/**
-	 * Returns the organisation part.
+	 * Returns the organization part.
 	 * 
-	 * @return The organisation part or an empty string if not found.
+	 * @return The organization part or an empty string if not found.
 	 */
-	public String getOrangisation() {
-		return getValue(ORGANISATION);
+	public String getOrangization() {
+		return getValue(ORGANIZATION);
 	}
 
 	/**
-	 * Returns the organisation unit part.
+	 * Returns the organization unit part.
 	 * 
-	 * @return The organisation unit part or an empty string if not found.
+	 * @return The organization unit part or an empty string if not found.
 	 */
-	public String getOrganisationUnit() {
-		return getValue(ORGANISATION_UNIT);
+	public String getOrganizationUnit() {
+		return getValue(ORGANIZATION_UNIT);
 	}
 
 	/**
