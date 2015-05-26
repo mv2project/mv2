@@ -155,3 +155,5 @@ F:\MV2\Git\WebClient\WebClient\Bin\Debug\zh-Hans\System.Windows.Controls.resourc
 F:\MV2\Git\WebClient\WebClient\Bin\Debug\zh-Hant\System.Windows.Controls.resources.dll
 F:\MV2\Git\WebClient\WebClient\obj\Debug\GUI\LoadingDialogGUI.g.cs
 F:\MV2\Git\WebClient\WebClient\obj\Debug\GUI\ErrorDialog.g.cs
+F:\MV2\Git\WebClient\WebClient\obj\Debug\GUI\Controls\MailListItem.g.cs
+F:\MV2\Git\WebClient\WebClient\obj\Debug\GUI\Controls\MailView.g.cs

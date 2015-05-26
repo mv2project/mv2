@@ -73,6 +73,8 @@
     <Compile Include="Messaging\MessageParser.cs" />
     <Compile Include="Messaging\IMessageProcessor.cs" />
     <Compile Include="Messaging\AbstractMessageProcessor.cs" />
+    <Compile Include="Security\DNReader.cs" />
+    <Compile Include="Threading\MultiMessageFetchProcedure.cs" />
     <Compile Include="Messaging\RequestException.cs" />
     <Compile Include="Messaging\ServerLoginResponse.cs" />
     <Compile Include="Security\MessageDigestFactory.cs" />

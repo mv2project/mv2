@@ -81,6 +81,12 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Controls\MailListItem.xaml.cs">
+      <DependentUpon>MailListItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Controls\MailView.xaml.cs">
+      <DependentUpon>MailView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GUI\ErrorDialog.xaml.cs">
       <DependentUpon>ErrorDialog.xaml</DependentUpon>
     </Compile>
@@ -113,6 +119,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Page Include="GUI\Controls\MailListItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GUI\Controls\MailView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="GUI\ErrorDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
