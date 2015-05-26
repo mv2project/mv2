@@ -6,42 +6,12 @@ using Org.BouncyCastle.Crypto.Digests;
 
 
 namespace ISS.MV2.Security {
-    public class SHA256 : IMessageDigest {
+    public class SHA256 : BCDigest {
 
-        private readonly Sha256Digest digest;
 
-        public SHA256() {
-            digest = new Sha256Digest();
+        public SHA256()
+            : base(new CloneBouncyCastleDigestDelegate(() => { return new Sha256Digest(); }), new Sha256Digest(), "SHA-256", "SHA 256", "SHA256") {
         }
 
-        public void Update(byte[] data) {
-            digest.BlockUpdate(data, 0, data.Length);
-        }
-
-        public void Update(byte data) {
-            digest.Update(data);
-        }
-
-        public byte[] Complete() {
-            byte[] result = new byte[digest.GetDigestSize()];
-            digest.DoFinal(result, 0);
-            digest.Reset();
-            return result;
-        }
-
-        public void Reset() {
-            digest.Reset();
-        }
-
-
-        public IMessageDigest Clone() {
-            IMessageDigest result = new SHA256();
-            return result;
-        }
-
-
-        public string[] AlgorithmNames {
-            get { return new string[] { digest.AlgorithmName, "SHA-256", "SHA 256", "SHA256" }; }
-        }
     }
 }

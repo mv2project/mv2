@@ -3,3 +3,4 @@ F:\MV2\Git\WebClient\WebClient.Web\bin\WebClient.Web.dll
 F:\MV2\Git\WebClient\WebClient.Web\bin\WebClient.Web.pdb
 F:\MV2\Git\WebClient\WebClient.Web\obj\Debug\WebClient.Web.dll
 F:\MV2\Git\WebClient\WebClient.Web\obj\Debug\WebClient.Web.pdb
+F:\MV2\Git\WebClient\WebClient.Web\obj\Debug\WebClient.Web.csprojResolveAssemblyReference.cache

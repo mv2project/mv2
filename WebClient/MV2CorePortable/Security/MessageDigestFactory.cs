@@ -9,7 +9,7 @@ namespace ISS.MV2.Security {
         private MessageDigestFactory() {
         }
 
-        private static readonly List<IMessageDigest> knownAlgorithms = new List<IMessageDigest>(new IMessageDigest[] { new SHA256() });
+        private static readonly List<IMessageDigest> knownAlgorithms = new List<IMessageDigest>(new IMessageDigest[] { new SHA256(), new SHA384() });
 
         public static IMessageDigest CreateDigest(string algorithmName) {
             foreach (IMessageDigest digest in knownAlgorithms) {
