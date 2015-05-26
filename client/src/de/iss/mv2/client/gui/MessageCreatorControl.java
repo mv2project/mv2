@@ -32,6 +32,7 @@ import de.iss.mv2.client.messaging.ProcedureResultListener;
 import de.iss.mv2.gui.DialogHelper;
 import de.iss.mv2.gui.SubmitDialog;
 import de.iss.mv2.security.AESWithRSACryptoSettings;
+import javax.swing.ScrollPaneConstants;
 
 /**
  * A control to create a mail message.
@@ -108,9 +109,12 @@ public class MessageCreatorControl extends JComponent implements ActionListener 
 		panel.add(senderSelector, "cell 2 2,growx");
 
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		add(scrollPane, BorderLayout.CENTER);
 
 		messageContent = new JTextArea();
+		messageContent.setWrapStyleWord(true);
+		messageContent.setLineWrap(true);
 		scrollPane.setViewportView(messageContent);
 
 	}
