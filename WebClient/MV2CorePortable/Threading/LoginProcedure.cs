@@ -6,7 +6,7 @@ using ISS.MV2.Messaging;
 using ISS.MV2.IO;
 using ISS.MV2.Security;
 using System.IO;
-
+using System.Threading;
 
 namespace ISS.MV2.Threading {
     public class LoginProcedure : MessageProcedure<ClientSession, bool> {
@@ -40,13 +40,13 @@ namespace ISS.MV2.Threading {
             IMessageDigest digest = MessageDigestFactory.CreateDigest(slr.HashAlgorithm);
             digest.Update(plainData);
             byte[] hash = digest.Complete();
-            if (!Array.Equals(hash, slr.TestPhraseHash)) throw new RequestException("The login failed because the server supplied invalid data.");
+            if (!Enumerable.SequenceEqual(hash, slr.TestPhraseHash)) throw new RequestException("The login failed because the server supplied invalid data.");
             ClientLoginData cld = new ClientLoginData();
             cld.DecryptedTestPhrase = plainData;
             client.Send(cld);
             MV2Message loginResult = client.HandleNext();
             if (loginResult.MessageType == DEF_MESSAGE.UNABLE_TO_RPOCESS && loginResult.GetFieldStringValue(DEF_MESSAGE_FIELD.CAUSE, "").Equals("Invalid login data.")) return false;
-            loginResult = AssertTypeAndConvert(loginResult, new MV2Message(DEF_MESSAGE.SERVER_LOGIN_RESPONSE));
+            loginResult = AssertTypeAndConvert(loginResult, new MV2Message(DEF_MESSAGE.SERVER_LOGIN_RESULT));
             return true;
         }
 

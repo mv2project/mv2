@@ -31,16 +31,19 @@ namespace ISS.MV2.IO {
         private AutoResetEvent connect_event = new AutoResetEvent(false);
 
         public void Connect(string address) {
-
             lock (async_lock) {
                 if (connecting || connected) return;
-                connected = true;
+                connecting = true;
                 SocketAsyncEventArgs args = new SocketAsyncEventArgs() {
                     SocketClientAccessPolicyProtocol = SocketClientAccessPolicyProtocol.Http,
                     RemoteEndPoint = new DnsEndPoint(address, PORT)
                 };
                 args.Completed += Connect_Completed;
-                socket.ConnectAsync(args);
+                if (!socket.ConnectAsync(args)) {
+                    connecting = false;
+                    connected = (args.SocketError == SocketError.Success);
+                    return;
+                }
 
             }
             connect_event.WaitOne();
@@ -94,7 +97,11 @@ namespace ISS.MV2.IO {
             args.SetBuffer(buffer, offset, count);
             args.Completed += read_Completed;
             lock (read_lock) {
-                socket.ReceiveAsync(args);
+                if (!socket.ReceiveAsync(args)) {
+                    if (args.SocketError != SocketError.Success) throw new IOException(args.SocketError.ToString());
+                    bytesRead = args.BytesTransferred;
+                    return bytesRead;
+                }
             }
             read_event.WaitOne();
             return bytesRead;
@@ -119,23 +126,22 @@ namespace ISS.MV2.IO {
         private readonly object write_lock = new object();
         private AutoResetEvent write_event = new AutoResetEvent(false);
 
-        private int readCount = 0;
+
         public override void Write(byte[] buffer, int offset, int count) {
             SocketAsyncEventArgs e = new SocketAsyncEventArgs();
             e.SetBuffer(buffer, offset, count);
             e.Completed += write_Completed;
             lock (write_lock) {
-                socket.SendAsync(e);
+                if (!socket.SendAsync(e)) {
+                    if (e.SocketError != SocketError.Success) throw new IOException(e.SocketError.ToString());
+                    return;
+                }
             }
-            System.Diagnostics.Debug.WriteLine("Waiting " + readCount);
             write_event.WaitOne();
-            System.Diagnostics.Debug.WriteLine("Completed " + readCount);
-            readCount++;
         }
 
         private void write_Completed(object sender, SocketAsyncEventArgs e) {
             lock (write_lock) {
-                System.Diagnostics.Debug.WriteLine("Releasing " + readCount);
                 write_event.Set();
             }
         }

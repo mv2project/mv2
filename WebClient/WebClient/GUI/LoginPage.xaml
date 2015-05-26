@@ -18,7 +18,12 @@
                 </LinearGradientBrush>
             </Border.BorderBrush>
             <Grid >
-
+                <sdk:Label HorizontalAlignment="Left"  Margin="10,10,0,0" VerticalAlignment="Top" FontSize="16" Content="Login"/>
+                <sdk:Label HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,55,0,0" Content="Address" FontWeight="Bold"/>
+                <TextBox HorizontalAlignment="Stretch"  Margin="10,71,10,0" TextWrapping="NoWrap"  VerticalAlignment="Top" x:Name="identifierField"/>
+                <sdk:Label HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,100,0,0" Content="Password" FontWeight="Bold"/>
+                <PasswordBox HorizontalAlignment="Stretch" Margin="10,116,10,0" VerticalAlignment="Top" x:Name="passwordField"/>
+                <Button HorizontalAlignment="Stretch" VerticalAlignment="Top" Content="Login" Margin="10,155,10,0" Click="Login_Click" />
             </Grid>
         </Border>
     </Grid>

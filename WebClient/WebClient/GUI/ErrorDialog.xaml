@@ -1,0 +1,35 @@
+﻿<controls:ChildWindow
+           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+           xmlns:controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls"
+           xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk" x:Class="ISS.MV2.GUI.ErrorDialog"
+           Width="486" Height="184" 
+           Title="Ups...">
+    <Grid x:Name="LayoutRoot" Margin="2">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="103*"/>
+            <ColumnDefinition Width="275*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Button x:Name="CancelButton" Content="Close" Click="CancelButton_Click" Width="75" Height="23" HorizontalAlignment="Right" Margin="0,12,0,0" Grid.Row="1" Grid.Column="1" />
+        <Image Source="/WebClient;component/Resources/cross.png" />
+        <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontWeight="Bold" TextWrapping="Wrap" x:Name="messageLabel">
+            [ErrorMessage]
+                </TextBlock>
+                <sdk:Label HorizontalAlignment="Left" Margin="15,0,0,0" x:Name="typeLabel"/>
+                <sdk:Label HorizontalAlignment="Left" Content="Details:" FontStyle="Italic" Margin="10,10,0,0" />
+                <TextBlock HorizontalAlignment="Left" Margin="15,0,0,0" FontStyle="Italic" x:Name="stackTrace" TextWrapping="Wrap" >
+                    [StackTrace]
+                </TextBlock>
+            </StackPanel>
+        </ScrollViewer>
+        <StackPanel />
+        
+    </Grid>
+</controls:ChildWindow>
