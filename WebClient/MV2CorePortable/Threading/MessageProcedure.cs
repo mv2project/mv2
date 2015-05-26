@@ -131,6 +131,12 @@ namespace ISS.MV2.Threading {
             }
         }
 
+        public void AddListener(IProcedureListener<P, R> listener) {
+            Completed += listener.Completed;
+            Failed += listener.Failed;
+            Updated += listener.Updated;
+        }
+
     }
 
 }

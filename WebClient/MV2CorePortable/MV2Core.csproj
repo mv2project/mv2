@@ -74,6 +74,7 @@
     <Compile Include="Messaging\RequestException.cs" />
     <Compile Include="Messaging\ServerLoginResponse.cs" />
     <Compile Include="Security\MessageDigestFactory.cs" />
+    <Compile Include="Threading\IProcedureListener.cs" />
     <Compile Include="Threading\LoginProcedure.cs" />
     <Compile Include="Threading\EventInvokationDelegate.cs" />
     <Compile Include="Threading\IEventDispatcher.cs" />

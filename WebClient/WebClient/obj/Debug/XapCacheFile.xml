@@ -1,9 +1,9 @@
-﻿<xapCache source="F:\MV2\Git\WebClient\WebClient\Bin\Debug\WebClient.xap" wasSigned="False" certificateThumbprint="" TimeStampUrl="" lastWriteTime="26.05.2015 07:26:34">
-  <file source="F:\MV2\Git\WebClient\WebClient\obj\Debug\WebClient.dll" archivePath="WebClient.dll" lastWriteTime="26.05.2015 07:26:32" />
+﻿<xapCache source="F:\MV2\Git\WebClient\WebClient\Bin\Debug\WebClient.xap" wasSigned="False" certificateThumbprint="" TimeStampUrl="" lastWriteTime="26.05.2015 10:34:22">
+  <file source="F:\MV2\Git\WebClient\WebClient\obj\Debug\WebClient.dll" archivePath="WebClient.dll" lastWriteTime="26.05.2015 10:34:21" />
   <file source="F:\MV2\Git\WebClient\packages\Portable.BouncyCastle.1.7.0.2\lib\portable-net4+sl5+wp8+win8+wpa81+MonoTouch10+MonoAndroid10+xamarinmac20+xamarinios10\crypto.dll" archivePath="crypto.dll" lastWriteTime="20.05.2015 20:56:45" />
-  <file source="F:\MV2\Git\WebClient\MV2CorePortable\bin\Debug\MV2Core.dll" archivePath="MV2Core.dll" lastWriteTime="26.05.2015 07:26:32" />
+  <file source="F:\MV2\Git\WebClient\MV2CorePortable\bin\Debug\MV2Core.dll" archivePath="MV2Core.dll" lastWriteTime="26.05.2015 10:34:20" />
   <file source="C:\Program Files (x86)\Microsoft SDKs\Silverlight\v5.0\Libraries\Client\System.ComponentModel.DataAnnotations.dll" archivePath="System.ComponentModel.DataAnnotations.dll" lastWriteTime="18.11.2011 17:40:20" />
   <file source="C:\Program Files (x86)\Microsoft SDKs\Silverlight\v5.0\Libraries\Client\System.Windows.Controls.Data.Input.dll" archivePath="System.Windows.Controls.Data.Input.dll" lastWriteTime="18.11.2011 17:40:20" />
   <file source="C:\Program Files (x86)\Microsoft SDKs\Silverlight\v5.0\Libraries\Client\System.Windows.Controls.Navigation.dll" archivePath="System.Windows.Controls.Navigation.dll" lastWriteTime="18.11.2011 17:40:20" />
-  <file source="F:\MV2\Git\WebClient\WebClient\Bin\Debug\AppManifest.xaml" archivePath="AppManifest.xaml" lastWriteTime="26.05.2015 07:26:33" />
+  <file source="F:\MV2\Git\WebClient\WebClient\Bin\Debug\AppManifest.xaml" archivePath="AppManifest.xaml" lastWriteTime="26.05.2015 10:34:22" />
 </xapCache>
