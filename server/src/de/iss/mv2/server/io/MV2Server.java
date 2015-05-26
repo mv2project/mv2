@@ -158,7 +158,7 @@ public class MV2Server {
 		KeyPutRequestProcessor kpr = new KeyPutRequestProcessor(smi, spaceManager);
 		registerPreProcessor(kpr);
 		registerProcessor(kpr);
-		KeyRequestProcessor krp = new KeyRequestProcessor(smi, spaceManager);
+		KeyRequestProcessor krp = new KeyRequestProcessor(spaceManager);
 		registerPreProcessor(krp);
 		registerProcessor(krp);
 	}
