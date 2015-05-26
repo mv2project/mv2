@@ -51,6 +51,7 @@ namespace ISS.MV2.Threading {
 
         public MessageProcedure(IEventDispatcher dispatcher, P parameter) {
             this.eventDispatcher = dispatcher;
+            this.parameter = parameter;
         }
 
 
