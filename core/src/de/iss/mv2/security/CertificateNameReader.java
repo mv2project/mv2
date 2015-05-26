@@ -22,9 +22,9 @@ public class CertificateNameReader {
 	private final Map<String, String> values = new HashMap<String, String>();
 
 	/**
-	 * A constant holding the identifier of the organisation part.
+	 * A constant holding the identifier of the organization part.
 	 */
-	public static final String ORGANISATION = "O";
+	public static final String ORGANIZATION = "O";
 	/**
 	 * A constant holding the identifier of the state part.
 	 */
@@ -117,7 +117,7 @@ public class CertificateNameReader {
 	 * @return The organisation part or an empty string if not found.
 	 */
 	public String getOrangisation() {
-		return getValue(ORGANISATION);
+		return getValue(ORGANIZATION);
 	}
 
 	/**
