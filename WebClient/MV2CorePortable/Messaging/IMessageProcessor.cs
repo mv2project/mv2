@@ -7,7 +7,7 @@ using ISS.MV2.IO;
 namespace ISS.MV2.Messaging {
     public interface IMessageProcessor {
 
-        bool Process(CommunicationPartner sender, MV2Message message);
+        bool Process(ICommunicationPartner sender, MV2Message message);
 
     }
 }

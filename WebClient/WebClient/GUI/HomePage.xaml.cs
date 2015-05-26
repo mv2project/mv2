@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Linq;
 using System.Net;
 using System.Windows;
 using System.Windows.Controls;
@@ -9,16 +9,17 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
-using ISS.MV2.GUI;
+using System.Windows.Navigation;
 
-
-namespace ISS.MV2 {
-    public partial class MainPage : UserControl {
-        public MainPage() {
+namespace ISS.MV2.GUI {
+    public partial class HomePage : Page {
+        public HomePage() {
             InitializeComponent();
-            Navigator.SetMainFrame(navigationFrame);
         }
 
-       
+        // Executes when the user navigates to this page.
+        protected override void OnNavigatedTo(NavigationEventArgs e) {
+        }
+
     }
 }

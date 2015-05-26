@@ -73,5 +73,13 @@ namespace ISS.MV2.Messaging {
             return base.Equals(obj);
         }
 
+        public static bool operator ==(DEF_MESSAGE m1, DEF_MESSAGE m2) {
+            return m1.Identifier == m2.Identifier;
+        }
+
+        public static bool operator !=(DEF_MESSAGE m1, DEF_MESSAGE m2) {
+            return !(m1 == m2);
+        }
+
     }
 }
