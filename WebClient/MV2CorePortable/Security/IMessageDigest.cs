@@ -14,5 +14,7 @@ namespace ISS.MV2.Security {
 
         IMessageDigest Clone();
 
+        string[] AlgorithmNames { get; }
+
     }
 }

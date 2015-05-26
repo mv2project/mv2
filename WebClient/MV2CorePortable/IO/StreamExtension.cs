@@ -39,5 +39,14 @@ namespace ISS.MV2.IO {
            }
        }
 
+       public static byte[] ReadAll(this Stream stream) {
+           using (MemoryStream ms = new MemoryStream()) {
+               stream.Iterate(new BinIterationDelegate((b) => {
+                   ms.WriteByte(b);
+               }));
+               return ms.ToArray();
+           }
+       }
+
     }
 }

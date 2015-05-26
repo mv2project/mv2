@@ -4,4 +4,3 @@ F:\MV2\Git\WebClient\MV2CorePortable\bin\Debug\crypto.dll
 F:\MV2\Git\WebClient\MV2CorePortable\bin\Debug\crypto.xml
 F:\MV2\Git\WebClient\MV2CorePortable\obj\Debug\MV2Core.dll
 F:\MV2\Git\WebClient\MV2CorePortable\obj\Debug\MV2Core.pdb
-F:\MV2\Git\WebClient\MV2CorePortable\obj\Debug\MV2Core.csprojResolveAssemblyReference.cache

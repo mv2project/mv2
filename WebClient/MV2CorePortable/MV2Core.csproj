@@ -34,6 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ClientSession.cs" />
     <Compile Include="DateTimeTools.cs" />
     <Compile Include="IO\BinaryTools.cs" />
     <Compile Include="IO\StreamExtension.cs" />
@@ -58,6 +59,7 @@
     <Compile Include="Messaging\CertificateResponsePreProcessor.cs" />
     <Compile Include="Messaging\HelloMessage.cs" />
     <Compile Include="Messaging\IMessagePreProcessor.cs" />
+    <Compile Include="Messaging\InvalidResponseMessageException.cs" />
     <Compile Include="Messaging\KeyRequest.cs" />
     <Compile Include="Messaging\KeyResponse.cs" />
     <Compile Include="Messaging\MessageDeliveryRequest.cs" />
@@ -69,6 +71,10 @@
     <Compile Include="Messaging\MessageParser.cs" />
     <Compile Include="Messaging\IMessageProcessor.cs" />
     <Compile Include="Messaging\AbstractMessageProcessor.cs" />
+    <Compile Include="Messaging\RequestException.cs" />
+    <Compile Include="Messaging\ServerLoginResponse.cs" />
+    <Compile Include="Security\MessageDigestFactory.cs" />
+    <Compile Include="Threading\LoginProcedure.cs" />
     <Compile Include="Threading\EventInvokationDelegate.cs" />
     <Compile Include="Threading\IEventDispatcher.cs" />
     <Compile Include="Threading\MessageProcedure.cs" />

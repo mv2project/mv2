@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Org.BouncyCastle.X509;
+using Org.BouncyCastle.Crypto;
+using Org.BouncyCastle.Security;
 using System.IO;
 
 namespace ISS.MV2.Security {
@@ -25,7 +27,13 @@ namespace ISS.MV2.Security {
             return encoded;
         }
 
+        public AsymmetricKeyParameter ReadPrivateKey(byte[] encoded) {
+            return PrivateKeyFactory.CreateKey(encoded);
+        }
 
+        public AsymmetricKeyParameter ReadPrivateKey(Stream input) {
+            return PrivateKeyFactory.CreateKey(input);
+        }
 
 
     }

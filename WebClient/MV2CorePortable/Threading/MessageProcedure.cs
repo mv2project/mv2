@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using ISS.MV2.Messaging;
 
 namespace ISS.MV2.Threading {
 
@@ -114,6 +114,21 @@ namespace ISS.MV2.Threading {
 
         public R ExecuteImmediate() {
             return DoProcedure(parameter);
+        }
+
+        protected T AssertTypeAndConvert<T>(MV2Message message, T destination) where T : MV2Message {
+            if (destination.MessageType != message.MessageType) {
+                CheckFail(message);
+                throw new InvalidResponseMessageException(destination, message);
+            }
+            MV2Message.Merge(destination, message);
+            return destination;
+        }
+
+        protected void CheckFail(MV2Message message) {
+            if (message.MessageType == DEF_MESSAGE.UNABLE_TO_RPOCESS) {
+                throw new RequestException("The server responeded with: " + message.GetFieldStringValue(DEF_MESSAGE_FIELD.CAUSE, ""));
+            }
         }
 
     }

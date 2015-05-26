@@ -15,6 +15,15 @@ namespace ISS.MV2.Messaging {
             }
         }
 
+        public string Identifier {
+            get {
+                return GetFieldStringValue(DEF_MESSAGE_FIELD.CONTENT_PLAIN, null);
+            }
+            set {
+                SetMessageField(DEF_MESSAGE_FIELD.CONTENT_PLAIN, value);
+            }
+        }
+
         public KeyRequest()
             : base(DEF_MESSAGE.KEY_REQUEST) {
         }

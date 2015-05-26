@@ -38,5 +38,10 @@ namespace ISS.MV2.Security {
             IMessageDigest result = new SHA256();
             return result;
         }
+
+
+        public string[] AlgorithmNames {
+            get { return new string[] { digest.AlgorithmName, "SHA-256", "SHA 256", "SHA256" }; }
+        }
     }
 }
