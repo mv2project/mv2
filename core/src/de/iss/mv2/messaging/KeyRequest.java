@@ -40,6 +40,21 @@ public class KeyRequest extends MV2Message {
 		return getFieldDataArrayValue(DEF_MESSAGE_FIELD.HASH_BINARY, null);
 	}
 	
+	/**
+	 * Sets the identifier of the web space thats key should be returned.
+	 * @param identifier The identifier to set.
+	 * @throws IllegalArgumentException If the given identifier is {@code null} or empty.
+	 */
+	public void setIdentifier(String identifier) throws IllegalArgumentException{
+		if(identifier == null || identifier.isEmpty()) throw new IllegalArgumentException("The identifier must not be empty or null.");
+		setMessageField(new MessageField(DEF_MESSAGE_FIELD.CONTENT_PLAIN), true);
+	}
 	
-
+	/**
+	 * Returns the identifier of the web space thats key should be returned.
+	 * @return The identifier or {@code null} if there is none.
+	 */
+	public String getIdentifier(){
+		return getFieldStringValue(DEF_MESSAGE_FIELD.CONTENT_PLAIN, null);
+	}
 }
