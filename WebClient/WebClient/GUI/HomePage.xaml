@@ -13,46 +13,50 @@
             <RowDefinition Height="30"/>
             <RowDefinition Height="77*"/>
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0*"/>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="114*"/>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="445*"/>
-        </Grid.ColumnDefinitions>
 
-        <sdk:GridSplitter Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" ShowsPreview="True" Width="2" Grid.RowSpan="1">
-            <sdk:GridSplitter.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="White" Offset="0"/>
-                    <GradientStop Color="#FF00DCFF" Offset="0.527"/>
-                    <GradientStop Color="White" Offset="1"/>
-                </LinearGradientBrush>
-            </sdk:GridSplitter.Background>
-        </sdk:GridSplitter>
-        <sdk:GridSplitter Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Stretch" ShowsPreview="True" Width="2" Grid.RowSpan="1" Grid.Row="1">
-            <sdk:GridSplitter.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="White" Offset="0"/>
-                    <GradientStop Color="#FFFF8B00" Offset="0.527"/>
-                    <GradientStop Color="White" Offset="1"/>
-                </LinearGradientBrush>
-            </sdk:GridSplitter.Background>
-        </sdk:GridSplitter>
-        <ListBox Grid.Column="2" Grid.Row="1" x:Name="mailList" SelectionChanged="mailList_SelectionChanged"/>
         <Border Grid.Row="0" Grid.ColumnSpan="5" BorderBrush="Black" BorderThickness="0,0,0,1">
-            <Grid  >
-                <Grid.Background>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="#FFCF6903" Offset="0.552"/>
-                        <GradientStop Color="#FFFF8000" Offset="1"/>
-                        <GradientStop Color="#FFFF8000"/>
-                    </LinearGradientBrush>
-                </Grid.Background><Button HorizontalAlignment="Left" VerticalAlignment="Stretch" Content="New Mail" Background="Transparent" Click="NewMailButton_Clicked" />
+            <Grid Background="{StaticResource DEFAULT_GRADIENT_BACKGROUND}"  >
+                <Button HorizontalAlignment="Left" VerticalAlignment="Stretch" Content="New Mail" Background="Transparent" Click="NewMailButton_Clicked" />
                 <Button VerticalAlignment="Stretch" HorizontalAlignment="Right" Content="Refresh" Click="Button_Click" Background="Transparent"  />
             </Grid>
         </Border>
-        <Controls:MailView Grid.Column="4" Grid.Row="1" x:Name="mailView"/>
+
+        <sdk:TabControl x:Name="tabControl" Grid.Row="1" Background="{StaticResource DEFAULT_GRADIENT_BACKGROUND}" >
+            <sdk:TabItem Header="Home">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0*"/>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="114*"/>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="445*"/>
+                    </Grid.ColumnDefinitions>
+                    <sdk:GridSplitter Grid.Column="1"  HorizontalAlignment="Center" VerticalAlignment="Stretch" ShowsPreview="True" Width="2">
+                        <sdk:GridSplitter.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="White" Offset="0"/>
+                                <GradientStop Color="#FF00DCFF" Offset="0.527"/>
+                                <GradientStop Color="White" Offset="1"/>
+                            </LinearGradientBrush>
+                        </sdk:GridSplitter.Background>
+                    </sdk:GridSplitter>
+                    <sdk:GridSplitter Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Stretch" ShowsPreview="True" Width="2">
+                        <sdk:GridSplitter.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="White" Offset="0"/>
+                                <GradientStop Color="#FFFF8B00" Offset="0.527"/>
+                                <GradientStop Color="White" Offset="1"/>
+                            </LinearGradientBrush>
+                        </sdk:GridSplitter.Background>
+                    </sdk:GridSplitter>
+                    <ListBox Grid.Column="2"  x:Name="mailList" SelectionChanged="mailList_SelectionChanged"/>
+                    <Controls:MailView Grid.Column="4" x:Name="mailView"/>
+                </Grid>
+
+
+            </sdk:TabItem>
+        </sdk:TabControl>
 
     </Grid>
 </sdk:Page>
+    

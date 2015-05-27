@@ -66,7 +66,9 @@ namespace ISS.MV2.GUI {
         }
 
         private void NewMailButton_Clicked(object sender, RoutedEventArgs e) {
-
+            var creatorControl = new Controls.MailCreatorControl();
+            TabItem item = new TabItem() { Header = "New Mail", Content = creatorControl };
+            tabControl.Items.Add(item);
         }
 
     }

@@ -12,14 +12,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="33*"/>
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0"  >
-            <StackPanel.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FFB9B9B9" Offset="0.502"/>
-                    <GradientStop Color="White" Offset="1"/>
-                    <GradientStop Color="White"/>
-                </LinearGradientBrush>
-            </StackPanel.Background>
+        <StackPanel Grid.Row="0" Background="{StaticResource DEFAULT_GRADIENT_BACKGROUND}"  >
             <TextBlock x:Name="subjectTextBox" HorizontalAlignment="Left"  Margin="10,10,0,0" FontWeight="Bold" FontSize="14" TextWrapping="Wrap">
                 [Subject]
             </TextBlock>

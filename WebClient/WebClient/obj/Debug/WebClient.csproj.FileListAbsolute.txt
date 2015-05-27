@@ -316,3 +316,4 @@ C:\Users\MARCEL\workspace\MV2_Git\WebClient\WebClient\Bin\Debug\ru\System.Window
 C:\Users\MARCEL\workspace\MV2_Git\WebClient\WebClient\Bin\Debug\zh-Hans\System.Windows.Controls.Navigation.resources.dll
 C:\Users\MARCEL\workspace\MV2_Git\WebClient\WebClient\Bin\Debug\zh-Hant\System.Windows.Controls.Navigation.resources.dll
 C:\Users\MARCEL\workspace\MV2_Git\WebClient\WebClient\obj\Debug\XapCacheFile.xml
+C:\Users\MARCEL\workspace\MV2_Git\WebClient\WebClient\obj\Debug\GUI\Controls\MailCreatorControl.g.cs

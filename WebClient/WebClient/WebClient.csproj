@@ -81,6 +81,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Controls\MailCreatorControl.xaml.cs">
+      <DependentUpon>MailCreatorControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Controls\MailListItem.xaml.cs">
       <DependentUpon>MailListItem.xaml</DependentUpon>
     </Compile>
@@ -119,6 +122,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Page Include="GUI\Controls\MailCreatorControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="GUI\Controls\MailListItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
