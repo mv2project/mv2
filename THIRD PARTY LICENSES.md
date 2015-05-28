@@ -1,13 +1,12 @@
-THIRD-PARTY LICENSES
-====================
+# THIRD-PARTY LICENSES
 
-I)   Legion of Bouncy Castle
-II)  MiGLayout
-III) PostgreSQL JDBC Driver
+
+1.   Legion of Bouncy Castle
+2.   MiGLayout
+3.   PostgreSQL JDBC Driver
  
 
-I) Legion of Bouncy Castle - https://www.bouncycastle.org (MIT-License)
-=======================================================================
+## I) Legion of Bouncy Castle - https://www.bouncycastle.org (MIT-License)
 Copyright (c) 2000 - 2015 The Legion of the Bouncy Castle Inc. (http://www.bouncycastle.org)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and 
@@ -27,8 +26,7 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 
-II) MiGLayout - http://www.miglayout.com (BSD-License)
-======================================================
+## II) MiGLayout - http://www.miglayout.com (BSD-License)
 Copyright (c) 2011 MiG InfoCom AB
 All rights reserved
 
@@ -56,8 +54,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 
-III) PostgreSQL JDBC Driver - https://jdbc.postgresql.org/ (BSD-License)
-========================================================================
+## III) PostgreSQL JDBC Driver - https://jdbc.postgresql.org/ (BSD-License)
 Copyright (c) 1997-2011, PostgreSQL Global Development Group
 All rights reserved.
 
