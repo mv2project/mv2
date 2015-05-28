@@ -1,5 +1,5 @@
 THIRD-PARTY LICENSES
-==========================
+====================
 
 I)   Legion of Bouncy Castle
 II)  MiGLayout
