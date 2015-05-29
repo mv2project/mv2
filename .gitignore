@@ -12,3 +12,9 @@ hs_err_pid*
 
 core/build
 core/.gradle
+
+server/build
+server/.gradle
+
+client/build
+client/.gradle
