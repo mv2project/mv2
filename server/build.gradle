@@ -1,5 +1,4 @@
 apply plugin: "java"
-version = "0.1"
 sourceCompatibility = "1.8"
 sourceSets {
 	main{
