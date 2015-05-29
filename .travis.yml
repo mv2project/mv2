@@ -7,8 +7,8 @@ deploy:
   api-key: 
     secure: vw9Yf+5j5FDphGJ8HxMweaOoAtfMEUHDHckN9LAecd++0hFYGMYhlaqwJuTVJVxqmAodULk1PMW8ahPVj9ACz2wOUJA7xS+MzC5+45QEjl89O0J9zomfg5C/FL61p/UBW9zm7ULkqaqp9mhIKcDRXDunhAnpv5+hui8g8/I+mN7t5bLIrQG5bw3CAvuLjDiBkEeQVzimEBNMcarGsP0TlP3/9wUt9yROtKlSaAcmb+LaaU3A4wSN/63C6gM8u1oceIVdp7mLwxH9MqRQF6K/jWIr2Tnb/TkCR7jINTdpiXZMzrNlCvd8g1FzMfUDN+EqG5Dfe+499CQ57d9rB9d6lqJgnxHle3hfKuZTMj/f+aCRBmtuFLcQCqo6uUpS2XWcf/9NPn8f26VOFd5iOSfpI7oIFX5tmylI9lG0Hf9DSuAt4a+ghQVQbTo6R9M13fa/kSt1Y4DhDBqYgvoaCGIRPMSknDZYwSDxvf3LJuEUY2qHonPLfZOW57siv7pPl0QTz7d5D5hTalz35k8C02N43fsw7/uLzAWNn5usvQ+Pnepynx+wh05MZqAk0YWFWNiQJSscP24y51j8+7yxdnjDTcwe5Uoy/+s19YEPLxgcETzRExccoO1skBhQHAUU9L4wjyTnWaAhJccDosg99Dwu6Ue1vwQwhkM7aXtsQ28sHIM=
   file:
-    - "server/build/libs/MV2_Server-0.1.jar"
-    - "client/build/libs/MV2_Client-0.1.jar"
+    - "server/build/libs/MV2_Server.jar"
+    - "client/build/libs/MV2_Client.jar"
   skip_cleanup: true
   on:
     tags: true
