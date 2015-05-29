@@ -26,8 +26,6 @@ import de.iss.mv2.security.CertificateSigningRequest;
 import de.iss.mv2.security.CertificateVerifier;
 import de.iss.mv2.security.PEMFileIO;
 import de.iss.mv2.security.RSAOutputStream;
-import de.iss.mv2.server.data.CertificateManagerImpl;
-import de.iss.mv2.server.data.DatabaseContext;
 
 /**
  * A test for the certification process.
