@@ -3,6 +3,8 @@ language: java
 jdk:
   - oraclejdk8
 
+script: "gradle build"
+
 deploy:
   provider: releases
   api-key: 
@@ -13,5 +15,3 @@ deploy:
   skip_cleanup: true
   on:
     tags: true
-
-script: "gradle build"
