@@ -6,6 +6,7 @@ import java.util.Base64;
 
 import org.junit.Test;
 
+import de.iss.mv2.TestConstants;
 import de.iss.mv2.security.PassphraseInflator;
 
 /**

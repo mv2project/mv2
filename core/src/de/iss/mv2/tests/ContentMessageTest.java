@@ -12,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import sun.security.provider.SecureRandom;
+import de.iss.mv2.TestConstants;
 import de.iss.mv2.messaging.ContentMessage;
 import de.iss.mv2.messaging.DEF_MESSAGE_FIELD;
 import de.iss.mv2.messaging.MessageField;

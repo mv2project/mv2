@@ -1,0 +1,47 @@
+apply plugin: "java"
+version = "0.1"
+sourceCompatibility = "1.8"
+sourceSets {
+	main{
+		java{
+			srcDir "src"
+			exclude "de/iss/mv2/server/tests/**"
+		}
+		resources {
+			srcDir "rsc"
+		}
+	}
+	test{
+		java{
+			srcDir "src"
+		}
+		resources{
+			srcDir "rsc"
+		}
+	}
+}
+
+jar {
+	
+	manifest{
+		attributes "Specification-Title": "MV2 Server",
+			"Main-Class": "de.iss.mv2.server.MV2",
+			"Class-Path": ".",
+			"Rsrc-Class-Path": "./"
+	}
+	from {
+		configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+	}
+	exclude 'META-INF/*.RSA', 'META-INF/*.SF','META-INF/*.DSA'
+}
+
+repositories {
+	mavenCentral()
+}
+dependencies {
+	compile project(":MV2_Core")
+	compile group: "com.miglayout", name: "miglayout", version: "3.+"
+	compile "org.bouncycastle:bcprov-jdk15on:1.52"
+	compile "org.bouncycastle:bcpkix-jdk15on:1.52"
+	testCompile group: "junit", name: "junit", version: "4.+"
+}

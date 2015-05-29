@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.InputStream;
+import java.math.BigInteger;
 import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.SecureRandom;
@@ -17,6 +18,8 @@ import org.bouncycastle.pkcs.PKCS10CertificationRequest;
 import org.junit.Before;
 import org.junit.Test;
 
+import de.iss.mv2.TestConstants;
+import de.iss.mv2.data.Certificate;
 import de.iss.mv2.data.CertificateManager;
 import de.iss.mv2.security.CertificateSigner;
 import de.iss.mv2.security.CertificateSigningRequest;
@@ -25,7 +28,6 @@ import de.iss.mv2.security.PEMFileIO;
 import de.iss.mv2.security.RSAOutputStream;
 import de.iss.mv2.server.data.CertificateManagerImpl;
 import de.iss.mv2.server.data.DatabaseContext;
-import de.iss.mv2.tests.TestConstants;
 
 /**
  * A test for the certification process.
@@ -90,7 +92,28 @@ public class CertificateTest implements TestConstants {
 				.getResourceAsStream(DEBUG_KEY_RSC_NAME);
 		PrivateKey pk = pemIO.readEncryptedPrivateKey(in, CA_CERT_PASSPHRASE);
 		signersKey = new KeyPair(signingCertificate.getPublicKey(), pk);
-		certManager = new CertificateManagerImpl(DatabaseContext.getContext());
+		certManager = new CertificateManager() {
+			
+			@Override
+			public boolean isUnambiguously(BigInteger value) {
+				return true;
+			}
+			
+			@Override
+			public void remove(X509Certificate cert, boolean andRevoke) {
+				
+			}
+			
+			@Override
+			public Certificate load(BigInteger serialNumber) {
+				return null;
+			}
+			
+			@Override
+			public void create(X509Certificate cert) {
+				
+			}
+		};
 		clientKey = RSAOutputStream.getRandomRSAKey(CLIENT_KEY_SIZE);
 		trusted.add(signingCertificate);
 		trusted.add(caCert);

@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Specification-Title: MV2 Client
+Main-Class: de.iss.mv2.client.MV2
+

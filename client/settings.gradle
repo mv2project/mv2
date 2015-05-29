@@ -1,0 +1,2 @@
+include ":MV2_Core"
+project(":MV2_Core").projectDir = new File(settingsDir, "../core")

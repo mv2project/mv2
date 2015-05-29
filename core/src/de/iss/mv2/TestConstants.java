@@ -1,4 +1,4 @@
-package de.iss.mv2.tests;
+package de.iss.mv2;
 
 /**
  * A interface declaring the constants used for testing purposes.

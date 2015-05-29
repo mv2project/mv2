@@ -17,6 +17,7 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.operator.OperatorCreationException;
 import org.bouncycastle.pkcs.PKCSException;
 
+import de.iss.mv2.TestConstants;
 import de.iss.mv2.io.CommandLineInterpreter;
 import de.iss.mv2.io.PathBuilder;
 import de.iss.mv2.security.AESWithRSACryptoSettings;
@@ -28,7 +29,6 @@ import de.iss.mv2.server.io.ConfigFileLocator;
 import de.iss.mv2.server.io.MV2Server;
 import de.iss.mv2.server.io.ServerBindingsConfiguration;
 import de.iss.mv2.server.io.ServerConfig;
-import de.iss.mv2.tests.TestConstants;
 
 /**
  * The main class.

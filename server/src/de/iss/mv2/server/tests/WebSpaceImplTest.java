@@ -8,10 +8,10 @@ import java.security.cert.X509Certificate;
 import org.junit.Before;
 import org.junit.Test;
 
+import de.iss.mv2.TestConstants;
 import de.iss.mv2.security.PEMFileIO;
 import de.iss.mv2.server.data.CertificateImpl;
 import de.iss.mv2.server.data.WebSpaceImpl;
-import de.iss.mv2.tests.TestConstants;
 
 /**
  * A test for {@link WebSpaceImpl}.

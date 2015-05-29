@@ -8,6 +8,7 @@ import java.security.KeyPair;
 import org.bouncycastle.pkcs.PKCS10CertificationRequest;
 import org.junit.Test;
 
+import de.iss.mv2.TestConstants;
 import de.iss.mv2.messaging.SpaceCreationRequest;
 import de.iss.mv2.security.CertificateSigningRequest;
 import de.iss.mv2.security.RSAOutputStream;
