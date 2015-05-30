@@ -4,7 +4,6 @@ There are a lot of tools and plugins to fix the security issues of the dignified
 ## In Brief
 +   The goal of this project: A secure message protocol with a zero knowledge server and key management support.
 +   Licensed under the Apache License
-
-
-
-
++   Get involved - if you want to!
++   You can find more information in our [wiki](https://github.com/mv2project/mv2/wiki)
++   If you have questions, feel free to contact us on mv2-general@lists.sourceforge.net
