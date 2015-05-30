@@ -46,6 +46,16 @@ public class ServerConfig extends Properties {
 	 * The key for the private key password property.
 	 */
 	public static final String PK_PASSWORD = "PK_PASSWORD";
+	
+	/**
+	 * The key for the database connection string property.
+	 */
+	public static final String DB_CONNECTION_STRING = "DB_CONNECTION";
+	
+	/**
+	 * The key class name of the JDBC driver to use.
+	 */
+	public static final String DB_DRIVER = "DB_DRIVER";
 
 	/**
 	 * The serial.
@@ -235,10 +245,46 @@ public class ServerConfig extends Properties {
 	 * @return A new database context.
 	 */
 	public DatabaseContext toDatabaseContext(){
-		DatabaseContext dc = new DatabaseContext(getDatabaseHost(), getDatabasePort(), getDatabaseName(), getDatabaseUser(), getDatabaseUsersPassword());
-		return dc;
+		if(definesConnectionString()){
+			return new DatabaseContext(getJDBCDriverName(), getConnectionString());
+		}else{
+			return new DatabaseContext(getDatabaseHost(), getDatabasePort(), getDatabaseName(), getDatabaseUser(), getDatabaseUsersPassword());
+		}
+	}
+	
+	/**
+	 * Returns {@code true} if there is a value for the given settings key.
+	 * @param key The key to test for a value.
+	 * @return {@code true} if there is a value for the given settings key.
+	 */
+	public boolean defines(String key){
+		return (getProperty(key, null) != null);
 	}
 
+	/**
+	 * Returns {@code true} if this settings define a database connection string.
+	 * @return {@code true} if this settings define a database connection string.
+	 */
+	public boolean definesConnectionString(){
+		return defines(DB_CONNECTION_STRING);
+	}
+	
+	/**
+	 * Returns the database connection string.
+	 * @return The database connection string.
+	 */
+	public String getConnectionString(){
+		return getProperty(DB_CONNECTION_STRING, null);
+	}
+	
+	/**
+	 * Returns the name of the JDBC driver to use.
+	 * @return The name of the JDBC driver to use.
+	 */
+	public String getJDBCDriverName(){
+		return getProperty(DB_DRIVER, "org.postgresql.Driver");
+	}
+	
 	/**
 	 * Returns an exemplary configuration.
 	 * 

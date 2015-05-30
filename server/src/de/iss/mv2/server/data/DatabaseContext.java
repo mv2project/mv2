@@ -16,29 +16,13 @@ import de.iss.mv2.sql.SequentialSQLContext;
 public class DatabaseContext extends SequentialSQLContext {
 
 	/**
-	 * Holds the address of the database host.
+	 * Holds the name of the JDBC driver to use.
 	 */
-	private final String host;
-
+	private String driverName = "org.postgresql.Driver";
 	/**
-	 * Holds the name of the database.
+	 * Holds the connection string to use.
 	 */
-	private final String database;
-
-	/**
-	 * Holds the user of the database.
-	 */
-	private final String user;
-
-	/**
-	 * Holds the password of the database.
-	 */
-	private final String password;
-
-	/**
-	 * Holds the port of the database.
-	 */
-	private final int port;
+	private String connectionString;
 
 	/**
 	 * Holds the database context to use during the current execution.
@@ -61,12 +45,24 @@ public class DatabaseContext extends SequentialSQLContext {
 	 */
 	public DatabaseContext(String host, int port, String database, String user,
 			String password) {
-		super(createConnection(host, port, database, user, password));
-		this.host = host;
-		this.port = port;
-		this.database = database;
-		this.user = user;
-		this.password = password;
+		this("org.postgresql.Driver", "jdbc:postgresql://" + host + ":" + port
+				+ "/" + database + "?user=" + user + "&password=" + password);
+	}
+
+	/**
+	 * Creates a new database context with the given driver name and connection
+	 * string.
+	 * 
+	 * @param driverName
+	 *            The name of the class name of the driver to use.
+	 * @param connectionString
+	 *            The connection string to use.
+	 */
+	public DatabaseContext(String driverName, String connectionString){
+		super(null);
+		this.connectionString = connectionString;
+		this.driverName = driverName;
+		setConnection(createConnection());
 	}
 
 	/**
@@ -101,39 +97,6 @@ public class DatabaseContext extends SequentialSQLContext {
 	}
 
 	/**
-	 * Creates a SQL connection to the specified PostgreSQL host.
-	 * 
-	 * @param host
-	 *            The address of the host.
-	 * @param port
-	 *            The port of the host.
-	 * @param database
-	 *            The database to connect to.
-	 * @param username
-	 *            The username to use.
-	 * @param password
-	 *            The password to use.
-	 * @return An open connection to the specified host.
-	 * @throws RuntimeException
-	 *             If the connection can not be created.
-	 */
-	private static Connection createConnection(String host, int port,
-			String database, String username, String password)
-			throws RuntimeException {
-		try {
-			Class.forName("org.postgresql.Driver");
-			String connectionString = "jdbc:postgresql://" + host + ":" + port
-					+ "/" + database + "?user=" + username + "&password="
-					+ password;
-			Connection con = DriverManager.getConnection(connectionString);
-			return con;
-		} catch (Throwable th) {
-			throw new RuntimeException(th);
-		}
-
-	}
-
-	/**
 	 * Creates a SQL connection to the host intended for testing purposes.
 	 * 
 	 * @return An open connection to the test host.
@@ -141,7 +104,13 @@ public class DatabaseContext extends SequentialSQLContext {
 	 *             If the connection can not be created.
 	 */
 	private Connection createConnection() throws RuntimeException {
-		return createConnection(host, port, database, user, password);
+		try {
+			Class.forName(driverName);
+			Connection con = DriverManager.getConnection(connectionString);
+			return con;
+		} catch (Throwable th) {
+			throw new RuntimeException(th);
+		}
 	}
 
 	@Override
