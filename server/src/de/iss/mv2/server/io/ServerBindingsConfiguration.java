@@ -24,6 +24,7 @@ import de.iss.mv2.io.PathBuilder;
 import de.iss.mv2.security.PEMFileIO;
 import de.iss.mv2.server.ServerBinding;
 import de.iss.mv2.server.ServerBindings;
+import de.iss.mv2.server.ServerConstants;
 
 /**
  * A configuration file for the bindings of a server.
@@ -51,8 +52,7 @@ public class ServerBindingsConfiguration {
 	 */
 	public static ServerBindingsConfiguration createExample(){
 		ServerBindingsConfiguration sbc = new ServerBindingsConfiguration();
-		sbc.addBinding("binding1.com", "binding1.cert.der", "binding1.key.der");
-		sbc.addBinding("binding2.org", "binding2.cert.der", "binding2.key.der");
+		sbc.addBinding("localhost", ServerConstants.LOCALHOST_CERT_RSC_NAME, ServerConstants.LOCALHOST_KEY_RSC_NAME);
 		return sbc;
 	}
 

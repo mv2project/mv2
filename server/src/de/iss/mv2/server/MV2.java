@@ -17,7 +17,7 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.operator.OperatorCreationException;
 import org.bouncycastle.pkcs.PKCSException;
 
-import de.iss.mv2.TestConstants;
+import de.iss.mv2.data.BinaryTools;
 import de.iss.mv2.io.CommandLineInterpreter;
 import de.iss.mv2.io.PathBuilder;
 import de.iss.mv2.security.AESWithRSACryptoSettings;
@@ -151,6 +151,17 @@ public class MV2 {
 			ServerBindingsConfiguration sbc = ServerBindingsConfiguration
 					.createExample();
 			sbc.write(f);
+			f = pb.getChildFile(ServerConstants.LOCALHOST_CERT_RSC_NAME);
+			if(!f.exists()){
+				f.createNewFile();
+				BinaryTools.copy(MV2.class.getClassLoader().getResourceAsStream(ServerConstants.LOCALHOST_CERT_RSC_NAME),
+						new FileOutputStream(f), true, true);
+			}
+			f = pb.getChildFile(ServerConstants.LOCALHOST_KEY_RSC_NAME);
+			if(!f.exists()){
+				f.createNewFile();
+				BinaryTools.copy(MV2.class.getClassLoader().getResourceAsStream(ServerConstants.LOCALHOST_KEY_RSC_NAME), new FileOutputStream(f), true, true);
+			}
 			System.out
 					.println("\t--> written to '" + f.getAbsolutePath() + "'");
 		}
@@ -255,14 +266,14 @@ public class MV2 {
 	 */
 	private static ServerBindings getLocalBindings() throws Exception {
 		InputStream in = MV2.class.getClassLoader().getResourceAsStream(
-				TestConstants.DEBUG_CERT_RSC_NAME);
+				ServerConstants.LOCALHOST_CERT_RSC_NAME);
 		PEMFileIO pemIO = new PEMFileIO();
 		X509Certificate cert = pemIO.readCertificate(in);
 		in.close();
 		in = MV2.class.getClassLoader().getResourceAsStream(
-				TestConstants.DEBUG_KEY_RSC_NAME);
+				ServerConstants.LOCALHOST_KEY_RSC_NAME);
 		PrivateKey key = pemIO.readEncryptedPrivateKey(in,
-				TestConstants.DEBUG_KEY_PASSPHRASE);
+				ServerConstants.LOCALHOST_KEY_PASSWORD);
 		in.close();
 		ServerBindings bindings = new ServerBindings();
 		bindings.addBinding(new ServerBinding("localhost", cert, key));

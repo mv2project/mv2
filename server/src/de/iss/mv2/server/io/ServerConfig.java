@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.NoSuchElementException;
 import java.util.Properties;
 
+import de.iss.mv2.server.ServerConstants;
 import de.iss.mv2.server.data.DatabaseContext;
 
 /**
@@ -297,7 +298,7 @@ public class ServerConfig extends Properties {
 		sc.setDatabasePort(815);
 		sc.setDatabaseUser("testUser");
 		sc.setDatabaseUsersPassword("testUsersPW");
-		sc.setPrivateKeyPassword("privateKeyPassword");
+		sc.setPrivateKeyPassword(ServerConstants.LOCALHOST_KEY_PASSWORD);
 		return sc;
 	}
 

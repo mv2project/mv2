@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
@@ -167,5 +168,22 @@ public class BinaryTools {
 		return sb.toString();
 	}
 	
-
+	/**
+	 * Copies the content of a stream to another.
+	 * @param source The stream to copy. 
+	 * @param target The stream to copy to.
+	 * @param closeSource {@code true} if the source stream should be closed afterwards.
+	 * @param closeTarget {@code true} if the target stream should be closed afterwards.
+	 * @throws IOException if an I/O error occurs.
+	 */
+	public static void copy(InputStream source, OutputStream target, boolean closeSource, boolean closeTarget) throws IOException{
+		int read = -1;
+		while((read = source.read()) != -1){
+			target.write((byte) read);
+		}
+		target.flush();
+		if(closeSource) source.close();
+		if(closeTarget) target.close();
+	}
+	
 }
