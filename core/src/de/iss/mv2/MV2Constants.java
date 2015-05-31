@@ -22,4 +22,18 @@ public interface MV2Constants {
 	 */
 	public static final int CANCEL_OPTION = -1;
 	
+	/**
+	 * A constant defining the resource name of the localhost's certificate.
+	 */
+	public static final String LOCALHOST_CERT_RSC_NAME = "localhost.cert.der";
+	
+	/**
+	 * A constant defining the resource name of the localhost's key file.
+	 */
+	public static final String LOCALHOST_KEY_RSC_NAME = "localhost.key.der";
+	
+	/**
+	 * A constant defining the encryption password of the localhost's key file.
+	 */
+	public static final String LOCALHOST_KEY_PASSWORD = "test123";
 }

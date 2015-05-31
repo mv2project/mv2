@@ -10,11 +10,11 @@ public interface TestConstants {
 	/**
 	 * A constant defining the name of the signers certificate resource.
 	 */
-	public static final String DEBUG_CERT_RSC_NAME = "debug.cert.der";
+	public static final String DEBUG_CERT_RSC_NAME = MV2Constants.LOCALHOST_CERT_RSC_NAME;
 	/**
 	 * A constant defining the name of the signers key resource.
 	 */
-	public static final String DEBUG_KEY_RSC_NAME = "debug.key.der";
+	public static final String DEBUG_KEY_RSC_NAME = MV2Constants.LOCALHOST_KEY_RSC_NAME;
 	/**
 	 * A constant defining the size of the client certificate to create.
 	 */
@@ -27,13 +27,15 @@ public interface TestConstants {
 
 	/**
 	 * A constant holding the passphrase to decrypt the CA's private key file.
+	 * @deprecated An old debug constant. The same as {@link TestConstants#DEBUG_KEY_PASSPHRASE}
 	 */
+	@Deprecated
 	public static final String CA_CERT_PASSPHRASE = "test123";
 	
 	/**
 	 * A constant holding the passphrase to decrypt the private key connected to the debug certificate.
 	 */
-	public static final String DEBUG_KEY_PASSPHRASE = "test123";
+	public static final String DEBUG_KEY_PASSPHRASE = MV2Constants.LOCALHOST_KEY_PASSWORD;
 	
 	/**
 	 * A string containing random characters.
