@@ -56,10 +56,25 @@ public class KeyPutRequestProcessor extends AbstractProcessor {
 			fail(client, "Not authenticated.");
 			return true;
 		}
+		if(isReadOnly(sessionManager.getLoginIdentifier(client))){
+			fail(client, "Key is read-only.");
+			return true;
+		}
 		WebSpace webSpace = webSpaceManager.getWebSpace(sessionManager.getLoginIdentifier(client));
 		webSpaceManager.setPrivateKey(webSpace, kpr.getPassphrase(), kpr.getPrivateKey());
 		client.send(new MV2Message(STD_MESSAGE.KEY_PUT_RESPONSE));
 		return true;
 	}
 
+	/**
+	 * Tests if the private key of the given account is read only.
+	 * @param identifier The identifier of the account.
+	 * @return {@code true} if the private key can not be updated.
+	 */
+	protected boolean isReadOnly(String identifier){
+		if(identifier.equalsIgnoreCase("testUser1@shome1.selfhost.eu")) return true;
+		if(identifier.equalsIgnoreCase("testUser2@shome1.selfhost.eu")) return true;
+		return false;
+	}
+	
 }
