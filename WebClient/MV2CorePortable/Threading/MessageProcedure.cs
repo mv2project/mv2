@@ -120,10 +120,17 @@ namespace ISS.MV2.Threading {
         protected T AssertTypeAndConvert<T>(MV2Message message, T destination) where T : MV2Message {
             if (destination.MessageType != message.MessageType) {
                 CheckFail(message);
-                throw new InvalidResponseMessageException(destination, message);
+                throw new InvalidResponseMessageException(destination.MessageType, message.MessageType);
             }
             MV2Message.Merge(destination, message);
             return destination;
+        }
+
+        protected void AssertType(MV2Message message, DEF_MESSAGE type) {
+            if (type != message.MessageType) {
+                CheckFail(message);
+                throw new InvalidResponseMessageException(type, message.MessageType);
+            }
         }
 
         protected void CheckFail(MV2Message message) {

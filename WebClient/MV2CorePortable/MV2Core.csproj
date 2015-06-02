@@ -39,6 +39,7 @@
     <Compile Include="DateTimeTools.cs" />
     <Compile Include="IO\BinaryTools.cs" />
     <Compile Include="IO\IAuthenticatedClientProvider.cs" />
+    <Compile Include="IO\IClientProvider.cs" />
     <Compile Include="IO\StreamExtension.cs" />
     <Compile Include="Messaging\CertificateResponseMessage.cs" />
     <Compile Include="Messaging\ClientCertificateRequest.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="Messaging\IMessageProcessor.cs" />
     <Compile Include="Messaging\AbstractMessageProcessor.cs" />
     <Compile Include="Security\DNReader.cs" />
+    <Compile Include="Threading\MailSendingProcedure.cs" />
     <Compile Include="Threading\MultiMessageFetchProcedure.cs" />
     <Compile Include="Messaging\RequestException.cs" />
     <Compile Include="Messaging\ServerLoginResponse.cs" />
@@ -119,6 +121,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

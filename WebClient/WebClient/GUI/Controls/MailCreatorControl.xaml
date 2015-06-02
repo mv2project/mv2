@@ -32,7 +32,7 @@
 
             <sdk:Label HorizontalAlignment="Right" VerticalAlignment="Top" Content="Subject:" Grid.Row="2" Margin="5,10,5,10" />
             <TextBox x:Name="subjectField" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="0,5,5,0" Grid.Column="1" Grid.Row="2" />
-            <Button Content="Sent" Grid.Column="2" Grid.RowSpan="3" Margin="0,5,5,5"  />
+            <Button x:Name="sendButton" Content="Sent" Grid.Column="2" Grid.RowSpan="3" Margin="0,5,5,5" Click="sendButton_Click"  />
 
         </Grid>
         <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
