@@ -81,6 +81,8 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Controls\Popup.cs" />
+    <Compile Include="GUI\GUIExtension.cs" />
     <Compile Include="GUI\Controls\MailCreatorControl.xaml.cs">
       <DependentUpon>MailCreatorControl.xaml</DependentUpon>
     </Compile>

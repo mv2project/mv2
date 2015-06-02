@@ -12,12 +12,35 @@ using System.Windows.Shapes;
 using System.Windows.Navigation;
 using ISS.MV2.Threading;
 using ISS.MV2.Messaging;
+using ISS.MV2.GUI.Controls;
 
 
 namespace ISS.MV2.GUI {
     public partial class HomePage : Page {
         public HomePage() {
             InitializeComponent();
+            tabControl.MouseRightButtonDown += tabControl_MouseRightButtonDown;
+            tabControl.MouseRightButtonUp += tabControl_MouseRightButtonUp;
+        }
+
+        void tabControl_MouseRightButtonUp(object sender, MouseButtonEventArgs e) {
+            if (tabControl.SelectedIndex == 0) return;
+            Button closeButton = new Button();
+            Popup pp = new Popup(e.GetPosition(LayoutRoot), closeButton);
+            closeButton.Content = "Close";
+            closeButton.Click += new RoutedEventHandler((o, ev) => {
+                pp.Close();
+                tabControl.Items.Remove(tabControl.SelectedItem);
+            });
+           
+            LayoutRoot.Children.Add(pp);
+        }
+
+        
+
+
+        void tabControl_MouseRightButtonDown(object sender, MouseButtonEventArgs e) {
+            e.Handled = true;
         }
 
         // Executes when the user navigates to this page.
@@ -69,6 +92,7 @@ namespace ISS.MV2.GUI {
             var creatorControl = new Controls.MailCreatorControl();
             TabItem item = new TabItem() { Header = "New Mail", Content = creatorControl };
             tabControl.Items.Add(item);
+            tabControl.SelectedItem = item;
         }
 
     }
