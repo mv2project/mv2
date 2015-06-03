@@ -21,5 +21,7 @@ namespace ISS.MV2 {
 
         public abstract IMessageCryptorSettings CryptorSettings { get; }
 
+        public abstract IMessageCryptorSettings CreateNewCryptorSettings();
+
     }
 }

@@ -6,7 +6,7 @@ using System.Text;
 namespace ISS.MV2.Messaging {
     public class InvalidResponseMessageException : Exception {
 
-        public InvalidResponseMessageException(MV2Message expected, MV2Message actual):base("The server did not respond with the expected message. Expected was '" + expected.MessageType.ToString() + "' but received '" + actual.MessageType + "'." ) {
+        public InvalidResponseMessageException(DEF_MESSAGE expected, DEF_MESSAGE actual):base("The server did not respond with the expected message. Expected was '" + expected.ToString() + "' but received '" + actual.ToString() + "'." ) {
             
         }
 

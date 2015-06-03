@@ -108,6 +108,7 @@
     <Compile Include="GUI\Navigator.cs" />
     <Compile Include="IO\AlreadyConnectedException.cs" />
     <Compile Include="IO\ClientSocket.cs" />
+    <Compile Include="IO\DefaultClientProvider.cs" />
     <Compile Include="IO\MV2Client.cs" />
     <Compile Include="IO\SendBuffer.cs" />
     <Compile Include="MainPage.xaml.cs">
