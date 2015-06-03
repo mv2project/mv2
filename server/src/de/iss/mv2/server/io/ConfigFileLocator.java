@@ -25,7 +25,7 @@ public final class ConfigFileLocator {
 	 */
 	public static File getConfigFileLocation() {
 		return new File(ClassLoader.getSystemClassLoader().getResource(".")
-				.getPath());
+				.getPath().replace("%20", " "));
 	}
 
 }

@@ -79,7 +79,8 @@ public class SpaceCreationProcessor implements MessagePreProcessor,
 		CertificateNameReader cnr = new CertificateNameReader(scr
 				.getSigningRequest().getSubject());
 		String identifier = cnr.getCommonName();
-		if (!identifier.contains("@")) {
+		
+		if (!identifier.contains("@") || !identifier.toLowerCase().equals(identifier)) {
 			fail(client, "The identifier is invalid.");
 			return true;
 		}

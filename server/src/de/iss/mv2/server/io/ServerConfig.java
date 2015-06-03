@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.NoSuchElementException;
 import java.util.Properties;
 
+import de.iss.mv2.io.PathBuilder;
 import de.iss.mv2.server.ServerConstants;
 import de.iss.mv2.server.data.DatabaseContext;
 
@@ -62,6 +63,11 @@ public class ServerConfig extends Properties {
 	 * The serial.
 	 */
 	private static final long serialVersionUID = -2578822746539890746L;
+	
+	/**
+	 * Holds the configuration of the web spaces that are read only.
+	 */
+	private final ReadOnlyAccountsConfig readOnlyConfig = new ReadOnlyAccountsConfig();
 
 	/**
 	 * Creates a new instance of {@link ServerConfig}.
@@ -225,7 +231,10 @@ public class ServerConfig extends Properties {
 		FileInputStream in = new FileInputStream(f);
 		load(in);
 		in.close();
+		readOnlyConfig.loadOrIrgnore(new PathBuilder(f).getChildFile(ServerConstants.READ_ONLY_CONFIGURATION_FILE_NAME));
 	}
+	
+	
 
 	/**
 	 * Writes this configuration to the specified file
@@ -284,6 +293,14 @@ public class ServerConfig extends Properties {
 	 */
 	public String getJDBCDriverName(){
 		return getProperty(DB_DRIVER, "org.postgresql.Driver");
+	}
+	
+	/**
+	 * Returns the configuration of the web spaces that are read only.
+	 * @return The configuration of the web spaces that are read only.
+	 */
+	public ReadOnlyAccountsConfig getReadOnlyConfig(){
+		return readOnlyConfig;
 	}
 	
 	/**

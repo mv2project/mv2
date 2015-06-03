@@ -9,6 +9,7 @@ import de.iss.mv2.messaging.STD_MESSAGE;
 import de.iss.mv2.server.data.SessionManager;
 import de.iss.mv2.server.data.WebSpace;
 import de.iss.mv2.server.data.WebSpaceManager;
+import de.iss.mv2.server.io.ReadOnlyAccountsConfig;
 
 /**
  * A processor to handle incoming {@link KeyPutRequest} messages.
@@ -28,13 +29,20 @@ public class KeyPutRequestProcessor extends AbstractProcessor {
 	private final WebSpaceManager webSpaceManager;
 	
 	/**
+	 * Holds the configuration of web spaces that are read only.
+	 */
+	private final ReadOnlyAccountsConfig readOnlyConfig;
+	
+	/**
 	 * Creates a new instance of {@link KeyPutRequestProcessor}.
 	 * @param sessionManager The current {@link SessionManager}.
 	 * @param webSpaceManager The current {@link WebSpaceManager}.
+	 * @param readOnlyConfig The configuration of web spaces that are read only.
 	 */
-	public KeyPutRequestProcessor(SessionManager sessionManager, WebSpaceManager webSpaceManager) {
+	public KeyPutRequestProcessor(SessionManager sessionManager, WebSpaceManager webSpaceManager, ReadOnlyAccountsConfig readOnlyConfig) {
 		this.sessionManager = sessionManager;
 		this.webSpaceManager = webSpaceManager;
+		this.readOnlyConfig = readOnlyConfig;
 	}
 
 	@Override
@@ -72,9 +80,7 @@ public class KeyPutRequestProcessor extends AbstractProcessor {
 	 * @return {@code true} if the private key can not be updated.
 	 */
 	protected boolean isReadOnly(String identifier){
-		if(identifier.equalsIgnoreCase("testUser1@shome1.selfhost.eu")) return true;
-		if(identifier.equalsIgnoreCase("testUser2@shome1.selfhost.eu")) return true;
-		return false;
+		return readOnlyConfig.isReadOnly(identifier);
 	}
 	
 }

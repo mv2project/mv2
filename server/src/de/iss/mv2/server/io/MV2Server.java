@@ -92,10 +92,15 @@ public class MV2Server {
 	 * Holds the current certificate manager.
 	 */
 	private final CertificateManager certificateManager;
+	
+	/**
+	 * Holds the configuration of this server.
+	 */
+	private final ServerConfig configuration;
 
 	/**
 	 * Creates a new server with the given settings.
-	 * 
+	 * @param config The configurations of this server.
 	 * @param bindings
 	 *            The bindings for this server.
 	 * @param settings
@@ -103,13 +108,14 @@ public class MV2Server {
 	 * @param port
 	 *            The port to listen.
 	 */
-	public MV2Server(ServerBindings bindings, MessageCryptorSettings settings,
+	public MV2Server(ServerConfig config, ServerBindings bindings, MessageCryptorSettings settings,
 			int port) {
 		this.certificateManager = new CertificateManagerImpl(
 				DatabaseContext.getContext());
 		this.port = port;
 		this.settings = settings;
 		this.bindings = bindings;
+		this.configuration = config;
 		registerDefaultProcessors();
 
 	}
@@ -156,7 +162,7 @@ public class MV2Server {
 		registerPreProcessor(mqp);
 		registerProcessor(mqp);
 		KeyPutRequestProcessor kpr = new KeyPutRequestProcessor(smi,
-				spaceManager);
+				spaceManager, configuration.getReadOnlyConfig());
 		registerPreProcessor(kpr);
 		registerProcessor(kpr);
 		KeyRequestProcessor krp = new KeyRequestProcessor(spaceManager);

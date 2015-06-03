@@ -1,6 +1,9 @@
 package de.iss.mv2.server;
 
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+
 import de.iss.mv2.MV2Constants;
+import de.iss.mv2.server.io.ReadOnlyAccountsConfig;
 
 /**
  * Defines constants used by the MV2Server.
@@ -18,6 +21,11 @@ public interface ServerConstants extends MV2Constants {
 	 * The name of the server configuration file.
 	 */
 	public static final String SERVER_CONFIGURATION_FILE_NAME = "server.config";
+	
+	/**
+	 * The name of the {@link ReadOnlyAccountsConfig}.
+	 */
+	public static final String READ_ONLY_CONFIGURATION_FILE_NAME = "readonly.config";
 	
 	/**
 	 * The command line option to create an example configuration.
@@ -49,5 +57,19 @@ public interface ServerConstants extends MV2Constants {
 	 */
 	public static final String UNLIMIT_KEY_STRENGTH_OPTION = "u";
 	
+	/**
+	 * An option to define the path to the Bouncy Castle Provider file.
+	 */
+	public static final String BC_PATH_OPION = "bcp";
+	
+	/**
+	 * The default name of the Bouncy Castle provider file.
+	 */
+	public static final String BC_PROV_JAR = "bcprov.jar";
+	
+	/**
+	 * The name of the {@link BouncyCastleProvider}-class.
+	 */
+	public static final String BC_CLASS_NAME = "org.bouncycastle.jce.provider.BouncyCastleProvider";
 	
 }
