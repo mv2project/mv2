@@ -51,7 +51,7 @@ public class JarLoader {
 		loader = URLClassLoader.newInstance(urls, getClass().getClassLoader());
 		load();
 	}
-
+	
 	/**
 	 * Returns the names of all classes that are available inside the JAR.
 	 * @return The names of all available classes.
@@ -80,7 +80,7 @@ public class JarLoader {
 				classes.put(
 						current.getName()
 								.substring(0, current.getName().length() - 6)
-								.replace(File.separatorChar, '.'), current);
+								.replace('/', '.'), current);
 			}
 		}
 	}

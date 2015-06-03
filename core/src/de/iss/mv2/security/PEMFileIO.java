@@ -248,7 +248,7 @@ public class PEMFileIO {
 	public void writePKCS8EncryptedPrivateKey(OutputStream out, PrivateKey key,
 			String password) throws OperatorCreationException, IOException {
 		JceOpenSSLPKCS8EncryptorBuilder encryptorBuilder = new JceOpenSSLPKCS8EncryptorBuilder(
-				PKCS8Generator.AES_256_CBC);
+				PKCS8Generator.AES_256_CBC).setProvider(new BouncyCastleProvider());
 		encryptorBuilder.setRandom(new SecureRandom());
 		encryptorBuilder.setPasssword(password.toCharArray());
 		OutputEncryptor oe = encryptorBuilder.build();
@@ -286,7 +286,7 @@ public class PEMFileIO {
 		if (o instanceof PKCS8EncryptedPrivateKeyInfo) {
 			PKCS8EncryptedPrivateKeyInfo pkKey = (PKCS8EncryptedPrivateKeyInfo) o;
 			JceOpenSSLPKCS8DecryptorProviderBuilder builder = new JceOpenSSLPKCS8DecryptorProviderBuilder();
-			builder.setProvider("BC");
+			builder.setProvider(new BouncyCastleProvider());
 			InputDecryptorProvider pkcs8decoder = builder.build(password
 					.toCharArray());
 			kp = converter.getPrivateKey(pkKey

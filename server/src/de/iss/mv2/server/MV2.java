@@ -102,6 +102,7 @@ public class MV2 {
 			if (key == null)
 				throw new IOException();
 		} catch (IOException | OperatorCreationException | PKCSException e) {
+			e.printStackTrace();
 			System.err
 					.println("Could not read the given key file! Maybe the passphrase is invalid...");
 			return;
@@ -152,15 +153,20 @@ public class MV2 {
 					.createExample();
 			sbc.write(f);
 			f = pb.getChildFile(ServerConstants.LOCALHOST_CERT_RSC_NAME);
-			if(!f.exists()){
+			if (!f.exists()) {
 				f.createNewFile();
-				BinaryTools.copy(MV2.class.getClassLoader().getResourceAsStream(ServerConstants.LOCALHOST_CERT_RSC_NAME),
+				BinaryTools.copy(
+						MV2.class.getClassLoader().getResourceAsStream(
+								ServerConstants.LOCALHOST_CERT_RSC_NAME),
 						new FileOutputStream(f), true, true);
 			}
 			f = pb.getChildFile(ServerConstants.LOCALHOST_KEY_RSC_NAME);
-			if(!f.exists()){
+			if (!f.exists()) {
 				f.createNewFile();
-				BinaryTools.copy(MV2.class.getClassLoader().getResourceAsStream(ServerConstants.LOCALHOST_KEY_RSC_NAME), new FileOutputStream(f), true, true);
+				BinaryTools.copy(
+						MV2.class.getClassLoader().getResourceAsStream(
+								ServerConstants.LOCALHOST_KEY_RSC_NAME),
+						new FileOutputStream(f), true, true);
 			}
 			System.out
 					.println("\t--> written to '" + f.getAbsolutePath() + "'");
@@ -228,14 +234,15 @@ public class MV2 {
 						return;
 					}
 				} else {
-					pkPassphrase = cli.getExtras(ServerConstants.KEY_PASSPHRASE_OPTION).get(0);
+					pkPassphrase = cli.getExtras(
+							ServerConstants.KEY_PASSPHRASE_OPTION).get(0);
 				}
 				bindings = bindingsConfig.toServerBindings(pkPassphrase);
 				pkPassphrase = null;
 				System.gc();
 			}
 
-			MV2Server server = new MV2Server(bindings, mcs, 9898);
+			MV2Server server = new MV2Server(serverConfig, bindings, mcs, 9898);
 			server.start();
 
 			String line;
