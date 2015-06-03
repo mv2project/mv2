@@ -87,40 +87,6 @@ public class PEMFileIO {
 	}
 
 	/**
-	 * Reads an encrypted private key (PKCS8) from an input stream.
-	 * 
-	 * @param in
-	 *            The input stream to read.
-	 * @param password
-	 *            The password to use.
-	 * @return The read private key.
-	 * @throws IOException
-	 *             If an I/O error occurs.
-	 * @throws OperatorCreationException
-	 *             If the algorithm used for encryption could not be
-	 *             initialized.
-	 * @throws PKCSException
-	 *             If the parsing of the input failed.
-	 */
-	public PrivateKey readEncryptedPrivateKey(InputStream in, String password)
-			throws IOException, OperatorCreationException, PKCSException {
-		PEMParser parser = new PEMParser(new InputStreamReader(in));
-		Object o = parser.readObject();
-		JcaPEMKeyConverter converter = new JcaPEMKeyConverter()
-				.setProvider(new BouncyCastleProvider());
-		PrivateKey kp = null;
-		if (o instanceof PKCS8EncryptedPrivateKeyInfo) {
-			PKCS8EncryptedPrivateKeyInfo pkKey = (PKCS8EncryptedPrivateKeyInfo) o;
-			InputDecryptorProvider pkcs8decoder = new JceOpenSSLPKCS8DecryptorProviderBuilder()
-					.build(password.toCharArray());
-			kp = converter.getPrivateKey(pkKey
-					.decryptPrivateKeyInfo(pkcs8decoder));
-		}
-		parser.close();
-		return kp;
-	}
-
-	/**
 	 * Reads a certificate from the given file.
 	 * 
 	 * @param file
@@ -292,5 +258,41 @@ public class PEMFileIO {
 		PemWriter pemWrt = new PemWriter(new OutputStreamWriter(out));
 		pemWrt.writeObject(obj);
 		pemWrt.flush();
+	}
+
+	/**
+	 * Reads an encrypted private key (PKCS8) from an input stream.
+	 * 
+	 * @param in
+	 *            The input stream to read.
+	 * @param password
+	 *            The password to use.
+	 * @return The read private key.
+	 * @throws IOException
+	 *             If an I/O error occurs.
+	 * @throws OperatorCreationException
+	 *             If the algorithm used for encryption could not be
+	 *             initialized.
+	 * @throws PKCSException
+	 *             If the parsing of the input failed.
+	 */
+	public PrivateKey readEncryptedPrivateKey(InputStream in, String password)
+			throws IOException, OperatorCreationException, PKCSException {
+		PEMParser parser = new PEMParser(new InputStreamReader(in));
+		Object o = parser.readObject();
+		JcaPEMKeyConverter converter = new JcaPEMKeyConverter()
+				.setProvider(new BouncyCastleProvider());
+		PrivateKey kp = null;
+		if (o instanceof PKCS8EncryptedPrivateKeyInfo) {
+			PKCS8EncryptedPrivateKeyInfo pkKey = (PKCS8EncryptedPrivateKeyInfo) o;
+			JceOpenSSLPKCS8DecryptorProviderBuilder builder = new JceOpenSSLPKCS8DecryptorProviderBuilder();
+			builder.setProvider("BC");
+			InputDecryptorProvider pkcs8decoder = builder.build(password
+					.toCharArray());
+			kp = converter.getPrivateKey(pkKey
+					.decryptPrivateKeyInfo(pkcs8decoder));
+		}
+		parser.close();
+		return kp;
 	}
 }
