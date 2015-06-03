@@ -21,6 +21,10 @@
                 <sdk:Label Content="Received: " />
                 <sdk:Label Content="[timestamp]" x:Name="receivedLabel" />
             </StackPanel>
+            <StackPanel x:Name="statePanel" Orientation="Horizontal" HorizontalAlignment="Left" Margin="10,0,0,0" Visibility="Collapsed">
+                <Image x:Name="stateImage" Source="/WebClient;component/Resources/check.png" Width="13" Margin="0,0,0,5"  />
+                <sdk:Label x:Name="stateLabel" Content="Gültige Signatur" Margin="5,0,0,5" HorizontalAlignment="Left" Foreground="Green" />
+            </StackPanel>
         </StackPanel>
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
             <TextBlock x:Name="contentTextBlock" TextWrapping="Wrap">

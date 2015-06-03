@@ -48,6 +48,19 @@ namespace ISS.MV2.GUI.Controls {
             DateTime timestamp = message.Timestamp;
             receivedLabel.Content = timestamp.ToShortDateString() + " " + timestamp.ToShortTimeString();
             contentTextBlock.Text = message.Content;
+            if (message != null) statePanel.Visibility = System.Windows.Visibility.Visible; else statePanel.Visibility = System.Windows.Visibility.Collapsed;
+            if (message != null) {
+                if (message.VerifySignature()) {
+                    stateImage.Source = new System.Windows.Media.Imaging.BitmapImage(new Uri("/WebClient;component/Resources/check.png", UriKind.Relative));
+                    stateLabel.Content = "Valid Signature";
+                    stateLabel.Foreground = new SolidColorBrush(Colors.Green);
+                } else {
+                    stateImage.Source = new System.Windows.Media.Imaging.BitmapImage(new Uri("/WebClient;component/Resources/cross.png", UriKind.Relative));
+                    stateLabel.Content = "Invalid Signature";
+                    stateLabel.Foreground = new SolidColorBrush(Colors.Red);
+                }
+            }
+
             UpdateLayout();
         }
 

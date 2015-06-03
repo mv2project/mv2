@@ -26,9 +26,10 @@ namespace ISS.MV2.GUI {
         }
 
         private void Login_Click(object sender, RoutedEventArgs e) {
-
+            
             ClientSession session = LocalSession.Current;
             session.Passphrase = passwordField.Password.ToCharArray();
+            identifierField.Text = identifierField.Text.ToLower();
             session.Identifier = identifierField.Text;
             LoadingDialog<ClientSession, bool> dialog = new LoadingDialog<ClientSession, bool>();
             dialog.Show();

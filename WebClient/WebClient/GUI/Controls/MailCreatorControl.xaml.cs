@@ -20,11 +20,12 @@ namespace ISS.MV2.GUI.Controls {
         }
 
         private void sendButton_Click(object sender, RoutedEventArgs e) {
+            receiversField.Text = receiversField.Text.ToLower();
             string[] receiversArr = receiversField.Text.Split(';');
             List<string> receivers = new List<string>();
             foreach (string receiver in receiversArr) {
                 if (receiver == null || string.IsNullOrWhiteSpace(receiver) || !receiver.Contains("@") || receivers.Contains(receiver)) continue;
-                receivers.Add(receiver);
+                receivers.Add(receiver.Trim());
             }
             ContentMessage cm = new ContentMessage();
             cm.Sender = LocalSession.Current.ClientCertificate;
