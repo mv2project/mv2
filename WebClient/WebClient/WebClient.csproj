@@ -81,7 +81,13 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Controls\CertificateView.xaml.cs">
+      <DependentUpon>CertificateView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Controls\Popup.cs" />
+    <Compile Include="GUI\Controls\X500NameView.xaml.cs">
+      <DependentUpon>X500NameView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GUI\GUIExtension.cs" />
     <Compile Include="GUI\Controls\MailCreatorControl.xaml.cs">
       <DependentUpon>MailCreatorControl.xaml</DependentUpon>
@@ -125,6 +131,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Page Include="GUI\Controls\CertificateView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="GUI\Controls\MailCreatorControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -134,6 +144,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="GUI\Controls\MailView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GUI\Controls\X500NameView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -173,6 +187,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\check.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\certificate.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

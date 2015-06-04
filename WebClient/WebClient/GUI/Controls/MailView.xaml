@@ -16,7 +16,7 @@
             <TextBlock x:Name="subjectTextBox" HorizontalAlignment="Left"  Margin="10,10,0,0" FontWeight="Bold" FontSize="14" TextWrapping="Wrap">
                 [Subject]
             </TextBlock>
-            <sdk:Label Content="[sender]" Margin="10,0,0,0" HorizontalAlignment="Left" x:Name="senderLabel" />
+            <HyperlinkButton Content="[sender]" Margin="10,0,0,0" HorizontalAlignment="Left" x:Name="senderLabel" Foreground="#FF52AEFF" Click="senderLabel_Click"   />
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10,0,0,0">
                 <sdk:Label Content="Received: " />
                 <sdk:Label Content="[timestamp]" x:Name="receivedLabel" />

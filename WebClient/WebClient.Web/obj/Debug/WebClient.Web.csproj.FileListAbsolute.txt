@@ -8,4 +8,3 @@ C:\Users\MARCEL\workspace\MV2_Git\WebClient\WebClient.Web\bin\WebClient.Web.pdb
 C:\Users\MARCEL\workspace\MV2_Git\WebClient\WebClient.Web\obj\Debug\WebClient.Web.dll
 C:\Users\MARCEL\workspace\MV2_Git\WebClient\WebClient.Web\obj\Debug\WebClient.Web.pdb
 C:\Users\MARCEL\workspace\MV2_Git\WebClient\WebClient.Web\obj\Debug\WebClient.Web.csprojResolveAssemblyReference.cache
-F:\MV2\Git\WebClient\WebClient.Web\obj\Debug\WebClient.Web.csprojResolveAssemblyReference.cache

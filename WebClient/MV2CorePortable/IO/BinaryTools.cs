@@ -71,9 +71,18 @@ namespace ISS.MV2.IO {
             return result.ToArray();
         }
 
-        public void Iterate(Stream stream, StreamExtension.BinIterationDelegate iterationDelegate) {
+        public static void Iterate(Stream stream, StreamExtension.BinIterationDelegate iterationDelegate) {
             stream.Iterate(iterationDelegate);
         }
+
+        public static string ToHexString(byte[] data) {
+            StringBuilder hex = new StringBuilder(data.Length * 2);
+            foreach (byte b in data)
+                hex.AppendFormat("{0:x2}", b);
+            return hex.ToString().ToUpper();
+        }
+
+      
 
 
     }

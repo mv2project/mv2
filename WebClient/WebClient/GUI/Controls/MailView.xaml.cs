@@ -64,5 +64,13 @@ namespace ISS.MV2.GUI.Controls {
             UpdateLayout();
         }
 
+        private void senderLabel_Click(object sender, RoutedEventArgs e) {
+            if (message == null) return;
+            var cert = message.Sender;
+            ChildWindow cw = new ChildWindow();
+            cw.Content = new CertificateView() { Certificate = cert };
+            cw.Show();
+        }
+
     }
 }

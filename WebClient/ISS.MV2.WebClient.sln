@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MV2Core", "MV2CorePortable\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MV2Testing", "MV2Testing\MV2Testing.csproj", "{C5684573-460F-4687-A844-5EF89111BE1C}"
 EndProject
-Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "Modeling", "Modeling\Modeling.modelproj", "{7CBF6641-2E7C-4214-90E1-96CD50F48A60}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,10 +33,6 @@ Global
 		{C5684573-460F-4687-A844-5EF89111BE1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C5684573-460F-4687-A844-5EF89111BE1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C5684573-460F-4687-A844-5EF89111BE1C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7CBF6641-2E7C-4214-90E1-96CD50F48A60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7CBF6641-2E7C-4214-90E1-96CD50F48A60}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7CBF6641-2E7C-4214-90E1-96CD50F48A60}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7CBF6641-2E7C-4214-90E1-96CD50F48A60}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
