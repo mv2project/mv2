@@ -2,6 +2,7 @@ package de.iss.mv2.client.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.io.IOException;
 import java.util.Arrays;
 
 import javax.swing.DefaultListModel;
@@ -92,6 +93,19 @@ public class ClientSettingsWindow extends JFrame implements
 	@Override
 	public void removeItem(EditableListView<String> sender,
 			String selectedItem, int selectedIndex) {
+		if(mailBoxList.getSelectedIndex() == -1) return;
+		if(!DialogHelper.showConfirmDialog(this, "Are you sure", "Do you really want to remove this account? All data, keys and settings will be lost.")) return;
+		MV2ClientSettings settings = MV2ClientSettings.getRuntimeSettings();
+		MailBoxSettings mailBox = settings.getMailBoxes().get(mailBoxList.getSelectedIndex());
+		try {
+			settings.removeMailBox(mailBox);
+		} catch (IOException e) {
+			e.printStackTrace();
+			DialogHelper.showActionFailedWithExceptionMessage(this, e);
+		}
+		DefaultListModel<String> model = new DefaultListModel<String>();
+		for(MailBoxSettings mbs : settings.getMailBoxes()) model.addElement(mbs.getAddress());
+		mailBoxList.setListModel(model);
 	}
 
 	@Override

@@ -19,7 +19,5 @@ server/.gradle
 client/build
 client/.gradle
 
-WebClient/Modeling
-
 build
 .gradle

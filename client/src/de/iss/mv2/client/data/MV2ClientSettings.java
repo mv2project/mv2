@@ -42,7 +42,7 @@ public class MV2ClientSettings extends PropertiesExportable {
 	 * The users passphrase.
 	 */
 	private String passphrase;
-	
+
 	/**
 	 * Holds the trusted client certificates.
 	 */
@@ -52,12 +52,12 @@ public class MV2ClientSettings extends PropertiesExportable {
 	 * Holds the trusted server certificates.
 	 */
 	private CertificateStore trustedServerCertificates = new CertificateStore();
-	
+
 	/**
 	 * Holds the trusted CA certificates.
 	 */
 	private CertificateStore trusredCACertificates = new CertificateStore();
-	
+
 	/**
 	 * Creates a new instance of {@link MV2ClientSettings}.
 	 */
@@ -179,23 +179,25 @@ public class MV2ClientSettings extends PropertiesExportable {
 	public List<MailBoxSettings> getMailBoxes() {
 		return mailBoxes;
 	}
-	
+
 	/**
 	 * Returns the store containing the trusted client certificates.
+	 * 
 	 * @return The store containing the trusted client certificates.
 	 */
-	public CertificateStore getTrustedClientCertificates(){
+	public CertificateStore getTrustedClientCertificates() {
 		return trustedClientCertificates;
 	}
-	
+
 	/**
 	 * Returns the mail boxes.
+	 * 
 	 * @return An array containing the available mail boxes.
 	 */
-	public MailBoxSettings[] getMailBoxesArray(){
+	public MailBoxSettings[] getMailBoxesArray() {
 		List<MailBoxSettings> list = getMailBoxes();
 		MailBoxSettings[] boxes = new MailBoxSettings[list.size()];
-		for(int i = 0; i<boxes.length; i++){
+		for (int i = 0; i < boxes.length; i++) {
 			boxes[i] = list.get(i);
 		}
 		return boxes;
@@ -229,19 +231,44 @@ public class MV2ClientSettings extends PropertiesExportable {
 			in.close();
 			addMailBox(mb);
 		}
-		
-		loadCertificates(pb.getChildFile(".clientcerts"), trustedClientCertificates);
-		loadCertificates(pb.getChildFile(".servercerts"), trustedServerCertificates);
+
+		loadCertificates(pb.getChildFile(".clientcerts"),
+				trustedClientCertificates);
+		loadCertificates(pb.getChildFile(".servercerts"),
+				trustedServerCertificates);
 		loadCertificates(pb.getChildFile(".cacerts"), trusredCACertificates);
-		
-		for(MailBoxSettings mbs : mailBoxes){
-				try {
-					if(!trustedServerCertificates.hasCertificate(mbs.getServerCertificate()))trustedServerCertificates.add(mbs.getServerCertificate());
-				} catch (IllegalArgumentException | CertificateException e) {
-				}
+
+		for (MailBoxSettings mbs : mailBoxes) {
+			try {
+				if (!trustedServerCertificates.hasCertificate(mbs
+						.getServerCertificate()))
+					trustedServerCertificates.add(mbs.getServerCertificate());
+			} catch (IllegalArgumentException | CertificateException e) {
+			}
 		}
-		
-		
+	}
+
+	/**
+	 * Removes the given mail box.
+	 * 
+	 * @param mailBox
+	 *            The mail box to remove.
+	 * @throws IOException
+	 *             If an I/O error occurs.
+	 */
+	public void removeMailBox(MailBoxSettings mailBox) throws IOException {
+		if (!mailBoxes.contains(mailBox))
+			return;
+		mailBoxes.remove(mailBox);
+		String dataPath = UserPreferences.getPreferences()
+				.getStoreAddress(null);
+		if (dataPath == null)
+			return;
+		PathBuilder pb = new PathBuilder(new File(dataPath));
+		File accountFile = pb.getChildFile(mailBox.getAddress().replace("@",
+				"at"));
+		if (accountFile.exists())
+			accountFile.delete();
 	}
 
 	/**
@@ -267,35 +294,53 @@ public class MV2ClientSettings extends PropertiesExportable {
 			fos.flush();
 			fos.close();
 		}
-		saveCertificates(pb.getChildFile(".clientcerts"), trustedClientCertificates);
-		saveCertificates(pb.getChildFile(".servercerts"), trustedServerCertificates);
+		saveCertificates(pb.getChildFile(".clientcerts"),
+				trustedClientCertificates);
+		saveCertificates(pb.getChildFile(".servercerts"),
+				trustedServerCertificates);
 		saveCertificates(pb.getChildFile(".cacerts"), trusredCACertificates);
 	}
-	
+
 	/**
 	 * Saves the given certificate to the given file.
-	 * @param f The file to store the certificates.
-	 * @param store The certificate store to save.
-	 * @throws IOException If an I/O error occurs.
-	 * @throws NoSuchAlgorithmException If the algorithm used to encrypt the certificate store was not found.
+	 * 
+	 * @param f
+	 *            The file to store the certificates.
+	 * @param store
+	 *            The certificate store to save.
+	 * @throws IOException
+	 *             If an I/O error occurs.
+	 * @throws NoSuchAlgorithmException
+	 *             If the algorithm used to encrypt the certificate store was
+	 *             not found.
 	 */
-	private void saveCertificates(File f, CertificateStore store) throws IOException, NoSuchAlgorithmException{
+	private void saveCertificates(File f, CertificateStore store)
+			throws IOException, NoSuchAlgorithmException {
 		EncryptedExportable ee = new EncryptedExportable(store);
 		OutputStream out = new FileOutputStream(f);
 		ee.export(getPassphrase(), out);
 		out.flush();
 		out.close();
 	}
-	
+
 	/**
-	 * Loads the certificates from the given file and stores them into the given certificate store.
-	 * @param f The file to read.
-	 * @param store The store to hold the loaded certificates.
-	 * @throws NoSuchAlgorithmException If the algorithm used to encrypt the certificates was not found.
-	 * @throws IOException If an I/O error occurs.
+	 * Loads the certificates from the given file and stores them into the given
+	 * certificate store.
+	 * 
+	 * @param f
+	 *            The file to read.
+	 * @param store
+	 *            The store to hold the loaded certificates.
+	 * @throws NoSuchAlgorithmException
+	 *             If the algorithm used to encrypt the certificates was not
+	 *             found.
+	 * @throws IOException
+	 *             If an I/O error occurs.
 	 */
-	private void loadCertificates(File f, CertificateStore store) throws NoSuchAlgorithmException, IOException{
-		if(!f.exists()) return;
+	private void loadCertificates(File f, CertificateStore store)
+			throws NoSuchAlgorithmException, IOException {
+		if (!f.exists())
+			return;
 		EncryptedExportable ee = new EncryptedExportable(store);
 		InputStream in = new FileInputStream(f);
 		ee.importData(getPassphrase(), in);
