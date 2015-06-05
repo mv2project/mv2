@@ -75,6 +75,7 @@
     <Compile Include="Messaging\MessageParser.cs" />
     <Compile Include="Messaging\IMessageProcessor.cs" />
     <Compile Include="Messaging\AbstractMessageProcessor.cs" />
+    <Compile Include="Security\CertificateSigningRequest.cs" />
     <Compile Include="Security\DNReader.cs" />
     <Compile Include="Threading\MailSendingProcedure.cs" />
     <Compile Include="Threading\MultiMessageFetchProcedure.cs" />
