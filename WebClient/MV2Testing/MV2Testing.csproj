@@ -64,6 +64,7 @@
     <Compile Include="TestContentMessage.cs" />
     <Compile Include="ToolsTest.cs" />
     <Compile Include="PassphraseInflatorTest.cs" />
+    <Compile Include="CertificateSigningRequestTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MV2CorePortable\MV2Core.csproj">
