@@ -43,7 +43,6 @@ public class UserPreferences {
 	
 	
 	
-	// TODO: Functionality to save server address, port, etc.
 	/**
 	 * Returns the address of the server to connect to.
 	 * @param defaultValue The default value that should be returned if no value was found.

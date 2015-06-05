@@ -68,6 +68,18 @@ public class DialogHelper {
 			}
 		});
 	}
+	
+	/**
+	 * Shows a confirm dialog.
+	 * @param parent The parent component.
+	 * @param title The title of the dialog to display.
+	 * @param message The message to display.
+	 * @return {@code true} if the user answers with 'yes'.
+	 */
+	public static boolean showConfirmDialog(Component parent, String title, String message){
+		return (JOptionPane.showConfirmDialog(parent, message, title, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION);
+		
+	}
 
 	/**
 	 * Zeigt eine Error-Meldung.
