@@ -11,6 +11,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Org.BouncyCastle.X509;
 using ISS.MV2.Security;
+using ISS.MV2.IO;
 
 
 
@@ -48,8 +49,10 @@ namespace ISS.MV2.GUI.Controls {
             issurerView.Principal = certificate.IssuerDN;
             subjectView.Principal = certificate.SubjectDN;
             var key = certificate.GetPublicKey();
-            keyAlgorithmLabel.Content = key.GetType().Name;
-            Security.PEMFileIO pemIO = new PEMFileIO();
+            var keyInfo = SubjectPublicKeyInfoFactory.CreateSubjectPublicKeyInfo(key);
+            var algIdentifier = keyInfo.AlgorithmID;
+            keyAlgorithmLabel.Content = algIdentifier.ObjectID.Id;
+            keyDataBlock.Text = IO.BinaryTools.ToHexString(keyInfo.GetEncoded()).Insert(" ", 2);
         }
 
     }

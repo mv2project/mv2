@@ -41,6 +41,7 @@
     <Compile Include="IO\IAuthenticatedClientProvider.cs" />
     <Compile Include="IO\IClientProvider.cs" />
     <Compile Include="IO\StreamExtension.cs" />
+    <Compile Include="IO\StringTools.cs" />
     <Compile Include="Messaging\CertificateResponseMessage.cs" />
     <Compile Include="Messaging\ClientCertificateRequest.cs" />
     <Compile Include="Messaging\ClientCertificateResponse.cs" />

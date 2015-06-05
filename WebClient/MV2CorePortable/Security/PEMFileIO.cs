@@ -6,6 +6,7 @@ using Org.BouncyCastle.X509;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Security;
 using System.IO;
+using Org.BouncyCastle.Utilities.IO.Pem;
 
 namespace ISS.MV2.Security {
     public class PEMFileIO {
@@ -34,7 +35,6 @@ namespace ISS.MV2.Security {
         public AsymmetricKeyParameter ReadPrivateKey(Stream input) {
             return PrivateKeyFactory.CreateKey(input);
         }
-
 
     }
 }

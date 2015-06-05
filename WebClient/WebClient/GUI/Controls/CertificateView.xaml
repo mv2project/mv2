@@ -36,7 +36,7 @@
             <sdk:TreeViewItem Header="Public Key">
                 <StackPanel>
                     <sdk:Label Content="[keyAlg]" x:Name="keyAlgorithmLabel" />
-                    <TextBlock Text="[keyData]" x:Name="keyDataBlock" />
+                    <TextBlock Text="[keyData]" x:Name="keyDataBlock"  TextWrapping="Wrap" MaxWidth="425"/>
                 </StackPanel>
             </sdk:TreeViewItem>
         </sdk:TreeView>
