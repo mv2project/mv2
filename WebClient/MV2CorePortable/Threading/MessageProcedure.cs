@@ -10,6 +10,7 @@ namespace ISS.MV2.Threading {
     public delegate void ProcedureUpdateDelegate<P, R>(MessageProcedure<P, R> sender, string state, int progress);
     public delegate void ProcedureFailedDelegate<P, R>(MessageProcedure<P, R> sender, Exception ex);
     public delegate void ProcedureCompletedDelegate<P, R>(MessageProcedure<P, R> sender, R result);
+    public delegate void ProcedureEndedDelegate<P, R>(MessageProcedure<P, R> sender);
 
 
     public abstract class MessageProcedure<P, R> {
@@ -17,9 +18,14 @@ namespace ISS.MV2.Threading {
         public event ProcedureCompletedDelegate<P, R> Completed;
         public event ProcedureFailedDelegate<P, R> Failed;
         public event ProcedureUpdateDelegate<P, R> Updated;
+        public event ProcedureEndedDelegate<P, R> Ended;
+
+        
 
         private bool running = false;
         private object lock_object = new object();
+
+        public bool IsRunning { get { return running; } }
 
         private IEventDispatcher eventDispatcher;
 
@@ -94,9 +100,17 @@ namespace ISS.MV2.Threading {
                     lock (lock_object) {
                         running = false;
                     }
+                    NotifyEneded();
                 }), parameter);
                 t.Start();
             }
+        }
+
+        private void NotifyEneded() {
+            if (Ended == null) return;
+            eventDispatcher.Invoke(new EventInvokationDelegate(() => {
+                Ended(this);
+            }));
         }
 
         private void NotifySuccess(R result) {

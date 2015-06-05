@@ -9,6 +9,9 @@ using ISS.MV2.IO;
 namespace ISS.MV2.Threading {
     public class MessageQueryProcedure : MessageProcedure<ClientSession, long[]>, IAuthenticatedClientProvider {
 
+        private DateTime notBefore = DateTimeTools.FromJavaUnixTime(0);
+
+        public DateTime NotBefore { get { return notBefore; } set { notBefore = value; } }
 
         public MessageQueryProcedure(IEventDispatcher dispatcher, ClientSession session)
             : base(dispatcher, session) {
@@ -22,7 +25,7 @@ namespace ISS.MV2.Threading {
             bool loggedIn = lp.ExecuteImmediate();
             if (!loggedIn) throw new Exception("Invalid login.");
             ICommunicationPartner client = lp.GetAuthenticatedClient();
-            MessageQueryRequest mqr = new MessageQueryRequest();
+            MessageQueryRequest mqr = new MessageQueryRequest() { NotBefore = notBefore };
             client.Send(mqr);
             MessageQueryResponse queryResponse = AssertTypeAndConvert(client.HandleNext(), new MessageQueryResponse());
             usedClient = client;

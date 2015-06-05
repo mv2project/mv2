@@ -23,6 +23,10 @@ namespace ISS.MV2.GUI {
             tabControl.MouseRightButtonUp += tabControl_MouseRightButtonUp;
         }
 
+
+        private bool refreshing = false;
+        private object refresh_lock = new object();
+
         void tabControl_MouseRightButtonUp(object sender, MouseButtonEventArgs e) {
             if (tabControl.SelectedIndex == 0) return;
             Button closeButton = new Button();
@@ -49,27 +53,46 @@ namespace ISS.MV2.GUI {
         }
 
         private void Refresh() {
-            mailList.Items.Clear();
+            lock (refresh_lock) {
+                if (refreshing) return;
+                refreshing = true;
+                refreshButton.IsEnabled = false;
+            }
             MessageQueryProcedure mqp = new MessageQueryProcedure(new WindowsDispatcher(this), LocalSession.Current);
+            if (mailList.Items.Count != 0) {
+                mqp.NotBefore = ((Controls.MailListItem)mailList.Items[0]).Message.Timestamp;
+            }
             mqp.Failed += mqp_Failed;
             mqp.Completed += mqp_Completed;
-
             mqp.Execute();
         }
 
+       
         void mqp_Completed(MessageProcedure<ClientSession, long[]> sender, long[] result) {
-            MultiMessageFetchProcedure mmfp = new MultiMessageFetchProcedure((MessageQueryProcedure)sender, new WindowsDispatcher(this), LocalSession.Current, result);
-            mmfp.Failed += mmfp_Failed;
-            mmfp.MessageFetched += mmfp_MessageFetched;
-            mmfp.Execute();
+            MultiMessageFetchProcedure refreshProcedure = new MultiMessageFetchProcedure((MessageQueryProcedure)sender, new WindowsDispatcher(this), LocalSession.Current, result);
+            refreshProcedure.Failed += mmfp_Failed;
+            refreshProcedure.MessageFetched += mmfp_MessageFetched;
+            refreshProcedure.Ended += refreshProcedure_Ended;
+            refreshProcedure.Execute();
+        }
+
+        void refreshProcedure_Ended(MessageProcedure<ClientSession, Threading.Void> sender) {
+            lock (refresh_lock) {
+                refreshing = false;
+                refreshButton.IsEnabled = true;
+            }
         }
 
         void mmfp_Failed(MessageProcedure<ClientSession, Threading.Void> sender, Exception ex) {
+            lock (refresh_lock) {
+                refreshing = false;
+                refreshButton.IsEnabled = true;
+            }
             new ErrorDialog(ex).Show();
         }
 
         void mmfp_MessageFetched(MultiMessageFetchProcedure sender, DetailedContentMessage message) {
-            mailList.Items.Add(new Controls.MailListItem(message));
+            mailList.Items.Insert(0, new Controls.MailListItem(message));
         }
 
         void mqp_Failed(MessageProcedure<ClientSession, long[]> sender, Exception ex) {

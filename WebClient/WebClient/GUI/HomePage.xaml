@@ -19,7 +19,7 @@
             <Border Grid.Row="0" Grid.ColumnSpan="5" BorderBrush="Black" BorderThickness="0,0,0,1">
                 <Grid Background="{StaticResource DEFAULT_GRADIENT_BACKGROUND}"  >
                     <Button HorizontalAlignment="Left" VerticalAlignment="Stretch" Content="New Mail" Background="Transparent" Click="NewMailButton_Clicked" />
-                    <Button VerticalAlignment="Stretch" HorizontalAlignment="Right" Content="Refresh" Click="Button_Click" Background="Transparent"  />
+                    <Button VerticalAlignment="Stretch" HorizontalAlignment="Right" Content="Refresh" Click="Button_Click" Background="Transparent" x:Name="refreshButton" />
                 </Grid>
             </Border>
 
