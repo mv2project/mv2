@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Reflection;
 using System.Text;
 using System.IO;
 using ISS.MV2.IO;
@@ -9,6 +9,7 @@ namespace ISS.MV2.Messaging {
     public class MV2Message : CommunicationElement {
 
         private readonly IDictionary<int, MessageField> fields = new Dictionary<int, MessageField>();
+
 
         protected ICollection<MessageField> CleanedFields {
             get {
@@ -76,6 +77,12 @@ namespace ISS.MV2.Messaging {
         protected override void DoDeserialize(System.IO.Stream inputStream, Encoding encoding) {
         }
 
+        public override void Serialize(Stream outputStream) {
+            CheckFields(SituationType.SENDING);
+            base.Serialize(outputStream);
+        }
+
+
         public void ClearFields() {
             fields.Clear();
         }
@@ -119,6 +126,7 @@ namespace ISS.MV2.Messaging {
                 mf.Encoding = this.Encoding;
                 mf.CompleteDeserialize(encoding);
             }
+            CheckFields(SituationType.RECEIVING);
         }
 
         public static void Merge(MV2Message destination, MV2Message origin){
@@ -138,5 +146,33 @@ namespace ISS.MV2.Messaging {
             }
             return sb.ToString();
         }
+
+        public void CheckFields(SituationType situation) {
+            PropertyInfo[] propertys = GetType().GetProperties();
+            List<CheckedField> checks;
+            CheckSituation cs = new CheckSituation(SituationType.ALL);
+            object[] attributes;
+            Type checkedFieldType = typeof(CheckedField);
+            Type situationFieldType = typeof(SituationType);
+            foreach (PropertyInfo property in propertys) {
+                checks = new List<CheckedField>();
+                cs = new CheckSituation(SituationType.ALL);
+                attributes = property.GetCustomAttributes(true);
+                foreach (Attribute attribute in attributes) {
+                    if (checkedFieldType.IsAssignableFrom(attribute.GetType())) {
+                        checks.Add((CheckedField)attribute);
+                        continue;
+                    }
+                    if (situationFieldType.IsAssignableFrom(attribute.GetType())) {
+                        cs = (CheckSituation)attribute;
+                    }
+                }
+                if (cs.Situation != SituationType.ALL && cs.Situation != situation) continue;
+                foreach (CheckedField cf in checks) {
+                    cf.Check(this, property, property.GetValue(this, null));
+                }
+            }
+        }
+
     }
 }

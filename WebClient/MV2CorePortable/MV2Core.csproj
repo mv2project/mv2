@@ -43,6 +43,9 @@
     <Compile Include="IO\StreamExtension.cs" />
     <Compile Include="IO\StringTools.cs" />
     <Compile Include="Messaging\CertificateResponseMessage.cs" />
+    <Compile Include="Messaging\CheckedField.cs" />
+    <Compile Include="Messaging\NotEmpty.cs" />
+    <Compile Include="Messaging\SituationType.cs" />
     <Compile Include="Messaging\ClientCertificateRequest.cs" />
     <Compile Include="Messaging\ClientCertificateResponse.cs" />
     <Compile Include="Messaging\ClientLoginData.cs" />
@@ -61,6 +64,7 @@
     <Compile Include="Messaging\DomainNamesResponsePreProcessor.cs" />
     <Compile Include="Messaging\EncryptedMessage.cs" />
     <Compile Include="Messaging\CertificateResponsePreProcessor.cs" />
+    <Compile Include="Messaging\InvalidFieldException.cs" />
     <Compile Include="Messaging\HelloMessage.cs" />
     <Compile Include="Messaging\IMessagePreProcessor.cs" />
     <Compile Include="Messaging\InvalidResponseMessageException.cs" />
@@ -75,6 +79,9 @@
     <Compile Include="Messaging\MessageParser.cs" />
     <Compile Include="Messaging\IMessageProcessor.cs" />
     <Compile Include="Messaging\AbstractMessageProcessor.cs" />
+    <Compile Include="Messaging\RequiredField.cs" />
+    <Compile Include="Messaging\CheckSituation.cs" />
+    <Compile Include="Messaging\SpaceCreationRequest.cs" />
     <Compile Include="Security\CertificateSigningRequest.cs" />
     <Compile Include="Security\DNReader.cs" />
     <Compile Include="Threading\MailSendingProcedure.cs" />

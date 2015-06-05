@@ -1,11 +1,12 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ISS.MV2.Security;
+using ISS.MV2.Messaging;
 
 
 namespace ISS.MV2.Tests {
     [TestClass]
-    public class CertificateSigningRequestTest {
+    public class CertificateSigningTestCase {
 
         private const string TEST_CN = "Max Mustermann";
         private const string INVALID_COUNTRY = "Germany";
@@ -13,11 +14,12 @@ namespace ISS.MV2.Tests {
 
 
         [TestMethod]
-        public void TestSignValid() {
+        public Org.BouncyCastle.Pkcs.Pkcs10CertificationRequest TestSignValid() {
             var keyPair = RSAStream.GetRandomRSAKey(1024);
             CertificateSigningRequest csr = new CertificateSigningRequest() { CommonName=TEST_CN };
             var result = csr.GeneratePKCS10(keyPair);
             Assert.IsTrue(result.Verify(keyPair.Public));
+            return result;
         }
 
         [TestMethod]
@@ -41,6 +43,15 @@ namespace ISS.MV2.Tests {
         public void TestSetValidCountry() {
             CertificateSigningRequest csr = new CertificateSigningRequest();
             csr.Country = VALID_COUNTRY;
+        }
+
+        [TestMethod]
+        public void TestSpaceCreationRequestMessageGetSetCSR() {
+            var request = TestSignValid();
+            SpaceCreationRequest scr = new SpaceCreationRequest();
+            scr.SigningRequest = request;
+            var request2 = scr.SigningRequest;
+            Assert.AreEqual(request, request2);
         }
 
     }
