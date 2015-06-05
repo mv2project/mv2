@@ -1,12 +1,9 @@
 package de.iss.mv2.messaging;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
 import org.bouncycastle.pkcs.PKCS10CertificationRequest;
-
-import de.iss.mv2.security.PEMFileIO;
 
 /**
  * The request to create a user space.
@@ -34,10 +31,8 @@ public class SpaceCreationRequest extends MV2Message {
 		InputStream in = getFieldData(DEF_MESSAGE_FIELD.CONTENT_BINARY, null);
 		if (in == null)
 			return null;
-		PEMFileIO pemIO = new PEMFileIO();
-		PKCS10CertificationRequest cr = pemIO.readCertificateSigningRequest(in);
-		in.close();
-		return cr;
+		return new PKCS10CertificationRequest(getFieldDataArrayValue(
+				DEF_MESSAGE_FIELD.CONTENT_BINARY, new byte[0]));
 	}
 
 	/**
@@ -71,10 +66,7 @@ public class SpaceCreationRequest extends MV2Message {
 			throws IllegalArgumentException, IOException {
 		if (request == null)
 			throw new IllegalArgumentException("The request may not be null.");
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		PEMFileIO pemIO = new PEMFileIO();
-		pemIO.writeCertificateSigningRequest(baos, request);
-		setSigningRequest(baos.toByteArray());
+		setSigningRequest(request.getEncoded());
 	}
 
 }
