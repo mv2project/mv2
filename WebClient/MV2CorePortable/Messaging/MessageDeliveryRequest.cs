@@ -15,6 +15,8 @@ namespace ISS.MV2.Messaging {
             }
         }
 
+        [RequiredField]
+        [NotEmpty]
         public string Receiver {
             get {
                 return GetFieldStringValue(DEF_MESSAGE_FIELD.RECEIVER, null);

@@ -7,6 +7,8 @@ using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Security;
 using System.IO;
 using Org.BouncyCastle.Utilities.IO.Pem;
+using Org.BouncyCastle.Pkcs;
+
 
 namespace ISS.MV2.Security {
     public class PEMFileIO {
