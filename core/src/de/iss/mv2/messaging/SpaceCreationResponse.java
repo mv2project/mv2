@@ -1,13 +1,11 @@
 package de.iss.mv2.messaging;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.cert.CertificateEncodingException;
 import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
-
-import de.iss.mv2.security.PEMFileIO;
 
 /**
  * Represents the response message to a {@link SpaceCreationRequest}.
@@ -58,9 +56,7 @@ public class SpaceCreationResponse extends MV2Message {
 		if (cert == null)
 			throw new IllegalArgumentException(
 					"The certificate may not be null.");
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		new PEMFileIO().writeCertificate(baos, cert);
-		setCertificate(baos.toByteArray());
+		setCertificate(cert.getEncoded());
 	}
 
 	/**
@@ -77,7 +73,8 @@ public class SpaceCreationResponse extends MV2Message {
 		InputStream in = getFieldData(DEF_MESSAGE_FIELD.CONTENT_BINARY, null);
 		if (in == null)
 			return null;
-		X509Certificate cert = new PEMFileIO().readCertificate(in);
+		X509Certificate cert = (X509Certificate) CertificateFactory
+				.getInstance("X.509").generateCertificate(in);
 		in.close();
 		return cert;
 	}
