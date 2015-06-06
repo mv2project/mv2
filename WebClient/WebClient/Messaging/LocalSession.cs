@@ -13,7 +13,7 @@ using ISS.MV2.IO;
 namespace ISS.MV2.Messaging {
     public class LocalSession : ClientSession {
 
-        private const string SERVER_ADDRESS = "shome1.selfhost.eu";
+        public static string ServerAddress { get; set; }
 
         private static readonly LocalSession local_session = new LocalSession();
 
@@ -21,7 +21,7 @@ namespace ISS.MV2.Messaging {
 
         public override IO.ICommunicationPartner CreateClient() {
             MV2Client client = new MV2Client();
-            client.Connect(SERVER_ADDRESS);
+            client.Connect(ServerAddress);
             return client;
         }
 
@@ -37,5 +37,7 @@ namespace ISS.MV2.Messaging {
         public override Security.IMessageCryptorSettings CreateNewCryptorSettings() {
             return new Security.AESWithRSACryptoSettings();
         }
+
+        
     }
 }

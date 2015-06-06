@@ -29,28 +29,11 @@ namespace ISS.MV2.Threading {
 
 
         public bool Login(ICommunicationPartner client, ClientSession session) {
-            ClientLoginRequest clr = new ClientLoginRequest();
-            clr.Identifier = session.Identifier;
-            client.Send(clr);
-            ServerLoginResponse slr = AssertTypeAndConvert(client.HandleNext(), new ServerLoginResponse());
-            byte[] plainData;
-            using (MemoryStream ms = new MemoryStream(slr.TestPhrase)) {
-                using (RSAStream rsa = new RSAStream(ms, session.ClientPrivateKey)) {
-                    plainData = rsa.ReadAll();
-                }
-            }
-            IMessageDigest digest = MessageDigestFactory.CreateDigest(slr.HashAlgorithm);
-            digest.Update(plainData);
-            byte[] hash = digest.Complete();
-            if (!Enumerable.SequenceEqual(hash, slr.TestPhraseHash)) throw new RequestException("The login failed because the server supplied invalid data.");
-            ClientLoginData cld = new ClientLoginData();
-            cld.DecryptedTestPhrase = plainData;
-            client.Send(cld);
-            MV2Message loginResult = client.HandleNext();
-            if (loginResult.MessageType == DEF_MESSAGE.UNABLE_TO_RPOCESS && loginResult.GetFieldStringValue(DEF_MESSAGE_FIELD.CAUSE, "").Equals("Invalid login data.")) return false;
-            loginResult = AssertTypeAndConvert(loginResult, new MV2Message(DEF_MESSAGE.SERVER_LOGIN_RESULT));
-            usedClient = client;
-            return true;
+            KnownKeyLoginProcedure klp = new KnownKeyLoginProcedure(EventDispatcher, Parameter);
+            klp.AddListener(this);
+            bool result = klp.ExecuteImmediate();
+            this.usedClient = klp.GetAuthenticatedClient();
+            return result;
         }
 
         private void LoadClientCert(ICommunicationPartner client, ClientSession session) {

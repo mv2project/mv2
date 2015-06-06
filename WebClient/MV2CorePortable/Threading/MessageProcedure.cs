@@ -13,7 +13,7 @@ namespace ISS.MV2.Threading {
     public delegate void ProcedureEndedDelegate<P, R>(MessageProcedure<P, R> sender);
 
 
-    public abstract class MessageProcedure<P, R> {
+    public abstract class MessageProcedure<P, R> : IProcedureListener<P, R> {
 
         public event ProcedureCompletedDelegate<P, R> Completed;
         public event ProcedureFailedDelegate<P, R> Failed;
@@ -159,6 +159,20 @@ namespace ISS.MV2.Threading {
             Updated += listener.Updated;
         }
 
+
+        void IProcedureListener<P, R>.Completed(MessageProcedure<P, R> sender, R result) {
+            NotifySuccess(result);
+        }
+
+        void IProcedureListener<P, R>.Updated(MessageProcedure<P, R> sender, string state, int progress) {
+            this.state = state;
+            this.progress = progress;
+            NotifyUpdate();
+        }
+
+        void IProcedureListener<P, R>.Failed(MessageProcedure<P, R> sender, Exception exception) {
+            NotifyFail(exception);
+        }
     }
 
 }

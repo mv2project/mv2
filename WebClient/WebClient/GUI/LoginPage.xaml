@@ -9,7 +9,7 @@
            d:DesignWidth="640" d:DesignHeight="480" 
            Title="LoginPage Page">
     <Grid x:Name="LayoutRoot" Background="White">
-        <Border VerticalAlignment="Center" HorizontalAlignment="Center" Width="400" Height="200" BorderThickness="1">
+        <Border VerticalAlignment="Center" HorizontalAlignment="Center" Width="400" Height="205" BorderThickness="1">
             <Border.BorderBrush>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="White" Offset="0.49"/>
@@ -24,6 +24,7 @@
                 <sdk:Label HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,100,0,0" Content="Password" FontWeight="Bold"/>
                 <PasswordBox HorizontalAlignment="Stretch" Margin="10,116,10,0" VerticalAlignment="Top" x:Name="passwordField"/>
                 <Button HorizontalAlignment="Stretch" VerticalAlignment="Top" Content="Login" Margin="10,155,10,0" Click="Login_Click" />
+                <HyperlinkButton Content="Create New Account" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,48,10,0" Click="creatAccountLink_Click" />
             </Grid>
         </Border>
     </Grid>

@@ -12,6 +12,11 @@ namespace ISS.MV2.Tests {
         [TestMethod]
         public void TestMessageDeliveryRequest() {
             MessageDeliveryRequest mdr = new MessageDeliveryRequest();
+            System.Collections.IList idlist = new System.Collections.Generic.List<object>();
+            idlist.Add(Org.BouncyCastle.Asn1.X509.X509Name.Name);
+            System.Collections.IList valuelist = new System.Collections.Generic.List<object>();
+            valuelist.Add("MaxMustermann");
+            var smth = new Org.BouncyCastle.Asn1.X509.X509Name(idlist, valuelist);
             bool thrown = false;
             try {
                 mdr.CheckFields(SituationType.SENDING);

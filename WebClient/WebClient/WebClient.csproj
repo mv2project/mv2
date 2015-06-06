@@ -112,6 +112,9 @@
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="GUI\Navigator.cs" />
+    <Compile Include="GUI\SpaceCreationPage.xaml.cs">
+      <DependentUpon>SpaceCreationPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="IO\AlreadyConnectedException.cs" />
     <Compile Include="IO\ClientSocket.cs" />
     <Compile Include="IO\DefaultClientProvider.cs" />
@@ -164,6 +167,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="GUI\LoginPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GUI\SpaceCreationPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

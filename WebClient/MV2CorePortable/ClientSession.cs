@@ -8,7 +8,7 @@ using ISS.MV2.IO;
 using ISS.MV2.Security;
 
 namespace ISS.MV2 {
-    public abstract class ClientSession {
+    public abstract class ClientSession  {
 
         public X509Certificate ClientCertificate { get; set; }
         public AsymmetricKeyParameter ClientPrivateKey { get; set; }
@@ -22,6 +22,7 @@ namespace ISS.MV2 {
         public abstract IMessageCryptorSettings CryptorSettings { get; }
 
         public abstract IMessageCryptorSettings CreateNewCryptorSettings();
+
 
     }
 }

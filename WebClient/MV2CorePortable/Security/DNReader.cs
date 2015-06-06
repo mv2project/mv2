@@ -16,6 +16,7 @@ namespace ISS.MV2.Security {
         public const string COMMON_NAME = "CN";
         public const string LOCALE = "L";
 
+
         private readonly IDictionary<string, string> values = new Dictionary<string, string>();
 
         public string OrganizationUnit {
@@ -42,6 +43,9 @@ namespace ISS.MV2.Security {
 
         public string CommonName { get { return GetValue(COMMON_NAME, null); } }
 
+        public string Name { get { return GetValue(X509Name.Name.ToString(), null); } }
+
+
         public DNReader(X509Name name) {
             string[] args = name.ToString().Split(',');
             foreach (string arg in args) {
@@ -51,6 +55,8 @@ namespace ISS.MV2.Security {
                 }
             }
         }
+
+        
 
         public string GetValue(string identifier, string defaultValue) {
             if (!values.ContainsKey(identifier)) return defaultValue;
