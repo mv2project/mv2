@@ -42,6 +42,7 @@ namespace ISS.MV2.GUI.Controls {
             organizationLabel.Content = reader.Organization;
             organizationUnitLabel.Content = reader.OrganizationUnit;
             commonNameLabel.Content = reader.CommonName;
+            nameLabel.Content = reader.Name;
 
         }
 

@@ -44,6 +44,7 @@
     <Compile Include="IO\StringTools.cs" />
     <Compile Include="Messaging\CertificateResponseMessage.cs" />
     <Compile Include="Messaging\CheckedField.cs" />
+    <Compile Include="Messaging\KeyPutRequest.cs" />
     <Compile Include="Messaging\NotEmpty.cs" />
     <Compile Include="Messaging\SituationType.cs" />
     <Compile Include="Messaging\ClientCertificateRequest.cs" />
@@ -82,8 +83,11 @@
     <Compile Include="Messaging\RequiredField.cs" />
     <Compile Include="Messaging\CheckSituation.cs" />
     <Compile Include="Messaging\SpaceCreationRequest.cs" />
+    <Compile Include="Messaging\SpaceCreationResponse.cs" />
     <Compile Include="Security\CertificateSigningRequest.cs" />
     <Compile Include="Security\DNReader.cs" />
+    <Compile Include="Threading\KeyPutProcedure.cs" />
+    <Compile Include="Threading\KnownKeyLoginProcedure.cs" />
     <Compile Include="Threading\MailSendingProcedure.cs" />
     <Compile Include="Threading\MultiMessageFetchProcedure.cs" />
     <Compile Include="Messaging\RequestException.cs" />
@@ -120,6 +124,7 @@
     <Compile Include="Security\SHA256WithRSASignatureProvider.cs" />
     <Compile Include="Text\ASCII.cs" />
     <Compile Include="Threading\MessageQueryProcedure.cs" />
+    <Compile Include="Threading\SpaceCreationProcedure.cs" />
     <Compile Include="Threading\Void.cs" />
   </ItemGroup>
   <ItemGroup>

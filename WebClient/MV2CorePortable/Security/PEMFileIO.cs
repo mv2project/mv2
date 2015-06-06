@@ -38,5 +38,11 @@ namespace ISS.MV2.Security {
             return PrivateKeyFactory.CreateKey(input);
         }
 
+        public void WritePrivateKey(Stream output, AsymmetricKeyParameter key) {
+            byte[] data = PrivateKeyInfoFactory.CreatePrivateKeyInfo(key).GetEncoded();
+            output.Write(data, 0, data.Length);
+            output.Flush();
+        }
+
     }
 }

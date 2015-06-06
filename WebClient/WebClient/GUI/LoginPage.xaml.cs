@@ -53,5 +53,9 @@ namespace ISS.MV2.GUI {
             Navigator.Navigate(typeof(HomePage));
         }
 
+        private void creatAccountLink_Click(object sender, RoutedEventArgs e) {
+            Navigator.Navigate(typeof(SpaceCreationPage));
+        }
+
     }
 }
