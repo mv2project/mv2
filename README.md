@@ -9,7 +9,7 @@ There are a lot of tools and plugins to fix the security issues of the dignified
 +   If you have questions, feel free to contact us on mv2-general@lists.sourceforge.net
 
 ## Try it!
-You can find a running prototype of the client on our [GitHub-page](mv2project.github.io/mv2/WebClientTestPage.html). The application needs an installed and enabled Silverlight-plugin to be executed.
+You can find a running prototype of the client on our [GitHub-page](https://mv2project.github.io/mv2/WebClientTestPage.html). The application needs an installed and enabled Silverlight-plugin to be executed.
 See the following table for test accounts to use.
 <table>
 <tr><th>Address</th><th>Password</th></tr>
