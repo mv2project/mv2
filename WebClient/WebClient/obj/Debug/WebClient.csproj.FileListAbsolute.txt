@@ -321,3 +321,4 @@ F:\MV2\Git\WebClient\WebClient\obj\Debug\GUI\Controls\MailCreatorControl.g.cs
 F:\MV2\Git\WebClient\WebClient\obj\Debug\GUI\Controls\CertificateView.g.cs
 F:\MV2\Git\WebClient\WebClient\obj\Debug\GUI\Controls\X500NameView.g.cs
 F:\MV2\Git\WebClient\WebClient\obj\Debug\GUI\SpaceCreationPage.g.cs
+F:\MV2\Git\WebClient\WebClient\obj\Debug\GUI\InformationDialog.g.cs

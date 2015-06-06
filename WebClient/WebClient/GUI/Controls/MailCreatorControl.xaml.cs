@@ -15,6 +15,10 @@ using Void = ISS.MV2.Threading.Void;
 
 namespace ISS.MV2.GUI.Controls {
     public partial class MailCreatorControl : UserControl {
+
+        public delegate void MailSentDelegate(MailCreatorControl sender);
+        public event MailSentDelegate MailSent;
+
         public MailCreatorControl() {
             InitializeComponent();
         }
@@ -41,7 +45,8 @@ namespace ISS.MV2.GUI.Controls {
         }
 
         void msp_Completed(MessageProcedure<ContentMessage, Void> sender, Void result) {
-            System.Diagnostics.Debug.WriteLine("Completed!");
+            new InformationDialog() { Title = "Mail Sent", Content = "The message was sent successfully." }.Show();
+            if (MailSent != null) MailSent(this);
         }
     }
 }

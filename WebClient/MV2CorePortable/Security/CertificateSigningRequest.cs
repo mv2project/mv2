@@ -25,7 +25,7 @@ namespace ISS.MV2.Security {
                 return country;
             }
             set {
-                if (value == null) {
+                if (value == null || value.Length == 0) {
                     country = null;
                     return;
                 }

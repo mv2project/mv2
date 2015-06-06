@@ -116,6 +116,18 @@ namespace ISS.MV2.GUI {
             TabItem item = new TabItem() { Header = "New Mail", Content = creatorControl };
             tabControl.Items.Add(item);
             tabControl.SelectedItem = item;
+            creatorControl.MailSent += creatorControl_MailSent;
+        }
+
+        void creatorControl_MailSent(MailCreatorControl sender) {
+            TabItem ti = null;
+            foreach (TabItem item in tabControl.Items) {
+                if (item.Content == sender) {
+                    ti = item;
+                    break;
+                }
+            }
+            if (ti != null) tabControl.Items.Remove(ti);
         }
 
     }

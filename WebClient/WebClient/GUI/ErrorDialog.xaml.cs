@@ -19,11 +19,16 @@ namespace ISS.MV2.GUI {
             stackTrace.Text = ex.ToString();
         }
 
-        public ErrorDialog(string message) {
+        public ErrorDialog(string title, string message) {
             InitializeComponent();
             messageLabel.Text = message;
-            typeLabel.Content = "";
-            stackTrace.Text = "";
+            Title = title;
+            typeLabel.Visibility = System.Windows.Visibility.Collapsed;
+            detailsHeadingLabel.Visibility = System.Windows.Visibility.Collapsed;
+            stackTrace.Visibility = System.Windows.Visibility.Collapsed;
+        }
+
+        public ErrorDialog(string message) : this("Ups...", message) {
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e) {

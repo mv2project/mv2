@@ -23,7 +23,7 @@
             [ErrorMessage]
                 </TextBlock>
                 <sdk:Label HorizontalAlignment="Left" Margin="15,0,0,0" x:Name="typeLabel"/>
-                <sdk:Label HorizontalAlignment="Left" Content="Details:" FontStyle="Italic" Margin="10,10,0,0" />
+                <sdk:Label HorizontalAlignment="Left" Content="Details:" FontStyle="Italic" Margin="10,10,0,0" x:Name="detailsHeadingLabel" />
                 <TextBlock HorizontalAlignment="Left" Margin="15,0,0,0" FontStyle="Italic" x:Name="stackTrace" TextWrapping="Wrap" >
                     [StackTrace]
                 </TextBlock>
