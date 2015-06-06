@@ -1,6 +1,4 @@
 include ":MV2_Core"
 project(":MV2_Core").projectDir = new File(settingsDir, "core")
-include ":MV2_Client"
-project(":MV2_Client").projectDir = new File(settingsDir, "client")
 include ":MV2_Server"
 project(":MV2_Server").projectDir = new File(settingsDir, "server")
