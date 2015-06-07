@@ -8,6 +8,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 import java.util.Arrays;
+import java.util.Base64;
 
 import de.iss.mv2.data.BinaryTools;
 
@@ -214,8 +215,12 @@ public class MessageField extends MV2CommunicationElement {
 
 	@Override
 	public String toString() {
+		DEF_MESSAGE_FIELD fieldType = DEF_MESSAGE_FIELD.find(getFieldIdentifier());
+		if(fieldType != DEF_MESSAGE_FIELD.UNKNOWN && fieldType.getContentType() == CONTENT_TYPE.BINARY){
+			return getFieldIdentifier() + " (" + fieldType + "): " + Base64.getEncoder().encodeToString(getDataArrayContent());
+		}
 		return getFieldIdentifier() + " ("
-				+ DEF_MESSAGE_FIELD.find(getFieldIdentifier()) + "): "
+				+ fieldType + "): "
 				+ getContent();
 	}
 

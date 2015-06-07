@@ -88,7 +88,7 @@ public class CertificateTest implements TestConstants {
 		in.close();
 		in = pemIO.getClass().getClassLoader()
 				.getResourceAsStream(DEBUG_KEY_RSC_NAME);
-		PrivateKey pk = pemIO.readEncryptedPrivateKey(in, CA_CERT_PASSPHRASE);
+		PrivateKey pk = pemIO.readEncryptedPrivateKey(in, DEBUG_KEY_PASSPHRASE);
 		signersKey = new KeyPair(signingCertificate.getPublicKey(), pk);
 		certManager = new CertificateManager() {
 			
