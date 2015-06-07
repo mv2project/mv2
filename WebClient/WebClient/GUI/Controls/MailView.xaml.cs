@@ -44,7 +44,9 @@ namespace ISS.MV2.GUI.Controls {
 
         private void UpdateView() {
             subjectTextBox.Text = message.Subject;
-            senderLabel.Content = new ISS.MV2.Security.DNReader(message.Sender.SubjectDN).CommonName;
+            var reader = new Security.DNReader(message.Sender.SubjectDN);
+
+            senderLabel.Content = reader.Name + " [" + reader.CommonName + "]"; 
             DateTime timestamp = message.Timestamp;
             receivedLabel.Content = timestamp.ToShortDateString() + " " + timestamp.ToShortTimeString();
             contentTextBlock.Text = message.Content;

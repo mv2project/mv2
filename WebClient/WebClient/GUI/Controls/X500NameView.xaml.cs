@@ -42,7 +42,16 @@ namespace ISS.MV2.GUI.Controls {
             organizationLabel.Content = reader.Organization;
             organizationUnitLabel.Content = reader.OrganizationUnit;
             commonNameLabel.Content = reader.CommonName;
+            bool displayName = !string.IsNullOrWhiteSpace(reader.Name);
+            if (displayName) {
+                nameHeadingLabel.Visibility = System.Windows.Visibility.Visible;
+                nameLabel.Visibility = System.Windows.Visibility.Visible;
+            } else {
+                nameHeadingLabel.Visibility = System.Windows.Visibility.Collapsed;
+                nameLabel.Visibility = System.Windows.Visibility.Collapsed;
+            }
             nameLabel.Content = reader.Name;
+
 
         }
 
