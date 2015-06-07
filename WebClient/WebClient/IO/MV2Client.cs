@@ -16,6 +16,10 @@ using System.Collections.Generic;
 namespace ISS.MV2.IO {
     public class MV2Client : ICommunicationPartner {
 
+        public delegate void MessageTransferDelegate(ICommunicationPartner sender, MV2Message message);
+        public event MessageTransferDelegate MessageSent;
+        public event MessageTransferDelegate MessageReceived;
+
         private ClientSocket connection;
         private MessageParser parser;
 
@@ -47,6 +51,29 @@ namespace ISS.MV2.IO {
         public MV2Client() {
             AddPreProcessor(new CertificateResponsePreProcessor());
             AddPreProcessor(new DomainNamesResponsePreProcessor());
+            MessageReceived += MV2Client_MessageReceived;
+            MessageSent += MV2Client_MessageSent;
+           
+        }
+
+        void MV2Client_MessageSent(ICommunicationPartner sender, MV2Message message) {
+            if(Debugging.MessageProtocol == null) return;
+            var smth = new Threading.WindowsDispatcher(Debugging.MessageProtocol);
+            smth.Invoke(() => {
+                var control = new GUI.Controls.ProtocolMessageView() { Message = message };
+                control.Foreground = new SolidColorBrush(Colors.Blue);
+                Debugging.MessageProtocol.Items.Insert(0, control);
+            });
+        }
+
+        void MV2Client_MessageReceived(ICommunicationPartner sender, MV2Message message) {
+            if (Debugging.MessageProtocol == null) return;
+            var smth = new Threading.WindowsDispatcher(Debugging.MessageProtocol);
+            smth.Invoke(() => {
+                var control = new GUI.Controls.ProtocolMessageView() { Message = message };
+                //control.Foreground = new SolidColorBrush(Colors.Blue);
+                Debugging.MessageProtocol.Items.Insert(0, control);
+            });
         }
 
         public void Connect(string host) {
@@ -87,6 +114,7 @@ namespace ISS.MV2.IO {
             foreach (IMessageProcessor p in processors) {
                 p.Process(this, message);
             }
+            if (MessageReceived != null) MessageReceived(this, message);
             return message;
         }
 
@@ -108,6 +136,7 @@ namespace ISS.MV2.IO {
                 parser.Settings.KeyGenerator.SetFixedIV(encrypted.UsedSymmetricIV);
                 parser.Settings.KeyGenerator.SetFixedKey(encrypted.UsedSymmetricKey);
             }
+            if (MessageSent != null) MessageSent(this, message);
         }
     }
 }

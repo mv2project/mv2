@@ -17,6 +17,7 @@ namespace ISS.MV2 {
         public MainPage() {
             InitializeComponent();
             Navigator.SetMainFrame(navigationFrame);
+            IO.Debugging.MessageProtocol = protocolList;
         }
 
        

@@ -1,0 +1,38 @@
+﻿<UserControl
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk" x:Class="ISS.MV2.GUI.Controls.ProtocolMessageView"
+    mc:Ignorable="d"
+    d:DesignHeight="300" d:DesignWidth="400">
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="5" />
+            <RowDefinition />
+            <RowDefinition Height="10" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+
+        <sdk:Label HorizontalAlignment="Right" Content="Identifier:" Grid.Row="0" Grid.Column="0"/>
+        <sdk:Label x:Name="identifierLabel"  Content="[identifier]" Grid.Row="0" Grid.Column="1" />
+        
+        <sdk:Label HorizontalAlignment="Right" Content="Type:" Grid.Row="2" Grid.Column="0" />
+        <sdk:Label x:Name="typeLabel" Content="[type]" Grid.Row="2" Grid.Column="1" />
+        
+        <Grid Grid.Row="4" Grid.Column="1" x:Name="fieldsGrid">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+        </Grid>
+        
+    </Grid>
+</UserControl>

@@ -11,6 +11,8 @@ namespace ISS.MV2.Messaging {
 
         private string name;
 
+        public string Name { get { return name; } }
+
         
 
         public static readonly DEF_MESSAGE UNKNOWN = new DEF_MESSAGE(-1, "UNKNOWN");

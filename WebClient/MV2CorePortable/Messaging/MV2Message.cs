@@ -18,7 +18,7 @@ namespace ISS.MV2.Messaging {
             }
         }
 
-        protected ICollection<MessageField> Fields {
+        public ICollection<MessageField> Fields {
             get {
                 return fields.Values;
             }
@@ -37,8 +37,9 @@ namespace ISS.MV2.Messaging {
         }
 
         protected virtual void DoCleanUp() {
-
+               
         }
+
 
         public void SetMessageField(MessageField messageField, bool overwrite) {
             if (messageField == null) return;

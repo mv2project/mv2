@@ -8,6 +8,13 @@
     d:DesignHeight="300" d:DesignWidth="400">
 
     <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="2" />
+            <RowDefinition Height="15"/>
+        </Grid.RowDefinitions>
         <sdk:Frame x:Name="navigationFrame" Content="Frame" Source="/WebClient;component/GUI/LoginPage.xaml"/>
+        <sdk:GridSplitter Grid.Row="1" ShowsPreview="True" Background="Black" HorizontalAlignment="Stretch"/>
+        <ListBox x:Name="protocolList" Grid.Row="2" ScrollViewer.HorizontalScrollBarVisibility="Disabled" />
     </Grid>
 </UserControl>

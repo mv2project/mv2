@@ -85,6 +85,9 @@
       <DependentUpon>CertificateView.xaml</DependentUpon>
     </Compile>
     <Compile Include="GUI\Controls\Popup.cs" />
+    <Compile Include="GUI\Controls\ProtocolMessageView.xaml.cs">
+      <DependentUpon>ProtocolMessageView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Controls\X500NameView.xaml.cs">
       <DependentUpon>X500NameView.xaml</DependentUpon>
     </Compile>
@@ -120,6 +123,7 @@
     </Compile>
     <Compile Include="IO\AlreadyConnectedException.cs" />
     <Compile Include="IO\ClientSocket.cs" />
+    <Compile Include="IO\Debugging.cs" />
     <Compile Include="IO\DefaultClientProvider.cs" />
     <Compile Include="IO\MV2Client.cs" />
     <Compile Include="IO\SendBuffer.cs" />
@@ -150,6 +154,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="GUI\Controls\MailView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GUI\Controls\ProtocolMessageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
