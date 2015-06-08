@@ -116,44 +116,47 @@ public class WebSpaceManagerImpl implements WebSpaceManager {
 	/**
 	 * The SQL command to persist an incoming message.
 	 */
-	private static final String CREATE_MESSAGE = "INSERT INTO message (receiver, content) VALUES (?, ?); SELECT * FROM message WHERE idmessage = currval('message_idmessage_seq');";
+	private static final String CREATE_MESSAGE = "INSERT INTO message (receiver, content) VALUES (?, ?);";
 
 	@Override
 	public Message storeMessage(WebSpace webSpace, byte[] content) {
 		try {
 			PreparedStatement ps = context.getConnection().prepareStatement(
-					CREATE_MESSAGE);
+					CREATE_MESSAGE, new String[] { "idmessage" });
 			ps.setString(1, webSpace.getIdentifier());
 			ps.setBytes(2, content);
 			ps.execute();
-			ps.getMoreResults();
-			ResultSet rs = ps.getResultSet();
-			rs.next();
-			return new MessageImpl(rs.getLong("idmessage") ,webSpace, new Date(rs.getTimestamp("timestamp").getTime()), content);
+			ResultSet rs = ps.getGeneratedKeys();
+			if (rs.next()) {
+				return getMessage(webSpace, rs.getLong(1));
+			}
+			throw new RuntimeException(
+					"JDBC didn't returned the expected AI column.");
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 	/**
-	 * The SQL statement to request all messages for a timestamp later than the give one.
+	 * The SQL statement to request all messages for a timestamp later than the
+	 * give one.
 	 */
 	private static final String GET_MESSAGES_WITH_DATE = "SELECT idmessage FROM message WHERE receiver=? AND timestamp > ?;";
 
-	
 	@Override
 	public List<Long> getMessages(WebSpace webSpace, Date notBefore) {
-		try{
-			PreparedStatement ps = context.getConnection().prepareStatement(GET_MESSAGES_WITH_DATE);
+		try {
+			PreparedStatement ps = context.getConnection().prepareStatement(
+					GET_MESSAGES_WITH_DATE);
 			ps.setString(1, webSpace.getIdentifier());
 			ps.setTimestamp(2, new Timestamp(notBefore.getTime()));
 			ResultSet rs = ps.executeQuery();
 			List<Long> result = new ArrayList<Long>();
-			while(rs.next()){
+			while (rs.next()) {
 				result.add(rs.getLong("idmessage"));
 			}
 			return result;
-		}catch(SQLException e){
+		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
@@ -162,17 +165,22 @@ public class WebSpaceManagerImpl implements WebSpaceManager {
 	 * The SQL statement to request a message by its identifier.
 	 */
 	private static final String GET_MESSAGE_WITH_IDENTIFIER = "SELECT * FROM message WHERE idmessage=? AND receiver=?;";
-	
+
 	@Override
 	public Message getMessage(WebSpace webSpace, long identifier) {
-		try{
-			PreparedStatement ps = context.getConnection().prepareStatement(GET_MESSAGE_WITH_IDENTIFIER);
+		try {
+			PreparedStatement ps = context.getConnection().prepareStatement(
+					GET_MESSAGE_WITH_IDENTIFIER);
 			ps.setLong(1, identifier);
 			ps.setString(2, webSpace.getIdentifier());
 			ResultSet rs = ps.executeQuery();
-			if(!rs.next()) throw new NoSuchElementException("There is no mail with given identifier.");
-			return new MessageImpl(identifier, webSpace, new Date(rs.getTimestamp("timestamp").getTime()), rs.getBytes("content"));
-		}catch(SQLException ex){
+			if (!rs.next())
+				throw new NoSuchElementException(
+						"There is no mail with given identifier.");
+			return new MessageImpl(identifier, webSpace, new Date(rs
+					.getTimestamp("timestamp").getTime()),
+					rs.getBytes("content"));
+		} catch (SQLException ex) {
 			throw new RuntimeException(ex);
 		}
 	}
@@ -180,18 +188,19 @@ public class WebSpaceManagerImpl implements WebSpaceManager {
 	/**
 	 * The SQL statement to store the private key of a web space.
 	 */
-	private static final String STORE_KEY = "UPDATE webspace SET keypassphrase=?, key=? WHERE identifier=?;";
-	
+	private static final String STORE_KEY = "UPDATE webspace SET keypassphrase=?, userkey=? WHERE identifier=?;";
+
 	@Override
 	public void setPrivateKey(WebSpace webSpace, byte[] passphrase,
 			byte[] privateKey) {
-		try{
-			PreparedStatement ps = context.getConnection().prepareStatement(STORE_KEY);
+		try {
+			PreparedStatement ps = context.getConnection().prepareStatement(
+					STORE_KEY);
 			ps.setBytes(1, passphrase);
 			ps.setBytes(2, privateKey);
 			ps.setString(3, webSpace.getIdentifier());
 			ps.executeUpdate();
-		}catch(SQLException ex){
+		} catch (SQLException ex) {
 			throw new RuntimeException(ex);
 		}
 	}
@@ -199,28 +208,34 @@ public class WebSpaceManagerImpl implements WebSpaceManager {
 	/**
 	 * The SQL statement to request the private key of a web space.
 	 */
-	private static final String GET_KEY = "SELECT key, keypassphrase FROM webspace WHERE identifier=?;";
-	
+	private static final String GET_KEY = "SELECT userkey, keypassphrase FROM webspace WHERE identifier=?;";
+
 	@Override
 	public byte[] getPrivateKey(WebSpace webSpace, byte[] passphrase)
 			throws NoSuchElementException, IllegalArgumentException {
-		try{
-			PreparedStatement ps = context.getConnection().prepareStatement(GET_KEY);
+		try {
+			PreparedStatement ps = context.getConnection().prepareStatement(
+					GET_KEY);
 			ps.setString(1, webSpace.getIdentifier());
 			ResultSet rs = ps.executeQuery();
-			if(!rs.next()) throw new RuntimeException("Can't find an entry for the given webspace.");
-			byte[] key = rs.getBytes("key");
+			if (!rs.next())
+				throw new RuntimeException(
+						"Can't find an entry for the given webspace.");
+			byte[] key = rs.getBytes("userkey");
 			byte[] phrase = rs.getBytes("keypassphrase");
-			if(phrase == null || key == null) throw new NoSuchElementException();
-			System.out.println("Expected: " + Base64.getEncoder().encodeToString(phrase));
-			System.out.println("     Got: " + Base64.getEncoder().encodeToString(passphrase));
-			if(!Arrays.equals(phrase, passphrase)) throw new IllegalArgumentException("The given passphrase is invalid.");
+			if (phrase == null || key == null)
+				throw new NoSuchElementException();
+			System.out.println("Expected: "
+					+ Base64.getEncoder().encodeToString(phrase));
+			System.out.println("     Got: "
+					+ Base64.getEncoder().encodeToString(passphrase));
+			if (!Arrays.equals(phrase, passphrase))
+				throw new IllegalArgumentException(
+						"The given passphrase is invalid.");
 			return key;
-		}catch(SQLException ex){
+		} catch (SQLException ex) {
 			throw new IllegalArgumentException(ex);
 		}
 	}
-	
-	
 
 }

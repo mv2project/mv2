@@ -10,10 +10,10 @@ import java.util.List;
 /**
  * A loader to load extension classes.
  * @author Marcel Singer
- * @param <T> The type of the extension to load.
+ * @param <T> The type of classes to load.
  *
  */
-public class ExtensionLoader<T extends Extension> extends InstantiableLoader {
+public class ExtensionLoader<T> extends InstantiableLoader {
 
 	/**
 	 * Creates a new instance of {@link ExtensionLoader}.

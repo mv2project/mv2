@@ -16,10 +16,6 @@ import de.iss.mv2.sql.SequentialSQLContext;
 public class DatabaseContext extends SequentialSQLContext {
 
 	/**
-	 * Holds the name of the JDBC driver to use.
-	 */
-	private String driverName = "org.postgresql.Driver";
-	/**
 	 * Holds the connection string to use.
 	 */
 	private String connectionString;
@@ -45,23 +41,20 @@ public class DatabaseContext extends SequentialSQLContext {
 	 */
 	public DatabaseContext(String host, int port, String database, String user,
 			String password) {
-		this("org.postgresql.Driver", "jdbc:postgresql://" + host + ":" + port
-				+ "/" + database + "?user=" + user + "&password=" + password);
+		this("jdbc:postgresql://" + host + ":" + port + "/" + database
+				+ "?user=" + user + "&password=" + password);
 	}
 
 	/**
 	 * Creates a new database context with the given driver name and connection
 	 * string.
 	 * 
-	 * @param driverName
-	 *            The name of the class name of the driver to use.
 	 * @param connectionString
 	 *            The connection string to use.
 	 */
-	public DatabaseContext(String driverName, String connectionString){
+	public DatabaseContext(String connectionString) {
 		super(null);
 		this.connectionString = connectionString;
-		this.driverName = driverName;
 		setConnection(createConnection());
 	}
 
@@ -105,7 +98,6 @@ public class DatabaseContext extends SequentialSQLContext {
 	 */
 	private Connection createConnection() throws RuntimeException {
 		try {
-			Class.forName(driverName);
 			Connection con = DriverManager.getConnection(connectionString);
 			return con;
 		} catch (Throwable th) {

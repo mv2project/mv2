@@ -3,9 +3,10 @@ package de.iss.mv2.extensions;
 /**
  * An extension.
  * @author Marcel Singer
+ * @param <T> The type of the provided extension object.
  *
  */
-public interface Extension {
+public interface Extension<T> {
 
 	/**
 	 * Returns the user friendly name of this extension.
@@ -17,11 +18,12 @@ public interface Extension {
 	 * @return The identifier of this extension.
 	 */
 	public String getIdentifier();
+	
 	/**
-	 * Returns the version of this extension.
-	 * @return The version of this extension.
+	 * Returns the provided extension object.
+	 * @return The provided extension object.
 	 */
-	public Iterable<Object> getExtensionObjects();
+	public T getExtensionObject();
 	
 	/**
 	 * Is invoked at the startup of this extension.

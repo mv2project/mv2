@@ -3,6 +3,7 @@ package de.iss.mv2.server;
 import java.io.Console;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,6 +11,8 @@ import java.io.OutputStream;
 import java.security.PrivateKey;
 import java.security.Security;
 import java.security.cert.X509Certificate;
+import java.sql.Driver;
+import java.sql.DriverManager;
 import java.util.List;
 import java.util.Scanner;
 
@@ -18,6 +21,7 @@ import org.bouncycastle.operator.OperatorCreationException;
 import org.bouncycastle.pkcs.PKCSException;
 
 import de.iss.mv2.data.BinaryTools;
+import de.iss.mv2.extensions.ExtensionLoader;
 import de.iss.mv2.io.CommandLineInterpreter;
 import de.iss.mv2.io.PathBuilder;
 import de.iss.mv2.security.AESWithRSACryptoSettings;
@@ -29,6 +33,7 @@ import de.iss.mv2.server.io.ConfigFileLocator;
 import de.iss.mv2.server.io.MV2Server;
 import de.iss.mv2.server.io.ServerBindingsConfiguration;
 import de.iss.mv2.server.io.ServerConfig;
+import de.iss.mv2.server.sql.DriverAdapter;
 
 /**
  * The main class.
@@ -48,6 +53,7 @@ public class MV2 {
 	public static void main(String[] args) {
 		try {
 			Security.addProvider(new BouncyCastleProvider());
+			loadExtensions();
 			CommandLineInterpreter cli = new CommandLineInterpreter(args, false);
 			if (cli.hasOption(ServerConstants.UNLIMIT_KEY_STRENGTH_OPTION)) {
 				try {
@@ -67,6 +73,37 @@ public class MV2 {
 			startServer(cli);
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Loads extensions.
+	 */
+	private static void loadExtensions() {
+		PathBuilder pb;
+		try {
+			pb = new PathBuilder(ConfigFileLocator.getConfigFileLocation());
+		} catch (FileNotFoundException | IllegalArgumentException e) {
+			e.printStackTrace();
+			return;
+		}
+		File extensionsDir = pb.getChildFile("ext");
+		if (!extensionsDir.exists() || !extensionsDir.isDirectory())
+			return;
+		for (File jarFile : extensionsDir.listFiles()) {
+			if (!jarFile.getName().toLowerCase().endsWith(".jar"))
+				continue;
+			try {
+				ExtensionLoader<Driver> loader = new ExtensionLoader<Driver>(
+						Driver.class, jarFile);
+
+				for (final Driver d : loader.getAllInstances()) {
+					DriverManager.registerDriver(new DriverAdapter(d));
+				}
+
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
 		}
 	}
 
@@ -154,7 +191,6 @@ public class MV2 {
 			sbc.write(f);
 			f = pb.getChildFile(ServerConstants.LOCALHOST_CERT_RSC_NAME);
 			if (!f.exists()) {
-				f.createNewFile();
 				BinaryTools.copy(
 						MV2.class.getClassLoader().getResourceAsStream(
 								ServerConstants.LOCALHOST_CERT_RSC_NAME),
@@ -162,7 +198,6 @@ public class MV2 {
 			}
 			f = pb.getChildFile(ServerConstants.LOCALHOST_KEY_RSC_NAME);
 			if (!f.exists()) {
-				f.createNewFile();
 				BinaryTools.copy(
 						MV2.class.getClassLoader().getResourceAsStream(
 								ServerConstants.LOCALHOST_KEY_RSC_NAME),
@@ -181,6 +216,7 @@ public class MV2 {
 			System.out
 					.println("\t--> written to '" + f.getAbsolutePath() + "'");
 		}
+
 	}
 
 	/**

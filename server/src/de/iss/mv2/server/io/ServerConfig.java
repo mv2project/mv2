@@ -10,6 +10,8 @@ import java.util.Properties;
 import de.iss.mv2.io.PathBuilder;
 import de.iss.mv2.server.ServerConstants;
 import de.iss.mv2.server.data.DatabaseContext;
+import de.iss.mv2.server.sql.DatabaseSupportManager;
+import de.iss.mv2.server.sql.DatabaseSupportProvider;
 
 /**
  * A configuration holding the settings used during the server runtime.
@@ -50,14 +52,16 @@ public class ServerConfig extends Properties {
 	public static final String PK_PASSWORD = "PK_PASSWORD";
 	
 	/**
-	 * The key for the database connection string property.
+	 * The key for the property defining the identifier of the {@link DatabaseSupportProvider}.
 	 */
-	public static final String DB_CONNECTION_STRING = "DB_CONNECTION";
+	public static final String DB_PROV = "DB_PROV";
 	
 	/**
-	 * The key class name of the JDBC driver to use.
+	 * The default value of the {@link DatabaseSupportProvider} property.
 	 */
-	public static final String DB_DRIVER = "DB_DRIVER";
+	public static final String DB_PROV_DEFAULT = "postgresql";
+	
+	
 
 	/**
 	 * The serial.
@@ -255,12 +259,28 @@ public class ServerConfig extends Properties {
 	 * @return A new database context.
 	 */
 	public DatabaseContext toDatabaseContext(){
-		if(definesConnectionString()){
-			return new DatabaseContext(getJDBCDriverName(), getConnectionString());
-		}else{
-			return new DatabaseContext(getDatabaseHost(), getDatabasePort(), getDatabaseName(), getDatabaseUser(), getDatabaseUsersPassword());
-		}
+		DatabaseSupportProvider dsp = DatabaseSupportManager.get(getDatabaseSupportProvider());
+		dsp.registerRequiredDrivers();
+		return new DatabaseContext(dsp.createConnectionString(getDatabaseHost(), getDatabasePort(), getDatabaseName(), getDatabaseUser(), getDatabaseUsersPassword()));
 	}
+	
+	
+	/**
+	 * Sets the identifier of the database support provider to be used.
+	 * @param identifier The identifier of the database support provider to set.
+	 */
+	public void setDatabaseSupportProvider(String identifier){
+		setProperty(DB_PROV, identifier);
+	}
+	
+	/**
+	 * Returns the identifier of the database support provider to be used.
+	 * @return The identifier of the database support provider to be used.
+	 */
+	public String getDatabaseSupportProvider(){
+		return getProperty(DB_PROV, DB_PROV_DEFAULT);
+	}
+	
 	
 	/**
 	 * Returns {@code true} if there is a value for the given settings key.
@@ -271,29 +291,7 @@ public class ServerConfig extends Properties {
 		return (getProperty(key, null) != null);
 	}
 
-	/**
-	 * Returns {@code true} if this settings define a database connection string.
-	 * @return {@code true} if this settings define a database connection string.
-	 */
-	public boolean definesConnectionString(){
-		return defines(DB_CONNECTION_STRING);
-	}
 	
-	/**
-	 * Returns the database connection string.
-	 * @return The database connection string.
-	 */
-	public String getConnectionString(){
-		return getProperty(DB_CONNECTION_STRING, null);
-	}
-	
-	/**
-	 * Returns the name of the JDBC driver to use.
-	 * @return The name of the JDBC driver to use.
-	 */
-	public String getJDBCDriverName(){
-		return getProperty(DB_DRIVER, "org.postgresql.Driver");
-	}
 	
 	/**
 	 * Returns the configuration of the web spaces that are read only.
