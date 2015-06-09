@@ -37,8 +37,6 @@ import org.bouncycastle.util.io.pem.PemObject;
 import org.bouncycastle.util.io.pem.PemReader;
 import org.bouncycastle.util.io.pem.PemWriter;
 
-import sun.misc.BASE64Encoder;
-import sun.security.provider.X509Factory;
 import de.iss.mv2.data.BinaryTools;
 
 /**
@@ -124,6 +122,16 @@ public class PEMFileIO {
 	}
 
 	/**
+	 * A constant holding the certificate header. 
+	 */
+	private static final String BEGIN_CERT = "-----BEGIN CERTIFICATE-----";
+	
+	/**
+	 * A constant holding the certificate footer.
+	 */
+	private static final String END_CERT = "-----END CERTIFICATE-----";
+	
+	/**
 	 * Writes a certificate to the given output stream.
 	 * 
 	 * @param out
@@ -138,13 +146,12 @@ public class PEMFileIO {
 	public void writeCertificate(OutputStream out, X509Certificate cert)
 			throws CertificateEncodingException, IOException {
 		PrintWriter pw = new PrintWriter(out);
-
-		BASE64Encoder encoder = new BASE64Encoder();
-		pw.println(X509Factory.BEGIN_CERT);
+		
+		pw.println(BEGIN_CERT);
 		pw.flush();
-		encoder.encodeBuffer(cert.getEncoded(), out);
+		pw.println(Base64.getEncoder().encodeToString(cert.getEncoded()));
 		out.flush();
-		pw.println(X509Factory.END_CERT);
+		pw.println(END_CERT);
 		pw.flush();
 	}
 

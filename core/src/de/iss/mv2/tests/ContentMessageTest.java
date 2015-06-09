@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.io.InputStream;
 import java.security.PrivateKey;
+import java.security.SecureRandom;
 import java.security.Security;
 import java.security.cert.X509Certificate;
 
@@ -11,7 +12,6 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.junit.Before;
 import org.junit.Test;
 
-import sun.security.provider.SecureRandom;
 import de.iss.mv2.TestConstants;
 import de.iss.mv2.messaging.ContentMessage;
 import de.iss.mv2.messaging.DEF_MESSAGE_FIELD;
@@ -112,7 +112,8 @@ public class ContentMessageTest implements TestConstants {
 	@Test
 	public void testIvalidSignature() throws Exception{
 		byte[] testSig = new byte[256];
-		new SecureRandom().engineNextBytes(testSig);
+		SecureRandom sr = new SecureRandom();
+		sr.nextBytes(testSig);
 		message.setMessageField(new MessageField(DEF_MESSAGE_FIELD.SIGNATURE, testSig), true);
 		assertFalse(message.verifySignature());
 	}
