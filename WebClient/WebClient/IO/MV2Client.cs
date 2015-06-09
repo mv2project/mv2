@@ -63,6 +63,7 @@ namespace ISS.MV2.IO {
                 var control = new GUI.Controls.ProtocolMessageView() { Message = message };
                 control.Foreground = new SolidColorBrush(Colors.Blue);
                 Debugging.MessageProtocol.Items.Insert(0, control);
+                Debugging.MessageProtocol.SelectedIndex = 0;
             });
         }
 
@@ -71,8 +72,8 @@ namespace ISS.MV2.IO {
             var smth = new Threading.WindowsDispatcher(Debugging.MessageProtocol);
             smth.Invoke(() => {
                 var control = new GUI.Controls.ProtocolMessageView() { Message = message };
-                //control.Foreground = new SolidColorBrush(Colors.Blue);
                 Debugging.MessageProtocol.Items.Insert(0, control);
+                Debugging.MessageProtocol.SelectedIndex = 0;
             });
         }
 

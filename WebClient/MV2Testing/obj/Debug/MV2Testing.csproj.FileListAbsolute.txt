@@ -9,14 +9,3 @@ F:\MV2\Git\WebClient\MV2Testing\obj\Debug\MV2Testing.dll
 F:\MV2\Git\WebClient\MV2Testing\obj\Debug\MV2Testing.pdb
 F:\MV2\Git\WebClient\MV2Testing\bin\Debug\System.Net.dll
 F:\MV2\Git\WebClient\MV2Testing\bin\Debug\System.Net.xml
-C:\Users\MARCEL\workspace\MV2_Git\WebClient\MV2Testing\bin\Debug\MV2Testing.dll
-C:\Users\MARCEL\workspace\MV2_Git\WebClient\MV2Testing\bin\Debug\MV2Testing.pdb
-C:\Users\MARCEL\workspace\MV2_Git\WebClient\MV2Testing\bin\Debug\crypto.dll
-C:\Users\MARCEL\workspace\MV2_Git\WebClient\MV2Testing\bin\Debug\MV2Core.dll
-C:\Users\MARCEL\workspace\MV2_Git\WebClient\MV2Testing\bin\Debug\System.Net.dll
-C:\Users\MARCEL\workspace\MV2_Git\WebClient\MV2Testing\bin\Debug\MV2Core.pdb
-C:\Users\MARCEL\workspace\MV2_Git\WebClient\MV2Testing\bin\Debug\crypto.xml
-C:\Users\MARCEL\workspace\MV2_Git\WebClient\MV2Testing\bin\Debug\System.Net.xml
-C:\Users\MARCEL\workspace\MV2_Git\WebClient\MV2Testing\obj\Debug\MV2Testing.csprojResolveAssemblyReference.cache
-C:\Users\MARCEL\workspace\MV2_Git\WebClient\MV2Testing\obj\Debug\MV2Testing.dll
-C:\Users\MARCEL\workspace\MV2_Git\WebClient\MV2Testing\obj\Debug\MV2Testing.pdb

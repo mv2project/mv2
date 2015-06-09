@@ -1,10 +1,10 @@
-﻿<xapCache source="F:\MV2\Git\WebClient\WebClient\Bin\Debug\WebClient.xap" wasSigned="False" certificateThumbprint="" TimeStampUrl="" lastWriteTime="07.06.2015 21:39:44">
-  <file source="F:\MV2\Git\WebClient\WebClient\obj\Debug\WebClient.dll" archivePath="WebClient.dll" lastWriteTime="07.06.2015 21:39:43" />
-  <file source="F:\MV2\Git\WebClient\packages\Portable.BouncyCastle.1.7.0.2\lib\portable-net4+sl5+wp8+win8+wpa81+MonoTouch10+MonoAndroid10+xamarinmac20+xamarinios10\crypto.dll" archivePath="crypto.dll" lastWriteTime="20.05.2015 20:56:45" />
-  <file source="F:\MV2\Git\WebClient\MV2CorePortable\bin\Debug\MV2Core.dll" archivePath="MV2Core.dll" lastWriteTime="07.06.2015 21:18:44" />
-  <file source="C:\Program Files (x86)\Microsoft SDKs\Silverlight\v5.0\Libraries\Client\System.ComponentModel.DataAnnotations.dll" archivePath="System.ComponentModel.DataAnnotations.dll" lastWriteTime="18.11.2011 17:40:20" />
-  <file source="C:\Program Files (x86)\Microsoft SDKs\Silverlight\v5.0\Libraries\Client\System.Windows.Controls.Data.Input.dll" archivePath="System.Windows.Controls.Data.Input.dll" lastWriteTime="18.11.2011 17:40:20" />
-  <file source="C:\Program Files (x86)\Microsoft SDKs\Silverlight\v5.0\Libraries\Client\System.Windows.Controls.dll" archivePath="System.Windows.Controls.dll" lastWriteTime="18.11.2011 17:40:20" />
-  <file source="C:\Program Files (x86)\Microsoft SDKs\Silverlight\v5.0\Libraries\Client\System.Windows.Controls.Navigation.dll" archivePath="System.Windows.Controls.Navigation.dll" lastWriteTime="18.11.2011 17:40:20" />
-  <file source="F:\MV2\Git\WebClient\WebClient\Bin\Debug\AppManifest.xaml" archivePath="AppManifest.xaml" lastWriteTime="06.06.2015 15:39:08" />
+﻿<xapCache source="C:\Users\MARCEL\workspace\MV2_Git\WebClient\WebClient\Bin\Debug\WebClient.xap" wasSigned="False" certificateThumbprint="" TimeStampUrl="" lastWriteTime="09.06.2015 10:48:05">
+  <file source="C:\Users\MARCEL\workspace\MV2_Git\WebClient\WebClient\obj\Debug\WebClient.dll" archivePath="WebClient.dll" lastWriteTime="09.06.2015 10:48:04" />
+  <file source="C:\Users\MARCEL\workspace\MV2_Git\WebClient\packages\Portable.BouncyCastle.1.7.0.2\lib\portable-net4+sl5+wp8+win8+wpa81+MonoTouch10+MonoAndroid10+xamarinmac20+xamarinios10\crypto.dll" archivePath="crypto.dll" lastWriteTime="03.06.2015 15:01:32" />
+  <file source="C:\Users\MARCEL\workspace\MV2_Git\WebClient\MV2CorePortable\bin\Debug\MV2Core.dll" archivePath="MV2Core.dll" lastWriteTime="09.06.2015 10:22:22" />
+  <file source="C:\Program Files (x86)\Microsoft SDKs\Silverlight\v5.0\Libraries\Client\System.ComponentModel.DataAnnotations.dll" archivePath="System.ComponentModel.DataAnnotations.dll" lastWriteTime="18.11.2011 16:40:20" />
+  <file source="C:\Program Files (x86)\Microsoft SDKs\Silverlight\v5.0\Libraries\Client\System.Windows.Controls.Data.Input.dll" archivePath="System.Windows.Controls.Data.Input.dll" lastWriteTime="18.11.2011 16:40:20" />
+  <file source="C:\Program Files (x86)\Microsoft SDKs\Silverlight\v5.0\Libraries\Client\System.Windows.Controls.dll" archivePath="System.Windows.Controls.dll" lastWriteTime="18.11.2011 16:40:20" />
+  <file source="C:\Program Files (x86)\Microsoft SDKs\Silverlight\v5.0\Libraries\Client\System.Windows.Controls.Navigation.dll" archivePath="System.Windows.Controls.Navigation.dll" lastWriteTime="18.11.2011 16:40:20" />
+  <file source="C:\Users\MARCEL\workspace\MV2_Git\WebClient\WebClient\Bin\Debug\AppManifest.xaml" archivePath="AppManifest.xaml" lastWriteTime="09.06.2015 10:22:28" />
 </xapCache>

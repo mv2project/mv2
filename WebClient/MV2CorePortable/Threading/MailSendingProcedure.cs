@@ -26,7 +26,7 @@ namespace ISS.MV2.Threading {
             foreach (string receiver in parameter.Receivers) {
                 Update("Sending to " + receiver);
                 partner = clientProvider.GetClient(receiver);
-                Update("Requesting certificate...");
+                Update("Requesting the receivers certificate...");
                 ClientCertificateRequest ccRequest = new ClientCertificateRequest() { Identifier = receiver };
                 partner.Send(ccRequest);
                 ClientCertificateResponse ccResponse = AssertTypeAndConvert(partner.HandleNext(), new ClientCertificateResponse());
