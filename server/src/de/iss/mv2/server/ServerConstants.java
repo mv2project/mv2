@@ -38,6 +38,11 @@ public interface ServerConstants extends MV2Constants {
 	public static final String RECRYPT_KEY_FILE_OPTION = "rck";
 	
 	/**
+	 * The command line option to create the initial database structure.
+	 */
+	public static final String CREATE_DB_OPTION = "cdb";
+	
+	/**
 	 * The command line option to retrieve the passphrase of the private keys.
 	 */
 	public static final String KEY_PASSPHRASE_OPTION = "k";

@@ -8,12 +8,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.security.PrivateKey;
 import java.security.Security;
 import java.security.cert.X509Certificate;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
@@ -24,6 +26,7 @@ import de.iss.mv2.data.BinaryTools;
 import de.iss.mv2.extensions.ExtensionLoader;
 import de.iss.mv2.io.CommandLineInterpreter;
 import de.iss.mv2.io.PathBuilder;
+import de.iss.mv2.io.VirtualConsoleReader;
 import de.iss.mv2.security.AESWithRSACryptoSettings;
 import de.iss.mv2.security.KeyStrengthUmlimiter;
 import de.iss.mv2.security.MessageCryptorSettings;
@@ -33,6 +36,9 @@ import de.iss.mv2.server.io.ConfigFileLocator;
 import de.iss.mv2.server.io.MV2Server;
 import de.iss.mv2.server.io.ServerBindingsConfiguration;
 import de.iss.mv2.server.io.ServerConfig;
+import de.iss.mv2.server.sql.DatabaseInstaller;
+import de.iss.mv2.server.sql.DatabaseSupportManager;
+import de.iss.mv2.server.sql.DatabaseSupportProvider;
 import de.iss.mv2.server.sql.DriverAdapter;
 
 /**
@@ -62,6 +68,10 @@ public class MV2 {
 
 				}
 			}
+			if(cli.hasOption(ServerConstants.CREATE_DB_OPTION)){
+				createInitialDB(cli);
+				return;
+			}
 			if (cli.hasOption(ServerConstants.CREATE_EXAMPLE_CONFIGURATION_OPTION)) {
 				createBasicConfiguration(cli);
 				return;
@@ -74,6 +84,38 @@ public class MV2 {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * Creates the initial database structure.
+	 * @param cli The command line interpreter.
+	 */
+	private static void createInitialDB(CommandLineInterpreter cli){
+		List<String> extras = cli.getExtras(ServerConstants.CREATE_DB_OPTION);
+		if(extras.size() < 1){
+			System.err.println("The name of the database support provider is missing. Syntax is: -" + ServerConstants.CREATE_DB_OPTION + " <providerName>");
+			return;
+		}
+		DatabaseSupportProvider provider = null;
+		try{
+			provider = DatabaseSupportManager.get(extras.get(0));
+		}catch(NoSuchElementException ex){
+			System.err.println("There is no support provider with the identifier '" + extras.get(0) + "'.");
+			return;
+		}
+		try {
+			String host = VirtualConsoleReader.readLine("Host: ");
+			int port = Integer.parseInt(VirtualConsoleReader.readLine("Port: "));
+			String database = VirtualConsoleReader.readLine("Database: ");
+			String username = VirtualConsoleReader.readLine("Username: ");
+			String password = VirtualConsoleReader.readPassword(System.in, System.out, "Password: ");
+			DatabaseInstaller installer = new DatabaseInstaller(provider, host, port, database, username, password);
+			installer.setOutputLogg(new PrintWriter(System.out));
+			installer.install();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 	/**

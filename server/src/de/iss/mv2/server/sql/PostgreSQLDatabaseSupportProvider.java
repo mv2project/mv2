@@ -7,11 +7,13 @@ import java.sql.SQLException;
 
 /**
  * A {@link DatabaseSupportProvider} for PostgreSQL-databases.
+ * 
  * @author Marcel Singer
  *
  */
-public class PostgreSQLDatabaseSupportProvider implements DatabaseSupportProvider {
-	
+public class PostgreSQLDatabaseSupportProvider implements
+		DatabaseSupportProvider {
+
 	/**
 	 * The constant containing the identifier of this provider.
 	 */
@@ -30,14 +32,15 @@ public class PostgreSQLDatabaseSupportProvider implements DatabaseSupportProvide
 
 	@Override
 	public InputStreamReader getDDLReader() {
-		return new InputStreamReader(getClass().getClassLoader().getResourceAsStream("ddls/postgresql.sql"), StandardCharsets.UTF_8);
+		return new InputStreamReader(getClass().getClassLoader()
+				.getResourceAsStream("ddls/postgresql.sql"), StandardCharsets.UTF_8);
 	}
 
 	@Override
 	public String createConnectionString(String host, int port,
 			String database, String user, String password) {
-		return "jdbc:postgresql://" + host + ":" + port
-			+ "/" + database + "?user=" + user + "&password=" + password;
+		return "jdbc:postgresql://" + host + ":" + port + "/" + database
+				+ "?user=" + user + "&password=" + password;
 	}
 
 	@Override
@@ -48,6 +51,5 @@ public class PostgreSQLDatabaseSupportProvider implements DatabaseSupportProvide
 			e.printStackTrace();
 		}
 	}
-	
 
 }
