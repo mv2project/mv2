@@ -13,15 +13,15 @@ import java.util.List;
  * @param <T> The type of classes to load.
  *
  */
-public class ExtensionLoader<T> extends InstantiableLoader {
+public class TypeLoader<T> extends InstantiableLoader {
 
 	/**
-	 * Creates a new instance of {@link ExtensionLoader}.
+	 * Creates a new instance of {@link TypeLoader}.
 	 * @param extensionType The class of the extension(s) to load.
 	 * @param file The file of the jar to load.
 	 * @throws IOException if an I/O error occurs.
 	 */
-	public ExtensionLoader(Class<T> extensionType, File file) throws IOException {
+	public TypeLoader(Class<T> extensionType, File file) throws IOException {
 		super(extensionType, file);
 	}
 

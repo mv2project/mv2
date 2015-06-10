@@ -23,7 +23,7 @@ import org.bouncycastle.operator.OperatorCreationException;
 import org.bouncycastle.pkcs.PKCSException;
 
 import de.iss.mv2.data.BinaryTools;
-import de.iss.mv2.extensions.ExtensionLoader;
+import de.iss.mv2.extensions.TypeLoader;
 import de.iss.mv2.io.CommandLineInterpreter;
 import de.iss.mv2.io.PathBuilder;
 import de.iss.mv2.io.VirtualConsoleReader;
@@ -136,7 +136,7 @@ public class MV2 {
 			if (!jarFile.getName().toLowerCase().endsWith(".jar"))
 				continue;
 			try {
-				ExtensionLoader<Driver> loader = new ExtensionLoader<Driver>(
+				TypeLoader<Driver> loader = new TypeLoader<Driver>(
 						Driver.class, jarFile);
 
 				for (final Driver d : loader.getAllInstances()) {
