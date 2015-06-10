@@ -3,10 +3,9 @@ package de.iss.mv2.extensions;
 /**
  * An extension.
  * @author Marcel Singer
- * @param <T> The type of the provided extension object.
  *
  */
-public interface Extension<T> {
+public interface Extension {
 
 	/**
 	 * Returns the user friendly name of this extension.
@@ -19,11 +18,6 @@ public interface Extension<T> {
 	 */
 	public String getIdentifier();
 	
-	/**
-	 * Returns the provided extension object.
-	 * @return The provided extension object.
-	 */
-	public T getExtensionObject();
 	
 	/**
 	 * Is invoked at the startup of this extension.
@@ -34,7 +28,16 @@ public interface Extension<T> {
 	 * Is invoked at the teardown of this extension.
 	 * @return {@code true}, if the teardown was successful.
 	 */
-	public boolean teardown(); 
+	public boolean teardown();
+	
+	
+	/**
+	 * Returns the available extension objects that can be used.
+	 * @param type The type of extension objects to be returned.
+	 * @param matchExact {@code false} if objects that inherit from the given type should be included.
+	 * @return The available extension objects.
+	 */
+	public <T> Iterable<T> getExtensionObjects(Class<? extends T> type, boolean matchExact);
 	
 	
 }
