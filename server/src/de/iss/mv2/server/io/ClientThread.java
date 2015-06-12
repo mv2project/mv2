@@ -203,7 +203,6 @@ public class ClientThread extends Thread implements CommunicationPartner {
 				reportMessage(received);
 				timeouts = 0;
 			} catch (SocketTimeoutException ex) {
-				System.out.println(timeouts);
 				timeouts++;
 				if (timeouts > 3) {
 					LoggerManager.getCurrentLogger().push(

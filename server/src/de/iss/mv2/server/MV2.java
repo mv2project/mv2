@@ -321,6 +321,7 @@ public class MV2 {
 			}
 
 			MV2Server server = new MV2Server(serverConfig, bindings, mcs, 9898);
+			server.setPrintMessages(cli.hasOption(ServerConstants.SHOW_INCOMING_MESSAGES_OPTION));
 			server.start();
 
 			String line;

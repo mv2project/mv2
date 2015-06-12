@@ -50,6 +50,11 @@ import de.iss.mv2.server.processors.SpaceCreationProcessor;
 public class MV2Server {
 
 	/**
+	 * {@code true} if incoming messages should be printed to the console.
+	 */
+	private boolean printIncomingMessages = false;
+
+	/**
 	 * Hold the port of this instance.
 	 */
 	private final int port;
@@ -92,7 +97,7 @@ public class MV2Server {
 	 * Holds the current certificate manager.
 	 */
 	private final CertificateManager certificateManager;
-	
+
 	/**
 	 * Holds the configuration of this server.
 	 */
@@ -100,7 +105,9 @@ public class MV2Server {
 
 	/**
 	 * Creates a new server with the given settings.
-	 * @param config The configurations of this server.
+	 * 
+	 * @param config
+	 *            The configurations of this server.
 	 * @param bindings
 	 *            The bindings for this server.
 	 * @param settings
@@ -108,8 +115,8 @@ public class MV2Server {
 	 * @param port
 	 *            The port to listen.
 	 */
-	public MV2Server(ServerConfig config, ServerBindings bindings, MessageCryptorSettings settings,
-			int port) {
+	public MV2Server(ServerConfig config, ServerBindings bindings,
+			MessageCryptorSettings settings, int port) {
 		this.certificateManager = new CertificateManagerImpl(
 				DatabaseContext.getContext());
 		this.port = port;
@@ -118,6 +125,16 @@ public class MV2Server {
 		this.configuration = config;
 		registerDefaultProcessors();
 
+	}
+
+	/**
+	 * Sets if incoming messages should be printed to the console.
+	 * 
+	 * @param doPrint
+	 *            {@code true} if the messages should be printed to the console.
+	 */
+	public void setPrintMessages(boolean doPrint) {
+		this.printIncomingMessages = doPrint;
 	}
 
 	/**
@@ -186,7 +203,7 @@ public class MV2Server {
 	 *             if an I/O error occurs.
 	 */
 	public void start() throws IOException {
-		socket = new ServerSocket(port);
+		socket = new ServerSocket(port, 100);
 		serverThread = new ServerThread();
 		serverThread.start();
 		socket.setSoTimeout(1000);
@@ -394,9 +411,13 @@ public class MV2Server {
 
 		@Override
 		public void messageReceived(ClientThread client, MV2Message m) {
-			System.out.println("Message from "
-					+ client.getConnection().getRemoteSocketAddress() + ":");
-			System.out.println(m);
+			if (printIncomingMessages) {
+				System.out
+						.println("Message from "
+								+ client.getConnection()
+										.getRemoteSocketAddress() + ":");
+				System.out.println(m);
+			}
 			handleMessage(client, m);
 		}
 

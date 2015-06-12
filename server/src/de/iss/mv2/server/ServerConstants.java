@@ -48,6 +48,11 @@ public interface ServerConstants extends MV2Constants {
 	public static final String KEY_PASSPHRASE_OPTION = "k";
 	
 	/**
+	 * The command line option indicating that incoming messages should be printed to the console.
+	 */
+	public static final String SHOW_INCOMING_MESSAGES_OPTION = "vm";
+	
+	/**
 	 * The name of the current MV2 server implementation.
 	 */
 	public static final String MV2_SERVER_IMPLEMENTATION_NAME = "MV2 Server";
@@ -76,5 +81,7 @@ public interface ServerConstants extends MV2Constants {
 	 * The name of the {@link BouncyCastleProvider}-class.
 	 */
 	public static final String BC_CLASS_NAME = "org.bouncycastle.jce.provider.BouncyCastleProvider";
+	
+	
 	
 }
