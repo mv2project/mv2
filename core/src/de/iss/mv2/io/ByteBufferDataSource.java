@@ -45,14 +45,13 @@ public class ByteBufferDataSource extends DataSource {
 	@Override
 	public void importData(InputStream in) throws IOException {
 		int read = -1;
-		buffer.position(0);
+		buffer.rewind();
 		for (int i = 0; i < getLength(); i++) {
 			read = in.read();
 			if (read == -1)
-				throw new EOFException();
+				throw new EOFException("EOF at: " + i + " / " + getLength());
 			buffer.put((byte) read);
 		}
-		buffer.position(0);
 	}
 
 	@Override
