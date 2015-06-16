@@ -1,16 +1,15 @@
 package de.iss.mv2.messaging;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
-import java.util.Arrays;
 import java.util.Base64;
 
-import de.iss.mv2.data.BinaryTools;
+import de.iss.mv2.io.ByteArrayDataSource;
+import de.iss.mv2.io.DataSource;
 
 /**
  * Represents a content field of a {@link MV2Message}.
@@ -26,9 +25,9 @@ public class MessageField extends MV2CommunicationElement {
 	private String content;
 
 	/**
-	 * Holds the binary content.
+	 * Holds the content data.
 	 */
-	private byte[] binaryContent = null;
+	private DataSource contentData;
 
 	/**
 	 * Creates a new instance of {@link MessageField}.
@@ -54,15 +53,18 @@ public class MessageField extends MV2CommunicationElement {
 	public MessageField(DEF_MESSAGE_FIELD field, String content) {
 		this(field.getIdentifier(), content);
 	}
-	
+
 	/**
 	 * Creates a new instance of {@link MessageField}.
-	 * @param field The field type.
-	 * @param content The binary content of this field.
+	 * 
+	 * @param field
+	 *            The field type.
+	 * @param content
+	 *            The binary content of this field.
 	 */
-	public MessageField(DEF_MESSAGE_FIELD field, byte[] content){
+	public MessageField(DEF_MESSAGE_FIELD field, byte[] content) {
 		super(field.getIdentifier());
-		binaryContent = content;
+		contentData = new ByteArrayDataSource(content);
 	}
 
 	/**
@@ -103,23 +105,30 @@ public class MessageField extends MV2CommunicationElement {
 	public String getContent() {
 		return content;
 	}
-	
+
 	/**
 	 * Returns the containing binary data.
-	 * @return The stream with the binary content data or {@code null} if there is none.
+	 * 
+	 * @return The stream with the binary content data or {@code null} if there
+	 *         is none.
+	 * @throws IOException
+	 *             If an I/O error occurs.
 	 */
-	public InputStream getDataContent(){
-		if(binaryContent == null) return null;
-		return new ByteArrayInputStream(binaryContent);
+	public InputStream getDataContent() throws IOException {
+		return contentData.getStream();
 	}
-	
+
 	/**
 	 * Returns a copy of the containing binary data.
-	 * @return A copy of the containing binary data or {@code null} if there is none.
+	 * 
+	 * @return A copy of the containing binary data or {@code null} if there is
+	 *         none.
+	 * @throws IOException
+	 *             If an I/O error occurs.
 	 */
-	public byte[] getDataArrayContent(){
-		if(binaryContent == null) return null;
-		return Arrays.copyOf(binaryContent, binaryContent.length);
+	@Deprecated
+	public byte[] getDataArrayContent() throws IOException {
+		return contentData.getBytes();
 	}
 
 	/**
@@ -135,8 +144,8 @@ public class MessageField extends MV2CommunicationElement {
 	@Override
 	protected void doSerialize(OutputStream out, Charset encoding)
 			throws IOException {
-		if(binaryContent != null){
-			out.write(binaryContent);
+		if (contentData != null) {
+			contentData.export(out);
 			return;
 		}
 		OutputStreamWriter writer = new OutputStreamWriter(out, encoding);
@@ -145,13 +154,14 @@ public class MessageField extends MV2CommunicationElement {
 	}
 
 	/**
-	 * Holds a stream to be read.
+	 * Deserializes this message field.
+	 * 
+	 * @param dataSource
+	 *            The data to read.
 	 */
-	private InputStream deserializeInput;
-
 	@Override
-	public final void deserialize(InputStream in) {
-		this.deserializeInput = in;
+	public final void deserialize(DataSource dataSource) {
+		this.contentData = dataSource;
 	}
 
 	/**
@@ -163,33 +173,30 @@ public class MessageField extends MV2CommunicationElement {
 	 *             If an I/O error occurs.
 	 */
 	public void completeDeserialize(Charset encoding) throws IOException {
-		if (deserializeInput == null)
+		if (contentData == null)
 			return;
-		doDeserialize(deserializeInput, encoding);
-		deserializeInput = null;
-	}
-
-	@Override
-	protected void doDeserialize(InputStream in, Charset encdoding)
-			throws IOException {
-		DEF_MESSAGE_FIELD dmf = DEF_MESSAGE_FIELD.find(getFieldIdentifier());
-		if (dmf.getContentType() == CONTENT_TYPE.BINARY) {
-			doDeserializeBinary(in);
-		} else {
-			doDeserializeString(in, encdoding);
-		}
+		doDeserialize(contentData, encoding);
 	}
 
 	/**
-	 * Copies the content of the given input steam to a internal store.
+	 * Deserializes this element.
 	 * 
 	 * @param in
-	 *            The input stream to copy.
+	 *            The input data to read from.
+	 * @param encoding
+	 *            The encoding to be used.
 	 * @throws IOException
 	 *             If an I/O error occurs.
 	 */
-	private void doDeserializeBinary(InputStream in) throws IOException {
-		binaryContent = BinaryTools.readAll(in);
+	@Override
+	protected void doDeserialize(DataSource in, Charset encoding)
+			throws IOException {
+		DEF_MESSAGE_FIELD dmf = DEF_MESSAGE_FIELD.find(getFieldIdentifier());
+		if (dmf.getContentType() == CONTENT_TYPE.BINARY) {
+			this.contentData = in;
+		} else {
+			doDeserializeString(in.getStream(), encoding);
+		}
 	}
 
 	/**
@@ -215,13 +222,23 @@ public class MessageField extends MV2CommunicationElement {
 
 	@Override
 	public String toString() {
-		DEF_MESSAGE_FIELD fieldType = DEF_MESSAGE_FIELD.find(getFieldIdentifier());
-		if(fieldType != DEF_MESSAGE_FIELD.UNKNOWN && fieldType.getContentType() == CONTENT_TYPE.BINARY){
-			return getFieldIdentifier() + " (" + fieldType + "): " + Base64.getEncoder().encodeToString(getDataArrayContent());
+		DEF_MESSAGE_FIELD fieldType = DEF_MESSAGE_FIELD
+				.find(getFieldIdentifier());
+		if (fieldType != DEF_MESSAGE_FIELD.UNKNOWN
+				&& fieldType.getContentType() == CONTENT_TYPE.BINARY) {
+			try {
+				return getFieldIdentifier()
+						+ " ("
+						+ fieldType
+						+ "): "
+						+ Base64.getEncoder().encodeToString(
+								getDataArrayContent());
+			} catch (IOException e) {
+				return getFieldIdentifier() + " (" + fieldType
+						+ "): <CAN'T EVALUATE>";
+			}
 		}
-		return getFieldIdentifier() + " ("
-				+ fieldType + "): "
-				+ getContent();
+		return getFieldIdentifier() + " (" + fieldType + "): " + getContent();
 	}
 
 }

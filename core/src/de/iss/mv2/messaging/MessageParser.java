@@ -1,12 +1,12 @@
 package de.iss.mv2.messaging;
 
-import static de.iss.mv2.data.BinaryTools.readBuffer;
 import static de.iss.mv2.data.BinaryTools.readInt;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.KeyPair;
 
+import de.iss.mv2.io.DataSource;
 import de.iss.mv2.security.CryptoException;
 import de.iss.mv2.security.MessageCryptorSettings;
 
@@ -64,7 +64,8 @@ public class MessageParser {
 	public MV2Message readNext() throws IOException, CryptoException {
 		int identifier = readInt(in);
 		int length = readInt(in);
-		InputStream messageStream = readBuffer(in, length);
+		DataSource messageBuffer = DataSource.getDataSource(length);
+		messageBuffer.importData(in);
 		MV2Message message;
 		if (identifier != STD_MESSAGE.ENCRYPTED_MESSAGE.getIdentifier()) {
 			message = new MV2Message(identifier);
@@ -80,7 +81,7 @@ public class MessageParser {
 			
 			message = new EncryptedMessage(settings, asymmetricKey);
 		}
-		message.deserialize(messageStream);
+		message.deserialize(messageBuffer);
 		return message;
 	}
 

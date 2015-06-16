@@ -1,6 +1,5 @@
 package de.iss.mv2.messaging;
 
-import static de.iss.mv2.data.BinaryTools.readBuffer;
 import static de.iss.mv2.data.BinaryTools.readInt;
 
 import java.io.EOFException;
@@ -12,6 +11,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+
+import de.iss.mv2.io.DataSource;
 
 /**
  * A message that can be sent to a communication partner.
@@ -67,6 +68,7 @@ public class MV2Message extends MV2CommunicationElement {
 
 	/**
 	 * Returns all currently present fields.
+	 * 
 	 * @return All currently present fields.
 	 */
 	protected Collection<MessageField> getFields() {
@@ -77,7 +79,7 @@ public class MV2Message extends MV2CommunicationElement {
 	 * Performs the cleaning before the serialization.
 	 */
 	protected void doCleanUp() {
-			
+
 	}
 
 	/**
@@ -207,11 +209,17 @@ public class MV2Message extends MV2CommunicationElement {
 	 *            type was found.
 	 * @return The binary content of the specified field.
 	 */
+	@Deprecated
 	public byte[] getFieldDataArrayValue(DEF_MESSAGE_FIELD field,
-			byte[] defaultValue) {
+			byte[] defaultValue)  {
 		if (!fields.containsKey(field.getIdentifier()))
 			return defaultValue;
-		return fields.get(field.getIdentifier()).getDataArrayContent();
+		try {
+			return fields.get(field.getIdentifier()).getDataArrayContent();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return new byte[0];
+		}
 	}
 
 	/**
@@ -223,9 +231,11 @@ public class MV2Message extends MV2CommunicationElement {
 	 *            The value that should be returned is no field with the given
 	 *            type was found.
 	 * @return The binary content stream of the specified field.
+	 * @throws IOException
+	 *             If an I/O error occurs.
 	 */
 	public InputStream getFieldData(DEF_MESSAGE_FIELD field,
-			InputStream defaultValue) {
+			InputStream defaultValue) throws IOException {
 		if (!fields.containsKey(field.getIdentifier()))
 			return defaultValue;
 		return fields.get(field.getIdentifier()).getDataContent();
@@ -251,7 +261,7 @@ public class MV2Message extends MV2CommunicationElement {
 	}
 
 	@Override
-	protected void doDeserialize(InputStream in, Charset encdoding) {
+	protected void doDeserialize(DataSource in, Charset encdoding) {
 
 	}
 
@@ -277,19 +287,21 @@ public class MV2Message extends MV2CommunicationElement {
 	}
 
 	@Override
-	public void deserialize(InputStream in) throws IOException {
-		super.deserialize(in);
+	public void deserialize(DataSource dataSource) throws IOException {
+		super.deserialize(dataSource);
 		fields.clear();
 		int identifier;
 		int length;
-		InputStream buffer;
+		InputStream in = dataSource.getStream();
+		DataSource fieldData;
 		try {
 			while (true) {
 				identifier = readInt(in);
 				length = readInt(in);
-				buffer = readBuffer(in, length);
+				fieldData = DataSource.getDataSource(length);
+				fieldData.importData(in);
 				MessageField mf = new MessageField(identifier);
-				mf.deserialize(buffer);
+				mf.deserialize(fieldData);
 				fields.put(mf.getFieldIdentifier(), mf);
 			}
 		} catch (EOFException ex) {

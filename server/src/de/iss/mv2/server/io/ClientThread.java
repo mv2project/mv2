@@ -211,6 +211,7 @@ public class ClientThread extends Thread implements CommunicationPartner {
 					cancel();
 				}
 			} catch (EOFException e) {
+				e.printStackTrace();
 				cancel();
 			} catch (IOException e) {
 				e.printStackTrace();

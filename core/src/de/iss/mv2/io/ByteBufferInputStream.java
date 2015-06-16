@@ -2,6 +2,7 @@ package de.iss.mv2.io;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
 
 /**
@@ -26,8 +27,12 @@ public class ByteBufferInputStream extends InputStream {
 
 	@Override
 	public int read() throws IOException {
-		if(buffer.remaining() == 0) return -1;
-		return buffer.get();
+		try{
+			return buffer.get();
+		}catch(BufferUnderflowException ex){
+			return -1;
+		}
+		
 	}
 
 }

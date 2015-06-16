@@ -4,10 +4,11 @@ import static de.iss.mv2.data.BinaryTools.toByteArray;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+
+import de.iss.mv2.io.DataSource;
 
 /**
  * The base class for all communication elements.
@@ -87,7 +88,7 @@ public abstract class MV2CommunicationElement {
 	 * @param in The input stream to read.
 	 * @throws IOException if an I/O error occurs.
 	 */
-	public void deserialize(InputStream in) throws IOException {
+	public void deserialize(DataSource in) throws IOException {
 		doDeserialize(in, getEncoding());
 	}
 
@@ -97,6 +98,6 @@ public abstract class MV2CommunicationElement {
 	 * @param encdoding The encoding to use.
 	 * @throws IOException if an I/O error occurs.
 	 */
-	protected abstract void doDeserialize(InputStream in, Charset encdoding) throws IOException;
+	protected abstract void doDeserialize(DataSource in, Charset encdoding) throws IOException;
 
 }

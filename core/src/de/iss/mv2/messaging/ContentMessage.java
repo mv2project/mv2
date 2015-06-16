@@ -232,7 +232,7 @@ public class ContentMessage extends MV2Message {
 			@Override
 			public int compare(MessageField o1, MessageField o2) {
 				return ((Integer) o1.getFieldIdentifier())
-						.compareTo((Integer) o2.getFieldIdentifier());
+						.compareTo(o2.getFieldIdentifier());
 			}
 		});
 

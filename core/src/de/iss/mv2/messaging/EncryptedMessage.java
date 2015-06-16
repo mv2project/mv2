@@ -1,7 +1,6 @@
 package de.iss.mv2.messaging;
 
 import static de.iss.mv2.data.BinaryTools.readAll;
-import static de.iss.mv2.data.BinaryTools.readBuffer;
 import static de.iss.mv2.data.BinaryTools.readInt;
 
 import java.io.ByteArrayInputStream;
@@ -17,12 +16,14 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.Base64.Encoder;
 
+import de.iss.mv2.io.DataSource;
 import de.iss.mv2.security.CryptoException;
 import de.iss.mv2.security.MessageCryptorSettings;
 import de.iss.mv2.security.SymmetricKeyGenerator;
 
 /**
  * Represents an encrypted message.
+ * 
  * @author Marcel Singer
  *
  */
@@ -59,9 +60,13 @@ public class EncryptedMessage extends MV2Message {
 
 	/**
 	 * Creates a new instance of {@link EncryptedMessage}.
-	 * @param settings The settings to use for encryption.
-	 * @param publicKey The public key of the receiver.
-	 * @param messageIdentifier The identifier of the nested message.
+	 * 
+	 * @param settings
+	 *            The settings to use for encryption.
+	 * @param publicKey
+	 *            The public key of the receiver.
+	 * @param messageIdentifier
+	 *            The identifier of the nested message.
 	 */
 	public EncryptedMessage(MessageCryptorSettings settings,
 			PublicKey publicKey, int messageIdentifier) {
@@ -74,8 +79,11 @@ public class EncryptedMessage extends MV2Message {
 
 	/**
 	 * Creates a new instance of {@link EncryptedMessage}.
-	 * @param settings The settings to use.
-	 * @param privateKey The key pair of the receiving instance.
+	 * 
+	 * @param settings
+	 *            The settings to use.
+	 * @param privateKey
+	 *            The key pair of the receiving instance.
 	 */
 	public EncryptedMessage(MessageCryptorSettings settings, KeyPair privateKey) {
 		super(STD_MESSAGE.ENCRYPTED_MESSAGE);
@@ -87,9 +95,13 @@ public class EncryptedMessage extends MV2Message {
 
 	/**
 	 * Creates a new instance of {@link EncryptedMessage}.
-	 * @param settings The settings to use for encryption.
-	 * @param publicKey The public key of the receiver.
-	 * @param message The message to be encrypted.
+	 * 
+	 * @param settings
+	 *            The settings to use for encryption.
+	 * @param publicKey
+	 *            The public key of the receiver.
+	 * @param message
+	 *            The message to be encrypted.
 	 */
 	public EncryptedMessage(MessageCryptorSettings settings,
 			PublicKey publicKey, STD_MESSAGE message) {
@@ -136,8 +148,8 @@ public class EncryptedMessage extends MV2Message {
 			keyCryptoOut.write(key);
 			keyCryptoOut.flush();
 			keyCryptoOut.close();
-			MessageField keyField = new MessageField(DEF_MESSAGE_FIELD.ENCRYPTION_KEY,
-					keyOut.toByteArray());
+			MessageField keyField = new MessageField(
+					DEF_MESSAGE_FIELD.ENCRYPTION_KEY, keyOut.toByteArray());
 			keyField.setEncoding(ENCODING);
 			keyField.serialize(out);
 			symAlgorithmName.serialize(out);
@@ -157,18 +169,20 @@ public class EncryptedMessage extends MV2Message {
 	}
 
 	@Override
-	public void deserialize(InputStream in) throws IOException {
+	public void deserialize(DataSource dataSource) throws IOException {
 		clearFields();
+		InputStream in = dataSource.getStream();
 		byte[] key;
 		byte[] iv;
 		if (!settings.getKeyGenerator().hasFixedKeyAndIV()) {
 			int identifier;
 			int length;
-			InputStream buffer;
+			DataSource buffer;
 			for (int i = 0; i < 3; i++) {
 				identifier = readInt(in);
 				length = readInt(in);
-				buffer = readBuffer(in, length);
+				buffer = DataSource.getDataSource(length);
+				buffer.importData(in);
 				MessageField mf = new MessageField(identifier);
 				mf.deserialize(buffer);
 				mf.completeDeserialize(ENCODING);
@@ -183,7 +197,8 @@ public class EncryptedMessage extends MV2Message {
 							settings.getAsymmetricAlgorithmName())) {
 				throw new CryptoException();
 			}
-			byte[] keyData = getFieldDataArrayValue(DEF_MESSAGE_FIELD.ENCRYPTION_KEY, null);
+			byte[] keyData = getFieldDataArrayValue(
+					DEF_MESSAGE_FIELD.ENCRYPTION_KEY, null);
 			ByteArrayInputStream bin = new ByteArrayInputStream(keyData);
 			InputStream asymIn = settings.getAsymmenticDecryptionStream(bin,
 					keyPair);
@@ -201,8 +216,7 @@ public class EncryptedMessage extends MV2Message {
 		this.symmetricKey = key;
 		this.symmetricIV = iv;
 		InputStream symIn = settings.getSymmetricDecryptionStream(in, key, iv);
-		ByteArrayInputStream content = new ByteArrayInputStream(readAll(symIn));
-		MessageParser parser = new MessageParser(content);
+		MessageParser parser = new MessageParser(symIn);
 		parser.setKey(keyPair);
 		parser.setEncryptionSetting(settings);
 		MV2Message contentMessage = parser.readNext();
@@ -211,7 +225,9 @@ public class EncryptedMessage extends MV2Message {
 
 	/**
 	 * Copies all fields and settings of the given message.
-	 * @param m The message to copie from.
+	 * 
+	 * @param m
+	 *            The message to copie from.
 	 */
 	private void copyMessage(MV2Message m) {
 		clearFields();
@@ -228,6 +244,7 @@ public class EncryptedMessage extends MV2Message {
 
 	/**
 	 * Returns the nested message.
+	 * 
 	 * @return The nested message.
 	 */
 	private MV2Message getContentMessage() {
@@ -240,11 +257,17 @@ public class EncryptedMessage extends MV2Message {
 	}
 
 	/**
-	 * Encrypts a given message. 
-	 * @param m The message to encrypt.
-	 * @param settings The settings to use for encryption.
-	 * @param key The public key of the receiver.
-	 * @param skipIfEncypted {@code true} if the encryption should be skipped if the given message is already encrypted.
+	 * Encrypts a given message.
+	 * 
+	 * @param m
+	 *            The message to encrypt.
+	 * @param settings
+	 *            The settings to use for encryption.
+	 * @param key
+	 *            The public key of the receiver.
+	 * @param skipIfEncypted
+	 *            {@code true} if the encryption should be skipped if the given
+	 *            message is already encrypted.
 	 * @return The encrypted message.
 	 */
 	public static EncryptedMessage encrypt(MV2Message m,
@@ -266,6 +289,7 @@ public class EncryptedMessage extends MV2Message {
 
 	/**
 	 * Returns the used symmetric key.
+	 * 
 	 * @return The used symmetric key.
 	 */
 	public byte[] getUsedSymmetricKey() {
@@ -274,6 +298,7 @@ public class EncryptedMessage extends MV2Message {
 
 	/**
 	 * Returns the used symmetric IV.
+	 * 
 	 * @return The used symmetric IV.
 	 */
 	public byte[] getUsedSymmetricIV() {
@@ -282,6 +307,7 @@ public class EncryptedMessage extends MV2Message {
 
 	/**
 	 * Returns the name of the used symmetric algorithm.
+	 * 
 	 * @return The name of the used symmetric algorithm.
 	 */
 	public String getUsedSymmetricAlgorithm() {
@@ -296,8 +322,8 @@ public class EncryptedMessage extends MV2Message {
 		sb.append("\t"
 				+ new MessageField(DEF_MESSAGE_FIELD.SYMMETRIC_ALGORITHM,
 						getUsedSymmetricAlgorithm()) + "\n");
-		sb.append("\t[i] USED_KEY: " + enc.encodeToString(getUsedSymmetricKey())
-				+ "\n");
+		sb.append("\t[i] USED_KEY: "
+				+ enc.encodeToString(getUsedSymmetricKey()) + "\n");
 		sb.append("\t[i] USED_IV: " + enc.encodeToString(getUsedSymmetricIV())
 				+ "\n");
 		return sb.toString();

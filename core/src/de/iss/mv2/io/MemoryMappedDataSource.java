@@ -1,4 +1,4 @@
-package de.iss.mv2.data;
+package de.iss.mv2.io;
 
 import java.io.EOFException;
 import java.io.File;
@@ -8,8 +8,7 @@ import java.io.RandomAccessFile;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel.MapMode;
 
-import de.iss.mv2.io.ByteBufferInputStream;
-import de.iss.mv2.io.DataSource;
+import de.iss.mv2.data.BinaryTools;
 
 /**
  * A data source that uses memory mapped buffers.
@@ -60,7 +59,8 @@ public class MemoryMappedDataSource extends DataSource {
 
 	@Override
 	public byte[] getBytes() throws IOException {
-		return buffer.array();
+		if(buffer.hasArray()) return buffer.array();
+		return BinaryTools.readAll(getStream());
 	}
 
 	@Override

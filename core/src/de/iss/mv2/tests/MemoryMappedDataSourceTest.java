@@ -10,7 +10,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.iss.mv2.data.MemoryMappedDataSource;
+import de.iss.mv2.io.MemoryMappedDataSource;
 
 /**
  * A test for the {@link MemoryMappedDataSource}-class.

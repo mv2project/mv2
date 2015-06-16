@@ -25,6 +25,15 @@ public class ByteArrayDataSource extends DataSource{
 		super(length);
 		data = new byte[length];
 	}
+	
+	/**
+	 * Creates a new instance of {@link ByteArrayDataSource} with the given data.
+	 * @param data The data to store.
+	 */
+	public ByteArrayDataSource(byte[] data){
+		super(data.length);
+		this.data = data;
+	}
 
 	@Override
 	public byte[] getBytes() throws IOException {

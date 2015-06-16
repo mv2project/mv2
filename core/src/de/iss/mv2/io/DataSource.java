@@ -1,7 +1,9 @@
 package de.iss.mv2.io;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  * A class to manage variable data amounts.
@@ -14,6 +16,7 @@ public abstract class DataSource {
 	 * Stores the length of the contained data.
 	 */
 	private int length;
+
 
 	
 	/**
@@ -74,5 +77,44 @@ public abstract class DataSource {
 		super.finalize();
 		dispose();
 	}
+	
+	/**
+	 * Exports the content of this data source to the specified stream.
+	 * @param out The stream to export to.
+	 * @throws IOException If an I/O error occurs.
+	 */
+	public void export(OutputStream out) throws IOException{
+		int read = -1;
+		InputStream in = getStream();
+		byte[] data = new byte[1];
+		for(int i=0; i<getLength(); i++){
+			read = in.read();
+			if(read == -1) throw new EOFException();
+			data[0] = (byte) read;
+			out.write(data);
+		}
+		out.flush();
+	}
+	
+	/**
+	 * Returns a DataSource for the specified amount.
+	 * @param size The amount of data to store.
+	 * @return A DataSource.
+	 * @throws IOException If an I/O error occurs.
+	 */
+	public static DataSource getDataSource(int size) throws IOException{
+		if(size <= 100){
+			System.out.println("Using ByteArrayDataSource for " + size + " bytes...");
+			return new ByteArrayDataSource(size);
+		}
+		if(size <= 1000000) {
+			System.out.println("Using ByteBufferDataSource for " + size + " bytes...");
+			return new ByteBufferDataSource(size);
+		}
+		System.out.println("Using MemoryMappedDataSource for " + size + " bytes...");
+		return new MemoryMappedDataSource(size);
+	}
+	
+	
 
 }
