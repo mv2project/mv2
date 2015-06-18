@@ -28,7 +28,7 @@ public class MessageFetchRequest extends MV2Message {
 	 * @return The identifier of the message to fetch.
 	 */
 	public long getIdentifier(){
-		return BinaryTools.toLong(getFieldDataArrayValue(DEF_MESSAGE_FIELD.CONTENT_BINARY, BinaryTools.toByteArray(0l)));
+		return BinaryTools.toLong(getFieldArrayValue(DEF_MESSAGE_FIELD.CONTENT_BINARY, BinaryTools.toByteArray(0l)));
 	}
 
 }

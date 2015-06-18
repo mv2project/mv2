@@ -120,7 +120,7 @@ public class ContentMessage extends MV2Message {
 	 *             If the certificate can not be obtained from its encoding.
 	 */
 	public X509Certificate getSender() throws CertificateException, IOException {
-		InputStream in = getFieldData(DEF_MESSAGE_FIELD.SENDER_CERTIFICATE,
+		InputStream in = getFieldContentData(DEF_MESSAGE_FIELD.SENDER_CERTIFICATE,
 				null);
 		if (in == null)
 			return null;
@@ -268,7 +268,7 @@ public class ContentMessage extends MV2Message {
 	 * @return The signature of this message.
 	 */
 	public byte[] getSignature() {
-		return getFieldDataArrayValue(DEF_MESSAGE_FIELD.SIGNATURE, null);
+		return getFieldArrayValue(DEF_MESSAGE_FIELD.SIGNATURE, null);
 	}
 
 	/**

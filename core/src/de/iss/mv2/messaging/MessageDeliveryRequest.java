@@ -1,5 +1,7 @@
 package de.iss.mv2.messaging;
 
+import de.iss.mv2.io.DataSource;
+
 
 /**
  * A message containing an encrypted mail.
@@ -28,12 +30,12 @@ public class MessageDeliveryRequest extends MV2Message {
 	}
 
 	/**
-	 * Returns the content message.
+	 * Returns the {@link DataSource} that stores the content message.
 	 * 
-	 * @return The content message.
+	 * @return The {@link DataSource} that stores the content message.
 	 */
-	public byte[] getContent() {
-		return getFieldDataArrayValue(DEF_MESSAGE_FIELD.CONTENT_BINARY, null);
+	public DataSource getContent() {
+		return getFieldData(DEF_MESSAGE_FIELD.CONTENT_BINARY, null);
 	}
 	
 	/**

@@ -1,5 +1,6 @@
 package de.iss.mv2.server.data;
 
+import java.io.InputStream;
 import java.math.BigInteger;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -119,12 +120,12 @@ public class WebSpaceManagerImpl implements WebSpaceManager {
 	private static final String CREATE_MESSAGE = "INSERT INTO message (receiver, content) VALUES (?, ?);";
 
 	@Override
-	public Message storeMessage(WebSpace webSpace, byte[] content) {
+	public Message storeMessage(WebSpace webSpace, InputStream content) {
 		try {
 			PreparedStatement ps = context.getConnection().prepareStatement(
 					CREATE_MESSAGE, new String[] { "idmessage" });
 			ps.setString(1, webSpace.getIdentifier());
-			ps.setBytes(2, content);
+			ps.setBlob(2, content);
 			ps.execute();
 			ResultSet rs = ps.getGeneratedKeys();
 			if (rs.next()) {

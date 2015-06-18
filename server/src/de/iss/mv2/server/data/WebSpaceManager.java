@@ -1,5 +1,6 @@
 package de.iss.mv2.server.data;
 
+import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -60,7 +61,7 @@ public interface WebSpaceManager extends UnambiguityPovider<String> {
 	 * @param content The encrypted content of the incoming message.
 	 * @return The stored message.
 	 */
-	public Message storeMessage(WebSpace webSpace, byte[] content);
+	public Message storeMessage(WebSpace webSpace, InputStream content);
 	
 	/**
 	 * Returns a list with the message identifiers of the given webspace that were received after the given date.

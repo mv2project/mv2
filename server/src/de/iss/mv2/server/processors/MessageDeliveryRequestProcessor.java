@@ -54,7 +54,7 @@ public class MessageDeliveryRequestProcessor implements MessagePreProcessor,
 				fail(client, "No such web space.");
 				return true;
 			}
-			webSpaceManager.storeMessage(ws, mdr.getContent());
+			webSpaceManager.storeMessage(ws, mdr.getContent().getStream());
 			MV2Message m = new MV2Message(STD_MESSAGE.MESSAGE_DELIVERY_RESPONSE);
 			client.send(m);
 		}

@@ -54,7 +54,7 @@ public class ClientCertificateResponse extends MV2Message {
 	 */
 	public X509Certificate getCertificate() throws CertificateException,
 			IOException {
-		InputStream in = getFieldData(DEF_MESSAGE_FIELD.CONTENT_BINARY, null);
+		InputStream in = getFieldContentData(DEF_MESSAGE_FIELD.CONTENT_BINARY,  null);
 		if (in == null)
 			return null;
 		PEMFileIO pemIO = new PEMFileIO();

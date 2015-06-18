@@ -39,7 +39,7 @@ public class ClientLoginData extends MV2Message {
 	 * @return The decrypted test phrase.
 	 */
 	public byte[] getDecryptedTestPhrase() {
-		return getFieldDataArrayValue(DEF_MESSAGE_FIELD.CONTENT_BINARY, null);
+		return getFieldArrayValue(DEF_MESSAGE_FIELD.CONTENT_BINARY, null);
 	}
 
 }

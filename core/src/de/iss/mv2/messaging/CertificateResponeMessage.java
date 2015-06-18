@@ -48,7 +48,7 @@ public class CertificateResponeMessage extends MV2Message {
 	 * @throws CertificateException If the certificate could not be decoded.
 	 */
 	public X509Certificate getCertificate() throws IOException, CertificateException{
-		InputStream in = getFieldData(DEF_MESSAGE_FIELD.CONTENT_BINARY, null);
+		InputStream in = getFieldContentData(DEF_MESSAGE_FIELD.CONTENT_BINARY, null);
 		if(in == null) return null;
 		PEMFileIO pemIO = new PEMFileIO();
 		X509Certificate cer = pemIO.readCertificate(in);

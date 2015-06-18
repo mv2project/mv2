@@ -1,5 +1,6 @@
 package de.iss.mv2.io;
 
+import java.io.ByteArrayInputStream;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -115,6 +116,18 @@ public abstract class DataSource {
 		return new MemoryMappedDataSource(size);
 	}
 	
-	
+	/**
+	 * Returns a {@link DataSource} that contains the given data.
+	 * @param data The data to be contained by the returned {@link DataSource}.
+	 * @return A {@link DataSource} that contains the given data.
+	 * @throws IllegalArgumentException Is thrown if the given data is {@code null}.
+	 * @throws IOException If an I/O error occurs.
+	 */
+	public static DataSource getDataSource(byte[] data) throws IOException, IllegalArgumentException{
+		if(data == null) throw new IllegalArgumentException("The data to wrap must not be null.");
+		DataSource ds = getDataSource(data.length);
+		ds.importData(new ByteArrayInputStream(data));
+		return ds;
+	}
 
 }

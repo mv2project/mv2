@@ -37,7 +37,7 @@ public class KeyRequest extends MV2Message {
 	 * @return The passphrase needed to request the clients private key or {@code null} if there is none.
 	 */
 	public byte[] getPassphrase() {
-		return getFieldDataArrayValue(DEF_MESSAGE_FIELD.HASH_BINARY, null);
+		return getFieldArrayValue(DEF_MESSAGE_FIELD.HASH_BINARY, null);
 	}
 	
 	/**

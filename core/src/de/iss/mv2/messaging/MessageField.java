@@ -117,18 +117,13 @@ public class MessageField extends MV2CommunicationElement {
 	public InputStream getDataContent() throws IOException {
 		return contentData.getStream();
 	}
-
+	
 	/**
-	 * Returns a copy of the containing binary data.
-	 * 
-	 * @return A copy of the containing binary data or {@code null} if there is
-	 *         none.
-	 * @throws IOException
-	 *             If an I/O error occurs.
+	 * Returns the {@link DataSource} of this message field.
+	 * @return The {@link DataSource} of this message field.
 	 */
-	@Deprecated
-	public byte[] getDataArrayContent() throws IOException {
-		return contentData.getBytes();
+	public DataSource getData() {
+		return contentData;
 	}
 
 	/**
@@ -232,7 +227,7 @@ public class MessageField extends MV2CommunicationElement {
 						+ fieldType
 						+ "): "
 						+ Base64.getEncoder().encodeToString(
-								getDataArrayContent());
+								getData().getBytes());
 			} catch (IOException e) {
 				return getFieldIdentifier() + " (" + fieldType
 						+ "): <CAN'T EVALUATE>";

@@ -146,43 +146,6 @@ public class MV2Message extends MV2CommunicationElement {
 	}
 
 	/**
-	 * Returns the value of the field with the given identifier.
-	 * 
-	 * @param fieldIdentifier
-	 *            The identifier of the field thats content should be returned.
-	 * @param defaultValue
-	 *            The value that should be returned if no field with the given
-	 *            identifier war found.
-	 * @return The value of the field with the given identifier.
-	 */
-	@Deprecated
-	public String getFieldValue(int fieldIdentifier, String defaultValue) {
-		if (!fields.containsKey(fieldIdentifier))
-			return defaultValue;
-		return fields.get(fieldIdentifier).getContent();
-	}
-
-	/**
-	 * Returns the value of the field with the given type.
-	 * 
-	 * @param field
-	 *            The type of the field thats content should be returned.
-	 * @param defaultValue
-	 *            The value that should be returned if no field with the given
-	 *            type war found.
-	 * @return The value of the field with the given type.
-	 * @deprecated Use
-	 *             {@link MV2Message#getFieldStringValue(DEF_MESSAGE_FIELD, String)}
-	 *             or
-	 *             {@link MV2Message#getFieldData(DEF_MESSAGE_FIELD, InputStream)}
-	 *             .
-	 */
-	@Deprecated
-	public String getFieldValue(DEF_MESSAGE_FIELD field, String defaultValue) {
-		return getFieldValue(field.getIdentifier(), defaultValue);
-	}
-
-	/**
 	 * Returns the string value of the field with the given type.
 	 * 
 	 * @param field
@@ -200,6 +163,29 @@ public class MV2Message extends MV2CommunicationElement {
 	}
 
 	/**
+	 * Returns the {@link DataSource} for the given field.
+	 * 
+	 * @param field
+	 *            The field thats {@link DataSource} should be returned.
+	 * @param defaultValue
+	 *            Is returned if there is no {@link DataSource} for the given
+	 *            field.
+	 * @return The {@link DataSource} for the given field.
+	 */
+	public DataSource getFieldData(DEF_MESSAGE_FIELD field, byte[] defaultValue) {
+		if (!fields.containsKey(field.getIdentifier())) {
+			if (defaultValue == null)
+				return null;
+			try {
+				return DataSource.getDataSource(defaultValue);
+			} catch (IOException ex) {
+				return null;
+			}
+		}
+		return fields.get(field.getIdentifier()).getData();
+	}
+
+	/**
 	 * Returns the binary content of the field with the given type.
 	 * 
 	 * @param field
@@ -209,13 +195,12 @@ public class MV2Message extends MV2CommunicationElement {
 	 *            type was found.
 	 * @return The binary content of the specified field.
 	 */
-	@Deprecated
-	public byte[] getFieldDataArrayValue(DEF_MESSAGE_FIELD field,
-			byte[] defaultValue)  {
+	public byte[] getFieldArrayValue(DEF_MESSAGE_FIELD field,
+			byte[] defaultValue) {
 		if (!fields.containsKey(field.getIdentifier()))
 			return defaultValue;
 		try {
-			return fields.get(field.getIdentifier()).getDataArrayContent();
+			return fields.get(field.getIdentifier()).getData().getBytes();
 		} catch (IOException e) {
 			e.printStackTrace();
 			return new byte[0];
@@ -234,7 +219,7 @@ public class MV2Message extends MV2CommunicationElement {
 	 * @throws IOException
 	 *             If an I/O error occurs.
 	 */
-	public InputStream getFieldData(DEF_MESSAGE_FIELD field,
+	public InputStream getFieldContentData(DEF_MESSAGE_FIELD field,
 			InputStream defaultValue) throws IOException {
 		if (!fields.containsKey(field.getIdentifier()))
 			return defaultValue;

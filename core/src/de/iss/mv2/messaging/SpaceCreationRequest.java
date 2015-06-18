@@ -28,11 +28,12 @@ public class SpaceCreationRequest extends MV2Message {
 	 *             If an I/O error occurs.
 	 */
 	public PKCS10CertificationRequest getSigningRequest() throws IOException {
-		InputStream in = getFieldData(DEF_MESSAGE_FIELD.CONTENT_BINARY, null);
+		InputStream in = getFieldContentData(DEF_MESSAGE_FIELD.CONTENT_BINARY, null);
 		if (in == null)
 			return null;
-		return new PKCS10CertificationRequest(getFieldDataArrayValue(
+		return new PKCS10CertificationRequest(getFieldArrayValue(
 				DEF_MESSAGE_FIELD.CONTENT_BINARY, new byte[0]));
+		
 	}
 
 	/**

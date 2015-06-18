@@ -197,7 +197,7 @@ public class EncryptedMessage extends MV2Message {
 							settings.getAsymmetricAlgorithmName())) {
 				throw new CryptoException();
 			}
-			byte[] keyData = getFieldDataArrayValue(
+			byte[] keyData = getFieldArrayValue(
 					DEF_MESSAGE_FIELD.ENCRYPTION_KEY, null);
 			ByteArrayInputStream bin = new ByteArrayInputStream(keyData);
 			InputStream asymIn = settings.getAsymmenticDecryptionStream(bin,

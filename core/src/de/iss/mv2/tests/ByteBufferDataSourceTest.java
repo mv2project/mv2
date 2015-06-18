@@ -3,7 +3,6 @@ package de.iss.mv2.tests;
 import static org.junit.Assert.*;
 
 import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.util.Random;
 
 import org.junit.Test;

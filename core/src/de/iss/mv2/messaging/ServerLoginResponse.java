@@ -41,7 +41,7 @@ public class ServerLoginResponse extends MV2Message {
 	 * @return The encrypted phrase to test the clients identity.
 	 */
 	public byte[] getTestPhrase() {
-		return getFieldDataArrayValue(DEF_MESSAGE_FIELD.CONTENT_BINARY, null);
+		return getFieldArrayValue(DEF_MESSAGE_FIELD.CONTENT_BINARY, null);
 	}
 
 	/**
@@ -97,7 +97,7 @@ public class ServerLoginResponse extends MV2Message {
 	 * @return The digest of the unencrypted test phrase.
 	 */
 	public byte[] getTestPhraseHash() {
-		return getFieldDataArrayValue(DEF_MESSAGE_FIELD.HASH_BINARY, null);
+		return getFieldArrayValue(DEF_MESSAGE_FIELD.HASH_BINARY, null);
 	}
 
 }

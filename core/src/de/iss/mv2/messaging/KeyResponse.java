@@ -38,7 +38,7 @@ public class KeyResponse extends MV2Message {
 	 * @return The clients private key or {@code null} if there is none.
 	 */
 	public byte[] getKey() {
-		return getFieldDataArrayValue(DEF_MESSAGE_FIELD.CONTENT_BINARY, null);
+		return getFieldArrayValue(DEF_MESSAGE_FIELD.CONTENT_BINARY, null);
 	}
 
 }
