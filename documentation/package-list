@@ -1,12 +1,6 @@
 de.iss.mv2
-de.iss.mv2.client
-de.iss.mv2.client.data
-de.iss.mv2.client.gui
-de.iss.mv2.client.io
-de.iss.mv2.client.messaging
-de.iss.mv2.client.processors
-de.iss.mv2.client.tests
 de.iss.mv2.data
+de.iss.mv2.extensions
 de.iss.mv2.gui
 de.iss.mv2.io
 de.iss.mv2.logging
@@ -16,6 +10,7 @@ de.iss.mv2.server
 de.iss.mv2.server.data
 de.iss.mv2.server.io
 de.iss.mv2.server.processors
+de.iss.mv2.server.sql
 de.iss.mv2.server.tests
 de.iss.mv2.sql
 de.iss.mv2.tests
