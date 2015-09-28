@@ -23,7 +23,7 @@ public class MemoryMappedDataSourceTest {
 	/**
 	 * The size of the data source to create.
 	 */
-	private static final int TEST_SIZE = 500000000;
+	private static final int TEST_SIZE = 5000;
 
 	/**
 	 * Holds the data source.
@@ -49,7 +49,6 @@ public class MemoryMappedDataSourceTest {
 		hash = iis.getDigest();
 		assertTrue(ds.getMappedFile().exists());
 		assertTrue("The hash value of the data is empty!", hash.length != 0);
-		System.out.println(ds.getMappedFile().getAbsolutePath());
 	}
 
 	/**

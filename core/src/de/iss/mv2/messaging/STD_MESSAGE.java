@@ -118,7 +118,13 @@ public enum STD_MESSAGE {
 	/**
 	 * The type of a response to a {@link STD_MESSAGE#KEY_REQUEST} message.
 	 */
-	KEY_RESPONSE(27);
+	KEY_RESPONSE(27),
+	/**
+	 * The type of a message that requests the server to delete a stored message.
+	 */
+	MESSAGE_DELETE_REQUEST(28);
+	
+	
 	
 	/**
 	 * Holds the identifier of a message type.

@@ -43,6 +43,35 @@ public class BinaryTools {
 	}
 	
 	/**
+	 * Returns an array containing the binary encoded values. See {@link BinaryTools#toByteArray(long)}.
+	 * @param numbers The numbers to convert.
+	 * @return An array containing the binary encoded values.
+	 */
+	public static byte[] toByteArray(long... numbers){
+		ByteBuffer bb = ByteBuffer.allocate(numbers.length * 8);
+		for(int i=0; i<numbers.length; i++){
+			bb.put(toByteArray(numbers[i]));
+		}
+		return bb.array();
+	}
+	
+	/**
+	 * Converts the given data to the represented long-values.
+	 * @param data The data to convert.
+	 * @return The resulting long-Array.
+	 */
+	public static long[] toLongs(byte[] data){
+		long[] result = new long[data.length / 8];
+		ByteBuffer bb = ByteBuffer.wrap(data);
+		byte[] tmp = new byte[8];
+		for(int i=0; i<data.length; i+= 8){
+			bb.get(tmp);
+			result[i / 8] = toLong(tmp);
+		}
+		return result;
+	}
+	
+	/**
 	 * Returns the long-value of the given {@link ByteOrder#BIG_ENDIAN} byte array.
 	 * @param data The byte array to convert.
 	 * @return The retrieved long value.
